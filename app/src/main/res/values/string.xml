@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="action_settings">Settings</string>
+    <string name="category">Category:</string>
+    <string name="style">Style:</string>
+    <string name="weather">Weather:</string>
+    <string name="occasion">Occasion:</string>
+    <string name="color">Color:</string>
+    <string name="tags">Tags:</string>
+    <string name="notes">Notes:</string>
+
+    <!-- bottom bar -->
+    <string name="closet">closet</string>
+    <string name="outfit_gen">outfit generator</string>
+    <string name="lookbook">lookbook</string>
+    <string name="more">more</string>
+    <string name="outfit_creator">Outfit Creator</string>
+    <string name="icloset">iCloset</string>
+>>>>>>> refs/remotes/origin/Home
+</resources>

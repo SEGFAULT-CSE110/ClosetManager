@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+                android:id="@+id/closet_category_viewgroup">
+
+    <!--To be changed to an image view later-->
+    <TextView
+        android:layout_weight="0"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="picture goes here"
+        android:onClick="viewClothingByCat"
+        android:id="@+id/closet_category_picture"/>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        android:id="@+id/closet_category_clothing_slider">
+    </LinearLayout>
+
+</LinearLayout>

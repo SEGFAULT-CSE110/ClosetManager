@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ViewClothingActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin_bottom">
+        <!-- clothing item image -->
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:src="@android:drawable/sym_def_app_icon"/>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/closet_item_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category"
+                    android:textSize="@dimen/attributes_text"/>
+
+                <TextView
+                    android:id="@+id/closet_item_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/style"
+                    android:textSize="@dimen/attributes_text"/>
+
+                <TextView
+                    android:id="@+id/closet_item_weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weather"
+                    android:textSize="@dimen/attributes_text"/>
+
+                <TextView
+                    android:id="@+id/closet_item_occasion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/occasion"
+                    android:textSize="@dimen/attributes_text"/>
+
+                <TextView
+                    android:id="@+id/closet_item_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/color"
+                    android:textSize="@dimen/attributes_text"/>
+
+                <TextView
+                    android:id="@+id/closet_item_tags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tags"
+                    android:textSize="@dimen/attributes_text"/>
+
+                <TextView
+                    android:id="@+id/closet_item_notes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notes"
+                    android:textSize="@dimen/attributes_text"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
