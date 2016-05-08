@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">iCloset</string>
+
     <string name="action_settings">Settings</string>
     <string name="category">Category:</string>
     <string name="style">Style:</string>
@@ -16,5 +17,9 @@
     <string name="more">more</string>
     <string name="outfit_creator">Outfit Creator</string>
     <string name="icloset">iCloset</string>
->>>>>>> refs/remotes/origin/Home
+
+    <string name="closet_activity_name">Closet</string>
+    <string name="lookbook_activity_name">Lookbook</string>
+    <string name="create_an_outfit_activity_name">Create an Outfit</string>
+
 </resources>
