@@ -31,6 +31,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Button method to go to closet
+     * @param view
+     */
     public void goToCloset(View view) {
         Intent intent = new Intent(this, ClosetActivity.class);
         startActivity(intent);

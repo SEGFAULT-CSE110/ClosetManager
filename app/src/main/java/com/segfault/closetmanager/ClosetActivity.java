@@ -31,7 +31,7 @@ public class ClosetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet);
 
-        //FInd all the views
+        //Find all the views
         mClosetParentLayout = (ViewGroup) findViewById(R.id.closet_parent_layout);
         mClosetLinearLayout = (LinearLayout) findViewById(R.id.closet_display_layout);
         mClosetLinearLayoutIndex = mClosetParentLayout.indexOfChild(mClosetLinearLayout);

@@ -33,8 +33,8 @@ public final class BottomBar {
             public void onClick(View v) {
                 if (callingActivity.getClass() != ClosetActivity.class) {
                     Intent intent = new Intent(callingActivity, ClosetActivity.class);
-                    callingActivity.startActivity(intent);
-                }
+                callingActivity.startActivity(intent);
+            }
             }
         });
 
@@ -59,6 +59,15 @@ public final class BottomBar {
                 }
             }
         });
+
+        Button nextButton = (Button) bottomBar.findViewById(R.id.more);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
 }
