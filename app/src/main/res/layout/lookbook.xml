@@ -5,18 +5,20 @@
     style="@style/AppTheme.AppBarOverlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#c3e9ef"
+    android:id="@+id/lookbook_parent_layout">
 
-    <android.support.v7.widget.SearchView
+    <SearchView
         android:id="@+id/searchView"
+        android:paddingTop="0dp"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="50sp"
         android:layout_weight="0"
-        android:queryHint="search outfit"
-        app:queryHint="search"/>
+        android:queryHint="search outfit"/>
 
     <GridView
-        android:id="@+id/gridView"
+        android:id="@+id/lookbook_grid_view"
         style="@style/PhotoGridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,11 +30,6 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="1dp">
     </GridView>
-
-    <requestFocus
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"/>
 
     <include
         layout="@layout/bottom_bar"

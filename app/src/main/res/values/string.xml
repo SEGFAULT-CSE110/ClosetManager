@@ -23,5 +23,9 @@
     <string name="create_an_outfit_activity_name">Create an Outfit</string>
     <string name="doneButtonText">done</string>
     <string name="choose_for_me_button_text">Choose for me</string>
+    <string name="no_elements_default_text">no elements default text</string>
+    <string name="lookbook_no_elements_text">You seem to not have any outfits saved. Create an outfit and save it to use it later.</string>
+
+    <string name="closet_no_elements_text">You seem to not have entered in any clothes. Please add some to use the app.</string>
 
 </resources>

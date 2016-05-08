@@ -3,13 +3,14 @@ package com.segfault.closetmanager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 /**
  * THIS IS THE ACTIVITY THAT RUNS
  */
-public class HomeActivity extends Activity {
+public class HomeActivity extends AppCompatActivity {
 
     private Button mClosetButton;
     private Button mOutfitCreatorButton;
