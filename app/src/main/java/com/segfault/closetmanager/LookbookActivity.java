@@ -15,7 +15,6 @@ import android.widget.TextView;
  */
 public class LookbookActivity extends AppCompatActivity {
 
-
     private GridView mLookbookGridView;
     private ViewGroup mLookbookParentLayout;
     private int mLookbookGridViewIndex;

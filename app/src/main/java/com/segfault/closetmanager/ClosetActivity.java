@@ -2,7 +2,9 @@ package com.segfault.closetmanager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
 import android.view.View;
@@ -37,6 +39,17 @@ public class ClosetActivity extends AppCompatActivity {
         //Create and set the code for the bottom bar
         View bottomBarView = findViewById(R.id.closet_bottom_bar);
         BottomBar bottomBar = new BottomBar(bottomBarView, this);
+
+        //Create Floating Action Bar Viewer and
+        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.closet_fab);
+        if (myFab != null) {
+            myFab.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), AddClothingActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
 
     }
 
