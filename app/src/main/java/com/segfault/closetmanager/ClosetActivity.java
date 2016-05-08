@@ -40,7 +40,7 @@ public class ClosetActivity extends AppCompatActivity {
         View bottomBarView = findViewById(R.id.closet_bottom_bar);
         BottomBar bottomBar = new BottomBar(bottomBarView, this);
 
-        //Create Floating Action Bar Viewer and
+        //Create Floating Action Bar Viewer and intent
         FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.closet_fab);
         if (myFab != null) {
             myFab.setOnClickListener(new View.OnClickListener() {
