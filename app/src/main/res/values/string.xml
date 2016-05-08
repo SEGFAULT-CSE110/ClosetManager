@@ -11,15 +11,17 @@
     <string name="notes">Notes:</string>
 
     <!-- bottom bar -->
-    <string name="closet">closet</string>
-    <string name="outfit_gen">outfit generator</string>
-    <string name="lookbook">lookbook</string>
-    <string name="more">more</string>
+    <string name="closet">Closet</string>
+    <string name="outfit_gen">Outfit Generator</string>
+    <string name="lookbook">Loobook</string>
+    <string name="more">More</string>
     <string name="outfit_creator">Outfit Creator</string>
     <string name="icloset">iCloset</string>
 
     <string name="closet_activity_name">Closet</string>
     <string name="lookbook_activity_name">Lookbook</string>
     <string name="create_an_outfit_activity_name">Create an Outfit</string>
+    <string name="doneButtonText">done</string>
+    <string name="choose_for_me_button_text">Choose for me</string>
 
 </resources>

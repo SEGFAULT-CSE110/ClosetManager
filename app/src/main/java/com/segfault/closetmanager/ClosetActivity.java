@@ -21,6 +21,11 @@ public class ClosetActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet);
+
+        //Create and set the code for the bottom bar
+        View bottomBarView = findViewById(R.id.closet_bottom_bar);
+        BottomBar bottomBar = new BottomBar(bottomBarView, this);
+
     }
 
     @Override
@@ -30,6 +35,8 @@ public class ClosetActivity extends Activity {
         //referesh the amount of clothing we have
 
     }
+
+
 
     /**
      * ClosetCategoryAdapter that represents the views
