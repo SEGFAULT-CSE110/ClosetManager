@@ -15,6 +15,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button mClosetButton;
     private Button mOutfitCreatorButton;
     private Button mLookbookButton;
+    private Account mAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,9 @@ public class HomeActivity extends AppCompatActivity {
         mClosetButton = (Button) findViewById(R.id.closet_button);
         mOutfitCreatorButton = (Button) findViewById(R.id.outfit_creator_button);
         mLookbookButton = (Button) findViewById(R.id.lookbook_button);
+
+        //load items
+        mAccount = new Account("AUTH TOKEN");
 
         TESTING_CLASS tester = new TESTING_CLASS();
         tester.testMethod();
@@ -49,4 +53,9 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LookbookActivity.class);
         startActivity(intent);
     }
+
+    public void loadPictures(){
+
+    }
+
 }

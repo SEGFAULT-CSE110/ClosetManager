@@ -10,6 +10,14 @@ import java.util.List;
  */
 public class Clothing {
 
+    public static final String TOP = "Top";
+    public static final String BOTTOM = "Bottom";
+    public static final String ACCESSORY = "Accessory";
+    public static final String SHOE = "Shoe";
+    public static final String BODY = "Body";
+    public static final String HAT = "Hat";
+    public static final String JACKET = "Jacket";
+
     private boolean mWorn;
 
     private String mCategory;
