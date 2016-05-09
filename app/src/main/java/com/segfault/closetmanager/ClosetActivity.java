@@ -1,19 +1,15 @@
 package com.segfault.closetmanager;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -83,39 +79,44 @@ public class ClosetActivity extends AppCompatActivity {
         }
         else{ //refresh the amount of clothing we have
             //TODO: delegate this to closet.java
-            List<Clothing> clothingList = mCurrentCloset.getList();
-            List<Clothing> topList = new ArrayList<Clothing>();
-            List<Clothing> bottomList = new ArrayList<Clothing>();
-            List<Clothing> hatList = new ArrayList<Clothing>();
-            List<Clothing> shoeList = new ArrayList<Clothing>();
+            if (true) {
+                List<Clothing> clothingList = mCurrentCloset.getList();
+                List<Clothing> topList = new ArrayList<Clothing>();
+                List<Clothing> bottomList = new ArrayList<Clothing>();
+                List<Clothing> hatList = new ArrayList<Clothing>();
+                List<Clothing> shoeList = new ArrayList<Clothing>();
 
-            /**
-             * Add all of the objects in the clothing list to the new list
-             */
-            for (int index = 0; index < clothingList.size(); index++){
-                if (clothingList.get(index).getCategory().equals(Clothing.TOP)){
-                    topList.add(clothingList.get(index));
-                } else if (clothingList.get(index).getCategory().equals(Clothing.BOTTOM)){
-                    bottomList.add(clothingList.get(index));
-                } else if (clothingList.get(index).getCategory().equals(Clothing.HAT)){
-                    hatList.add(clothingList.get(index));
-                } else if (clothingList.get(index).getCategory().equals(Clothing.SHOE)){
-                    shoeList.add(clothingList.get(index));
+                /**
+                 * Add all of the objects in the clothing list to the new list
+                 */
+                for (int index = 0; index < clothingList.size(); index++) {
+                    if (clothingList.get(index).getCategory().equals(Clothing.TOP)) {
+                        topList.add(clothingList.get(index));
+                    } else if (clothingList.get(index).getCategory().equals(Clothing.BOTTOM)) {
+                        bottomList.add(clothingList.get(index));
+                    } else if (clothingList.get(index).getCategory().equals(Clothing.HAT)) {
+                        hatList.add(clothingList.get(index));
+                    } else if (clothingList.get(index).getCategory().equals(Clothing.SHOE)) {
+                        shoeList.add(clothingList.get(index));
+                    }
                 }
-            }
 
-            //Add all of these lists into a single list of lists
-            List<List<Clothing>> listOfLists = new ArrayList<List<Clothing>>();
-            listOfLists.add(topList);
-            listOfLists.add(bottomList);
-            listOfLists.add(hatList);
-            listOfLists.add(shoeList);
+                //Add all of these lists into a single list of lists
+                List<List<Clothing>> listOfLists = new ArrayList<List<Clothing>>();
+                listOfLists.add(topList);
+                listOfLists.add(bottomList);
+                listOfLists.add(hatList);
+                listOfLists.add(shoeList);
 
-            //add stuff to the closet list view
-            ClosetCategoryAdapter adapter = new ClosetCategoryAdapter(this, listOfLists);
-            ListView closetListView = (ListView) findViewById(R.id.closet_list_view);
-            if (closetListView != null) {
-                closetListView.setAdapter(adapter);
+                //add stuff to the closet list view
+                ClosetCategoryAdapter adapter = new ClosetCategoryAdapter(this, listOfLists);
+                ListView closetListView = (ListView) findViewById(R.id.closet_list_view);
+                if (closetListView != null) {
+                    closetListView.setAdapter(adapter);
+                }
+
+                //once done updating, set updated to false
+                mCurrentCloset.setUpdated(false);
             }
 
             //add the linear layout back in
@@ -152,12 +153,25 @@ public class ClosetActivity extends AppCompatActivity {
             final LinearLayout linearLayout = (LinearLayout) categoryView.findViewById(R.id.closet_category_clothing_slider_layout);
 
             //add stuff to the linearLayout
-            List<Clothing> currentList = getItem(position);
+            final List<Clothing> currentList = getItem(position);
+
             for (int index = 0; index < currentList.size(); index++){
                 //get clothing bitmap and the appropriate view
                 Bitmap currentBitmap = currentList.get(index).getBitmap();
-                View clothingFrame = inflater.inflate(R.layout.clothing_image_fragment, linearLayout, false);
 
+                //get the view and add a click listener to go to the correct view
+                View clothingFrame = inflater.inflate(R.layout.clothing_image_fragment, linearLayout, false);
+                final int finalIndex = index; //required to be a final variable
+                clothingFrame.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), ViewClothingActivity.class);
+                        intent.putExtra("Clothing", currentList.get(finalIndex));
+                        getContext().startActivity(intent);
+                    }
+                });
+
+                //set the image
                 ImageView imageView = (ImageView) clothingFrame.findViewById(R.id.clothing_image_view);
                 imageView.setImageBitmap(currentBitmap);
 

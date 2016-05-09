@@ -25,7 +25,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button mClosetButton;
     private Button mOutfitCreatorButton;
     private Button mLookbookButton;
-    private boolean mLoaded = false;
+    private static boolean mLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +39,9 @@ public class HomeActivity extends AppCompatActivity {
 
         //load items
         //TODO: why does it run onCreate every time we start the activity? is this an android thing?
-        Account.currentAccountInstance = new Account("AUTH TOKEN");
         try {
             if (!mLoaded) {
+                Account.currentAccountInstance = new Account("AUTH TOKEN");
                 loadPictures(getApplicationContext(), Account.currentAccountInstance.getCloset().getList());
                 mLoaded = true;
             }
@@ -86,27 +86,36 @@ public class HomeActivity extends AppCompatActivity {
         for (String file : files) {
             if (file.contains(".jpg")) {
                 InputStream istr = assetManager.open(root + file);
-                Bitmap bitmap = BitmapFactory.decodeStream(istr);
+                Bitmap firstBitmap = BitmapFactory.decodeStream(istr);
+
+                //scale down first bitmap
+                final float densityMultiplier = context.getResources().getDisplayMetrics().density;
+                int h= (int) (50 * densityMultiplier); //TODO revise size
+                int w= (int) (h * firstBitmap.getWidth()/((double) firstBitmap.getHeight()));
+                Bitmap secondBitmap = Bitmap.createScaledBitmap(firstBitmap, w, h, true);
+
+                //Recycle the bitmap to preserve memory
+                firstBitmap.recycle();
 
                 //separate into types
                 if (file.contains("hat")) {
                     Clothing newHat = new Clothing();
-                    newHat.setBitmap(bitmap);
+                    newHat.setBitmap(secondBitmap);
                     newHat.setCategory(Clothing.HAT);
                     clothingList.add(newHat);
                 } else if (file.contains("pants")) {
                     Clothing newPants = new Clothing();
-                    newPants.setBitmap(bitmap);
+                    newPants.setBitmap(secondBitmap);
                     newPants.setCategory(Clothing.BOTTOM);
                     clothingList.add(newPants);
                 } else if (file.contains("shirt")) {
                     Clothing newShirt = new Clothing();
-                    newShirt.setBitmap(bitmap);
+                    newShirt.setBitmap(secondBitmap);
                     newShirt.setCategory(Clothing.TOP);
                     clothingList.add(newShirt);
                 } else if (file.contains("shoes")) {
                     Clothing newShoes = new Clothing();
-                    newShoes.setBitmap(bitmap);
+                    newShoes.setBitmap(secondBitmap);
                     newShoes.setCategory(Clothing.SHOE);
                     clothingList.add(newShoes);
                 }

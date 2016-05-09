@@ -51,6 +51,15 @@
                 android:value=".ClosetActivity"/>
         </activity>
 
+        <activity
+            android:name=".ViewClothingActivity"
+            android:label="View Clothing"
+            android:parentActivityName=".ClosetActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ClosetActivity"/>
+        </activity>
+
     </application>
 
 </manifest>

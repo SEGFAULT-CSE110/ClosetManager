@@ -1,15 +1,18 @@
 package com.segfault.closetmanager;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Christopher Cabreros on 03-May-16.
  * This is a temporary class that contains images
  */
-public class Clothing{
+public class Clothing implements Parcelable{
 
     public static final String TOP = "Top";
     public static final String BOTTOM = "Bottom";
@@ -31,6 +34,34 @@ public class Clothing{
     private String mNotes; //might change implementation
 
     private Bitmap mBitmap;
+
+    public Clothing(){
+        mOccasion = new ArrayList<String>();
+    }
+
+    protected Clothing(Parcel in) {
+        mWorn = in.readByte() != 0;
+        mCategory = in.readString();
+        mColor = in.readString();
+        mSize = in.readString();
+        mOccasion = in.createStringArrayList();
+        mStyle = in.readString();
+        mWeather = in.readString();
+        mNotes = in.readString();
+        mBitmap = in.readParcelable(Bitmap.class.getClassLoader());
+    }
+
+    public static final Creator<Clothing> CREATOR = new Creator<Clothing>() {
+        @Override
+        public Clothing createFromParcel(Parcel in) {
+            return new Clothing(in);
+        }
+
+        @Override
+        public Clothing[] newArray(int size) {
+            return new Clothing[size];
+        }
+    };
 
     public String getCategory() {
         return mCategory;
@@ -102,5 +133,23 @@ public class Clothing{
 
     public void setBitmap(Bitmap bitmap) {
         mBitmap = bitmap;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (mWorn ? 1 : 0));
+        dest.writeString(mCategory);
+        dest.writeString(mColor);
+        dest.writeString(mSize);
+        dest.writeStringList(mOccasion);
+        dest.writeString(mStyle);
+        dest.writeString(mWeather);
+        dest.writeString(mNotes);
+        dest.writeParcelable(mBitmap, flags);
     }
 }
