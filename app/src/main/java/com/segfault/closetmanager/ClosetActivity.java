@@ -149,12 +149,7 @@ public class ClosetActivity extends AppCompatActivity {
             View categoryView = inflater.inflate(R.layout.closet_category, parent, false);
 
             //Get the linear layout
-            LinearLayout linearLayout = (LinearLayout) categoryView.findViewById(R.id.closet_category_clothing_slider_layout);
-            //Set the frame to match the height
-            ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
-            layoutParams.width = layoutParams.height; //this is intentional
-            linearLayout.setLayoutParams(layoutParams);
-            linearLayout.postInvalidate();
+            final LinearLayout linearLayout = (LinearLayout) categoryView.findViewById(R.id.closet_category_clothing_slider_layout);
 
             //add stuff to the linearLayout
             List<Clothing> currentList = getItem(position);
@@ -162,7 +157,6 @@ public class ClosetActivity extends AppCompatActivity {
                 //get clothing bitmap and the appropriate view
                 Bitmap currentBitmap = currentList.get(index).getBitmap();
                 View clothingFrame = inflater.inflate(R.layout.clothing_image_fragment, linearLayout, false);
-                clothingFrame.setLayoutParams(layoutParams);
 
                 ImageView imageView = (ImageView) clothingFrame.findViewById(R.id.clothing_image_view);
                 imageView.setImageBitmap(currentBitmap);
