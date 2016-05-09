@@ -4,7 +4,8 @@
     android:layout_height="50dp"
     android:gravity="center_vertical|bottom"
     android:layout_alignParentBottom="true"
-    android:layout_marginBottom="40dp">
+    android:layout_marginBottom="40dp"
+    android:id="@+id/bottom_bar_linear_layout">
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -12,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:text="@string/closet"
-        android:id="@+id/closet"
+        android:id="@+id/bottom_bar_closet_button"
         android:layout_gravity="bottom"
         android:background="@color/colorButtonCloset"
         android:textStyle="bold"
@@ -25,7 +26,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:text="@string/outfit_gen"
-        android:id="@+id/outfit_generator"
+        android:id="@+id/bottom_bar_outfit_generator_button"
         android:layout_gravity="bottom"
         android:background="@color/colorButtonOutfitGen"
         android:textStyle="bold"
@@ -37,7 +38,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:text="@string/lookbook"
-        android:id="@+id/look_book"
+        android:id="@+id/bottom_bar_lookbook_button"
         android:layout_gravity="bottom"
         android:background="@color/colorButtonLookbook"
         android:textStyle="bold"

@@ -1,5 +1,6 @@
 package com.segfault.closetmanager;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**

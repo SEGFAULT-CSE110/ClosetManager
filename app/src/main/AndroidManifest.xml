@@ -11,10 +11,55 @@
         <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ClosetActivity"
+            android:label="@string/closet_activity_name"
+            android:parentActivityName=".HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity"/>
+        </activity>
+
+        <activity
+            android:name=".LookbookActivity"
+            android:label="@string/lookbook_activity_name"
+            android:parentActivityName=".HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity"/>
+        </activity>
+
+        <activity
+            android:name=".OutfitGenActivity"
+            android:label="@string/create_an_outfit_activity_name"
+            android:parentActivityName=".HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity"/>
+        </activity>
+
+        <activity
+            android:name=".AddClothingActivity"
+            android:label="Add Clothing"
+            android:parentActivityName=".ClosetActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ClosetActivity"/>
+        </activity>
+
+        <activity
+            android:name=".ViewClothingActivity"
+            android:label="View Clothing"
+            android:parentActivityName=".ClosetActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ClosetActivity"/>
+        </activity>
+
     </application>
 
 </manifest>

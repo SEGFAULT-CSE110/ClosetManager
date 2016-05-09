@@ -1,21 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AppTheme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.segfault.closetmanager.ClosetActivity">
 
     <LinearLayout
-        android:layout_weight="1"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/closet_full_layout"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#c3e9ef"
+        android:orientation="vertical"
+        android:id="@+id/closet_vertical_linear_layout">
+
+        <ListView
+            android:id="@+id/closet_list_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        </ListView>
+
+        <include
+            android:id="@+id/closet_bottom_bar"
+            layout="@layout/bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"/>
+
     </LinearLayout>
 
-    <include
-        layout="@layout/bottom_bar"
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/closet_fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0"/>
+        android:layout_gravity="bottom|end"
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/colorAccent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="65dp"/>
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -1,60 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#c3e9ef"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.segfault.closetmanager.HomeActivity"
-    android:background="#c3e9ef">
+    tools:context="com.segfault.closetmanager.HomeActivity">
 
 
     <TextView
+        android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/icloset"
-        android:id="@+id/Title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:typeface="serif"
+        android:text="@string/icloset"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="50sp"
         android:textStyle="bold"
-        android:textSize="50sp" />
+        android:typeface="serif"/>
 
     <Button
+        android:id="@+id/closet_button"
         android:layout_width="150dp"
         android:layout_height="75dp"
-        android:text="@string/closet"
-        android:id="@+id/closet_button"
         android:layout_below="@+id/Title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:background="#a6dcda"
-        android:textSize="20sp" />
+        android:onClick="goToCloset"
+        android:text="@string/closet"
+        android:textSize="20sp"/>
 
     <Button
+        android:id="@+id/outfit_creator_button"
         android:layout_width="150dp"
         android:layout_height="75dp"
-        android:text="@string/outfit_creator"
-        android:id="@+id/outfit_creator_button"
         android:layout_below="@+id/closet_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:textSize="20sp"
-        android:background="#a6dcda" />
+        android:background="#a6dcda"
+        android:onClick="goToOutfitGenerator"
+        android:text="@string/outfit_creator"
+        android:textSize="20sp"/>
 
     <Button
+        android:id="@+id/lookbook_button"
         android:layout_width="150dp"
         android:layout_height="75dp"
-        android:text="@string/lookbook"
-        android:id="@+id/lookbook_button"
         android:layout_below="@+id/outfit_creator_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:textSize="20sp"
-        android:background="#a6dcda" />
+        android:background="#a6dcda"
+        android:onClick="goToLookbook"
+        android:text="@string/lookbook"
+        android:textSize="20sp"/>
 
 </RelativeLayout>
