@@ -29,6 +29,13 @@ public class ClosetActivity extends AppCompatActivity {
     private int mClosetListViewIndex;
     private Closet mCurrentCloset = Account.currentAccountInstance.getCloset();
 
+    //Lists
+    private List<Clothing> clothingList = mCurrentCloset.getList();
+    private List<Clothing> topList = new ArrayList<Clothing>();
+    private List<Clothing> bottomList = new ArrayList<Clothing>();
+    private List<Clothing> hatList = new ArrayList<Clothing>();
+    private List<Clothing> shoeList = new ArrayList<Clothing>();
+    private List<List<Clothing>> listOfLists = new ArrayList<List<Clothing>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,16 +86,15 @@ public class ClosetActivity extends AppCompatActivity {
         }
         else{ //refresh the amount of clothing we have
             //TODO: delegate this to closet.java
-            if (true) {
-                List<Clothing> clothingList = mCurrentCloset.getList();
-                List<Clothing> topList = new ArrayList<Clothing>();
-                List<Clothing> bottomList = new ArrayList<Clothing>();
-                List<Clothing> hatList = new ArrayList<Clothing>();
-                List<Clothing> shoeList = new ArrayList<Clothing>();
+            if (true){
+                //Clear the lists
+                topList.clear();
+                bottomList.clear();
+                hatList.clear();
+                shoeList.clear();
+                listOfLists.clear();
 
-                /**
-                 * Add all of the objects in the clothing list to the new list
-                 */
+                //Add all of the clothing into the lists
                 for (int index = 0; index < clothingList.size(); index++) {
                     if (clothingList.get(index).getCategory().equals(Clothing.TOP)) {
                         topList.add(clothingList.get(index));
@@ -102,7 +108,6 @@ public class ClosetActivity extends AppCompatActivity {
                 }
 
                 //Add all of these lists into a single list of lists
-                List<List<Clothing>> listOfLists = new ArrayList<List<Clothing>>();
                 listOfLists.add(topList);
                 listOfLists.add(bottomList);
                 listOfLists.add(hatList);

@@ -1,6 +1,7 @@
 package com.segfault.closetmanager;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,6 +11,10 @@ public class Lookbook {
 
     private List<Outfit> mOutfitList;
     private Closet mBelongingCloset;
+
+    public Lookbook(){
+        mOutfitList = new ArrayList<>();
+    }
 
     public boolean writeToDatabase(){
         return false; //returns true if written successfully.
