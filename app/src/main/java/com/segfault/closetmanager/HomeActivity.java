@@ -25,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button mClosetButton;
     private Button mOutfitCreatorButton;
     private Button mLookbookButton;
+    private boolean mLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,13 @@ public class HomeActivity extends AppCompatActivity {
         mLookbookButton = (Button) findViewById(R.id.lookbook_button);
 
         //load items
+        //TODO: why does it run onCreate every time we start the activity? is this an android thing?
         Account.currentAccountInstance = new Account("AUTH TOKEN");
         try {
-            loadPictures(getApplicationContext(), Account.currentAccountInstance.getCloset().getList());
+            if (!mLoaded) {
+                loadPictures(getApplicationContext(), Account.currentAccountInstance.getCloset().getList());
+                mLoaded = true;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

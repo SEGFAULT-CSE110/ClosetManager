@@ -40,7 +40,7 @@ public class ClosetActivity extends AppCompatActivity {
         setContentView(R.layout.closet);
 
         //Find all the views
-        mClosetParentLayout = (ViewGroup) findViewById(R.id.closet_parent_layout);
+        mClosetParentLayout = (ViewGroup) findViewById(R.id.closet_vertical_linear_layout);
         mClosetListView = (ListView) findViewById(R.id.closet_list_view);
         mClosetListViewIndex = mClosetParentLayout.indexOfChild(mClosetListView);
 
@@ -81,8 +81,7 @@ public class ClosetActivity extends AppCompatActivity {
                 noElementsTextView.setText(R.string.closet_no_elements_text);
             }
         }
-        else{
-            //refresh the amount of clothing we have
+        else{ //refresh the amount of clothing we have
             //TODO: delegate this to closet.java
             List<Clothing> clothingList = mCurrentCloset.getList();
             List<Clothing> topList = new ArrayList<Clothing>();
@@ -113,8 +112,7 @@ public class ClosetActivity extends AppCompatActivity {
             listOfLists.add(shoeList);
 
             //add stuff to the closet list view
-            ClosetCategoryAdapter adapter = new ClosetCategoryAdapter(getApplicationContext(),
-                    R.id.closet_list_view, listOfLists);
+            ClosetCategoryAdapter adapter = new ClosetCategoryAdapter(this, listOfLists);
             ListView closetListView = (ListView) findViewById(R.id.closet_list_view);
             if (closetListView != null) {
                 closetListView.setAdapter(adapter);
@@ -130,72 +128,50 @@ public class ClosetActivity extends AppCompatActivity {
 
     /**
      * ClosetCategoryAdapter that represents the large list views
+     * Only does this for a specific view
      */
-    private class ClosetCategoryAdapter extends ArrayAdapter<String> {
-
-        private List<List<Clothing>> mListOfClothingLists;
+    private class ClosetCategoryAdapter extends ArrayAdapter<List<Clothing>> {
 
         /**
          * Constructor
          * @param context - context of this activity
-         * @param resource - resource layout ID. Should be a horizontal linearLayout
          * @param clothingLists - list of clothing lists
          */
-        public ClosetCategoryAdapter(Context context, int resource,
-                                     List<List<Clothing>> clothingLists) {
-            super(context, resource);
-            mListOfClothingLists = clothingLists;
+        public ClosetCategoryAdapter(Context context, List<List<Clothing>> clothingLists) {
+            super(context, R.layout.closet_category, clothingLists);
         }
+
 
         public View getView(int position, View convertView, ViewGroup parent){
             LayoutInflater inflater = LayoutInflater.from(getContext());
 
             //Get the view to inflate
-            View view = inflater.inflate(R.layout.closet_category, parent, false);
+            View categoryView = inflater.inflate(R.layout.closet_category, parent, false);
 
-            //Add the horizontal adapter into the view
-            ClosetCategoryHorizontalAdapter adapter = new ClosetCategoryHorizontalAdapter(
-                    getContext(), R.id.closet_category_clothing_slider,
-                    mListOfClothingLists.get(position));
-            ListView listView = (ListView) view.findViewById(R.id.closet_category_clothing_slider);
-            listView.setAdapter(adapter);
+            //Get the linear layout
+            LinearLayout linearLayout = (LinearLayout) categoryView.findViewById(R.id.closet_category_clothing_slider_layout);
+            //Set the frame to match the height
+            ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
+            layoutParams.width = layoutParams.height; //this is intentional
+            linearLayout.setLayoutParams(layoutParams);
+            linearLayout.postInvalidate();
 
-            return view;
-        }
+            //add stuff to the linearLayout
+            List<Clothing> currentList = getItem(position);
+            for (int index = 0; index < currentList.size(); index++){
+                //get clothing bitmap and the appropriate view
+                Bitmap currentBitmap = currentList.get(index).getBitmap();
+                View clothingFrame = inflater.inflate(R.layout.clothing_image_fragment, linearLayout, false);
+                clothingFrame.setLayoutParams(layoutParams);
 
-        /**
-         * Adapter for the horizontal view.
-         * Adds the images to thisf
-         */
-        private class ClosetCategoryHorizontalAdapter extends ArrayAdapter<Clothing>{
-
-            private List<Clothing> mClothingList;
-
-            /**
-             * Constructor
-             * @param context - context of this activity
-             * @param resource - resource layout ID. Should be a horizontal linearLayout
-             * @param clothing - arraylist of all clothing that fits this
-             */
-            public ClosetCategoryHorizontalAdapter(Context context, int resource, List<Clothing> clothing) {
-                super(context, resource);
-                mClothingList = clothing;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-
-                //Get the view to inflate
-                View view = inflater.inflate(R.layout.clothing_image_fragment, parent, false);
-
-                //Add the bitmap to the view
-                Bitmap currentBitmap = mClothingList.get(position).getBitmap();
-                ImageView imageView = (ImageView) view.findViewById(R.id.clothing_image_view);
+                ImageView imageView = (ImageView) clothingFrame.findViewById(R.id.clothing_image_view);
                 imageView.setImageBitmap(currentBitmap);
 
-                return view;
+                //add this to the linearLayout
+                linearLayout.addView(clothingFrame);
             }
+
+            return categoryView;
         }
     }
 

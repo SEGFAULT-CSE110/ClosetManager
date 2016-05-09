@@ -21,13 +21,23 @@
             android:text="picture goes here"
             android:textAlignment="center"/>
 
-        <ListView
+        <HorizontalScrollView
             android:id="@+id/closet_category_clothing_slider"
+            style="@style/PhotoGridLayout"
             android:layout_width="wrap_content"
             android:layout_height="75dp"
             android:layout_weight="1"
             android:orientation="horizontal">
-        </ListView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/closet_category_clothing_slider_layout"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
 
     </LinearLayout>
 
