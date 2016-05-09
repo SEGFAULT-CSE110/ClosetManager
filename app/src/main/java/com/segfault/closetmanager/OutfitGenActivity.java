@@ -10,13 +10,19 @@ import android.view.View;
  */
 public class OutfitGenActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.outfit_gen);
 
-        //Create and set the code for the bottom bar
+        //Recreate bottom bar here because the account has not been created
         View bottomBarView = findViewById(R.id.outfit_gen_bottom_bar);
-        BottomBar bottomBar = new BottomBar(bottomBarView, this);
+        BottomBar mBottomBar = new BottomBar(bottomBarView, this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 }

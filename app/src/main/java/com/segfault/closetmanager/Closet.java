@@ -1,5 +1,6 @@
 package com.segfault.closetmanager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by Christopher Cabreros on 03-May-16.
  * Tempoary class to read from
  */
-public class Closet {
+public class Closet{
 
     private List<Clothing> list_clothes = new ArrayList<Clothing>();
 

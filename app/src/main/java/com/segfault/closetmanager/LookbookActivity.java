@@ -18,6 +18,7 @@ public class LookbookActivity extends AppCompatActivity {
     private GridView mLookbookGridView;
     private ViewGroup mLookbookParentLayout;
     private int mLookbookGridViewIndex;
+    private Lookbook mCurrentLookbook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +30,22 @@ public class LookbookActivity extends AppCompatActivity {
         mLookbookGridView = (GridView) findViewById(R.id.lookbook_grid_view);
         mLookbookGridViewIndex = mLookbookParentLayout.indexOfChild(mLookbookGridView);
 
-        //Create and set the code for the bottom bar
+        //Recreate bottom bar
         View bottomBarView = findViewById(R.id.lookbook_bottom_bar);
-        BottomBar bottomBar = new BottomBar(bottomBarView, this);
+        BottomBar mBottomBar = new BottomBar(bottomBarView, this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        //update lookbook
+        mCurrentLookbook = Account.currentAccountInstance.getLookbook();
 
         //referesh the amount of clothing we have
 
         //check if we have any clothing
         //TODO: implement actual account info here
-        if(true){
+        if(mCurrentLookbook.getOutfitList().isEmpty()){
             //replace the linear layout with the no_elements_layout
             mLookbookParentLayout.removeViewAt(mLookbookGridViewIndex);
             View noElementsLayout = getLayoutInflater().inflate(

@@ -1,13 +1,16 @@
 package com.segfault.closetmanager;
 
+import java.io.Serializable;
+
 /**
  * Created by Christopher Cabreros on 08-May-16.
  */
-public class Account {
+public class Account{
 
     private String mAuthToken;
     private Closet mCloset;
     private Lookbook mLookbook;
+    public static Account currentAccountInstance;
 
     public Account(String authToken) {
         mAuthToken = authToken;

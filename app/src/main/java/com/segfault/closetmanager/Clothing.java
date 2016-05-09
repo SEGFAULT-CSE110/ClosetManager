@@ -2,13 +2,14 @@ package com.segfault.closetmanager;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Christopher Cabreros on 03-May-16.
  * This is a temporary class that contains images
  */
-public class Clothing {
+public class Clothing{
 
     public static final String TOP = "Top";
     public static final String BOTTOM = "Bottom";

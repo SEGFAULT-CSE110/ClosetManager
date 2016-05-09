@@ -16,13 +16,13 @@
         android:orientation="vertical"
         android:id="@+id/closet_parent_layout">
 
-        <LinearLayout
-            android:id="@+id/closet_display_layout"
+        <ListView
+            android:id="@+id/closet_list_view"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:orientation="vertical">
-        </LinearLayout>
+        </ListView>
 
         <include
             android:id="@+id/closet_bottom_bar"
