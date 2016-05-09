@@ -18,8 +18,7 @@ public class AddClothingActivity extends AppCompatActivity {
     }
 
     public void goToCloset(View view) {
-        Intent intent = new Intent(this, ClosetActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     public void addClothingCamera(View view) {

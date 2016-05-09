@@ -13,8 +13,6 @@ import android.widget.Button;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -56,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
 
     /**
      * Button method to go to closet
-     * @param view
+     * @param view - view that called this?
      */
     public void goToCloset(View view) {
         Intent intent = new Intent(this, ClosetActivity.class);

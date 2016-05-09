@@ -33,6 +33,7 @@ public final class BottomBar {
             public void onClick(View v) {
                 if (callingActivity.getClass() != ClosetActivity.class) {
                     Intent intent = new Intent(callingActivity, ClosetActivity.class);
+                    callingActivity.finish();
                 callingActivity.startActivity(intent);
             }
             }
@@ -44,6 +45,7 @@ public final class BottomBar {
             public void onClick(View v) {
                 if (callingActivity.getClass() != OutfitGenActivity.class) {
                     Intent intent = new Intent(callingActivity, OutfitGenActivity.class);
+                    callingActivity.finish();
                     callingActivity.startActivity(intent);
                 }
             }
@@ -55,6 +57,7 @@ public final class BottomBar {
             public void onClick(View v) {
                 if (callingActivity.getClass() != LookbookActivity.class) {
                     Intent intent = new Intent(callingActivity, LookbookActivity.class);
+                    callingActivity.finish();
                     callingActivity.startActivity(intent);
                 }
             }
