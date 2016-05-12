@@ -73,6 +73,11 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToSettings(View view) {
+        Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivity(intent);
+    }
+
     public void loadPictures(Context context, List<Clothing> clothingList) throws IOException{
         //get root directory
         String root = "images/";

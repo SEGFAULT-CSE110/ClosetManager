@@ -60,6 +60,15 @@
                 android:value=".ClosetActivity"/>
         </activity>
 
+        <activity
+            android:name="com.segfault.closetmanager.PreferencesActivity"
+            android:label="Preferences"
+            android:parentActivityName=".ClosetActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ClosetActivity"/>
+        </activity>
+
     </application>
 
 </manifest>
