@@ -204,7 +204,7 @@ public class Closet {
         //if no filters
         if(numberOfFilters == 0)
             return list_clothes;
-        //if only one filter
+        //if multiple filters
         else if(numberOfFilters > 0)
             return filtered_clothes;
         //if some kind of error
