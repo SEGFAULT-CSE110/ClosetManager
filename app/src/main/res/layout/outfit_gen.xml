@@ -28,7 +28,7 @@
 
             <Button
                 android:id="@+id/doneButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_gravity="end"
@@ -40,7 +40,7 @@
 
             <Button
                 android:id="@+id/chooseForMeButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_weight="1"
