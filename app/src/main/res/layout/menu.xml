@@ -97,8 +97,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/bottom_bar_lookbook_button"
-        android:src="@android:drawable/star_big_off"
-        />
+        android:src="@mipmap/more"
+            android:scaleType="centerCrop" />
 
     <TextView android:id="@+id/moreTitle"
         android:layout_width="match_parent"
