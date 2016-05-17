@@ -14,7 +14,7 @@
         android:layout_width="fill_parent"
         android:orientation="vertical"
         android:visibility="visible"
-        android:background="#B7AFA3">
+        android:background="@color/blue">
 
     <ImageView android:id="@+id/bottom_bar_closet_button"
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:orientation="vertical"
-        android:background="@color/colorButtonOutfitGen">
+        android:background="@color/pink">
     <ImageView android:id="@+id/bottom_bar_outfit_generator_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:orientation="vertical"
-        android:background="@color/colorButtonLookbook">
+        android:background="@color/darkerblue">
     <ImageView android:id="@+id/bottom_bar_lookbook_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:orientation="vertical"
-        android:background="@color/colorButtonMore">
+        android:background="@color/yellow">
 
         <ImageView android:id="@+id/more"
         android:layout_width="match_parent"
