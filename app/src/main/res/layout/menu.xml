@@ -4,7 +4,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="100dp">
 
     <!--closet icon set-->
     <LinearLayout
@@ -12,7 +12,9 @@
         android:layout_weight="1"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:background="#B7AFA3">
 
     <ImageView android:id="@+id/bottom_bar_closet_button"
         android:layout_width="match_parent"
@@ -38,7 +40,8 @@
         android:layout_weight="1"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/colorButtonOutfitGen">
     <ImageView android:id="@+id/bottom_bar_outfit_generator_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,7 +68,8 @@
         android:layout_weight="1"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/colorButtonLookbook">
     <ImageView android:id="@+id/bottom_bar_lookbook_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,7 +95,8 @@
         android:layout_weight="1"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/colorButtonMore">
 
         <ImageView android:id="@+id/more"
         android:layout_width="match_parent"
