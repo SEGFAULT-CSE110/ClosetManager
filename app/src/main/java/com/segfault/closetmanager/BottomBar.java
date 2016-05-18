@@ -67,7 +67,11 @@ public final class BottomBar {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //TODO: more button temporarily set to settings
+                if (callingActivity.getClass() != PreferencesActivity.class) {
+                    Intent intent = new Intent(callingActivity, PreferencesActivity.class);
+                    callingActivity.startActivity(intent);
+                }
             }
         });
 
