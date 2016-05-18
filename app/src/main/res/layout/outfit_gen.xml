@@ -9,6 +9,12 @@
     android:orientation="vertical"
     tools:context="com.segfault.closetmanager.OutfitGenActivity">
 
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        android:layout_height="61dp"
+        android:layout_width="fill_parent" />
+
     <LinearLayout
         android:id="@+id/imageButtons"
         android:layout_width="fill_parent"
