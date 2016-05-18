@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +27,7 @@ public class HomeActivity extends BaseActivity {
     private LinearLayout mOutfitCreatorButton;
     private LinearLayout mLookbookButton;
     private static boolean mLoaded = false;
+    private boolean backButtonPressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,11 @@ public class HomeActivity extends BaseActivity {
         tester.testMethod();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        backButtonPressed = false;
+    }
 
     /**
      * Button method to go to closet
@@ -80,6 +87,20 @@ public class HomeActivity extends BaseActivity {
     public void goToSettings(View view) {
         Intent intent = new Intent(this, PreferencesActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //leave app if backButton was pressed twice
+        if (!backButtonPressed){
+            backButtonPressed = true;
+            Toast newToast = Toast.makeText(this, "Press the back button again to leave.", Toast.LENGTH_SHORT);
+            newToast.show();
+        }
+        else{
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
+        }
     }
 
     public void loadPictures(Context context, List<Clothing> clothingList) throws IOException{
