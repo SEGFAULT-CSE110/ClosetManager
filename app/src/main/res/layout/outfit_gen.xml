@@ -9,12 +9,6 @@
     android:orientation="vertical"
     tools:context="com.segfault.closetmanager.OutfitGenActivity">
 
-    <include
-        android:id="@+id/tool_bar"
-        layout="@layout/tool_bar"
-        android:layout_height="61dp"
-        android:layout_width="fill_parent" />
-
     <LinearLayout
         android:id="@+id/imageButtons"
         android:layout_width="fill_parent"
@@ -39,9 +33,7 @@
                 android:layout_weight="1"
                 android:background="@color/pink"
                 android:text="@string/doneButtonText"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:onClick="outfitDone"/>
+                android:textColor="#000000" />
 
             <Button
                 android:id="@+id/chooseForMeButton"
@@ -51,9 +43,7 @@
                 android:layout_weight="1"
                 android:background="@color/blue"
                 android:text="@string/choose_for_me_button_text"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:onClick="generateOutfit"/>
+                android:textColor="#000000" />
 
         </LinearLayout>
 
@@ -92,7 +82,7 @@
             android:contentDescription="Pants/Bottom"
             android:cropToPadding="false"
             android:scaleType="fitCenter"
-            android:src="@drawable/hooded_jacket"
+            android:src="@drawable/bagpants"
             android:visibility="visible"/>
 
         <ImageButton
