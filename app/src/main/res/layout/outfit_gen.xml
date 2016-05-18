@@ -40,7 +40,8 @@
                 android:background="@color/pink"
                 android:text="@string/doneButtonText"
                 android:textColor="#000000"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:onClick="outfitDone"/>
 
             <Button
                 android:id="@+id/chooseForMeButton"
@@ -51,7 +52,8 @@
                 android:background="@color/blue"
                 android:text="@string/choose_for_me_button_text"
                 android:textColor="#000000"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:onClick="generateOutfit"/>
 
         </LinearLayout>
 

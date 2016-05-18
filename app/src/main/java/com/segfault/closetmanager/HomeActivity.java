@@ -28,6 +28,7 @@ public class HomeActivity extends BaseActivity {
     private LinearLayout mLookbookButton;
     private static boolean mLoaded = false;
     private boolean backButtonPressed;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +36,8 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.home);
 
         // set pref_layout toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         //assign buttons
         mClosetButton = (LinearLayout) findViewById(R.id.closet_layout);
@@ -84,22 +85,25 @@ public class HomeActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    public void goToSettings(View view) {
-        Intent intent = new Intent(this, PreferencesActivity.class);
-        startActivity(intent);
+
+    public void onMorePressed(View view) {
     }
 
     @Override
+    /**
+     * Defines closing the app through the home activity
+     */
     public void onBackPressed() {
         //leave app if backButton was pressed twice
         if (!backButtonPressed){
             backButtonPressed = true;
-            Toast newToast = Toast.makeText(this, "Press the back button again to leave.", Toast.LENGTH_SHORT);
+            Toast newToast = Toast.makeText(this, "Press the back button again to leave.",
+                    Toast.LENGTH_SHORT);
             newToast.show();
         }
         else{
             android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
+            System.exit(0);
         }
     }
 
