@@ -21,7 +21,6 @@
             android:layout_height="61dp"
             android:layout_width="fill_parent" />
 
-
         <ListView
             android:id="@+id/closet_list_view"
             android:layout_width="fill_parent"

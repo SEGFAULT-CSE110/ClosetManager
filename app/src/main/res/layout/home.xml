@@ -7,6 +7,12 @@
               android:layout_height="fill_parent"
               android:orientation="vertical">
 
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        android:layout_height="61dp"
+        android:layout_width="fill_parent" />
+
     <!--closet icon set-->
     <LinearLayout
         android:id="@+id/closet_layout"

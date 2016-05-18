@@ -11,7 +11,6 @@ import android.view.View;
  */
 public class OutfitGenActivity extends BaseActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
