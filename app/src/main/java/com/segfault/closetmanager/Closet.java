@@ -11,7 +11,7 @@ import java.util.List;
 public class Closet {
 
     private List<Clothing> list_clothes = new ArrayList<Clothing>();
-
+    private boolean updated;
 
 
     /**
@@ -240,4 +240,11 @@ public class Closet {
         return list_clothes;
     }
 
+    public boolean isUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(boolean updated) {
+        this.updated = updated;
+    }
 }

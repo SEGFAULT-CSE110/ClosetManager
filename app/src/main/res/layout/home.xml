@@ -15,7 +15,8 @@
         android:layout_weight="1"
         android:background="@color/blue"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:onClick="goToCloset">
 
         <ImageView
             android:id="@+id/bottom_bar_closet_button"
@@ -45,7 +46,8 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:background="@color/pink"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:onClick="goToOutfitGenerator">
 
         <ImageView
             android:id="@+id/bottom_bar_outfit_generator_button"
@@ -77,7 +79,8 @@
         android:layout_toRightOf="@+id/outfitgen_layout"
         android:layout_weight="1"
         android:background="@color/darkerblue"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:onClick="goToLookbook">
 
         <ImageView
             android:id="@+id/bottom_bar_lookbook_button"
