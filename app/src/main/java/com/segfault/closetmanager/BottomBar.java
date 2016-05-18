@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 /**
  * Created by Christopher Cabreros on 05-May-16.
@@ -27,7 +28,7 @@ public final class BottomBar {
 
         //For the three buttons, find the view and set the onn click behaviour
 
-        Button closetButton = (Button) bottomBar.findViewById(R.id.bottom_bar_closet_button);
+        LinearLayout closetButton = (LinearLayout) bottomBar.findViewById(R.id.bottom_bar_closet_button);
         closetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,7 +40,7 @@ public final class BottomBar {
             }
         });
 
-        Button outfitButton = (Button) bottomBar.findViewById(R.id.bottom_bar_outfit_generator_button);
+        LinearLayout outfitButton = (LinearLayout) bottomBar.findViewById(R.id.bottom_bar_outfit_generator_button);
         outfitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +52,7 @@ public final class BottomBar {
             }
         });
 
-        Button lookbookButton = (Button) bottomBar.findViewById(R.id.bottom_bar_lookbook_button);
+        LinearLayout lookbookButton = (LinearLayout) bottomBar.findViewById(R.id.bottom_bar_lookbook_button);
         lookbookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +64,7 @@ public final class BottomBar {
             }
         });
 
-        Button nextButton = (Button) bottomBar.findViewById(R.id.more);
+        LinearLayout nextButton = (LinearLayout) bottomBar.findViewById(R.id.bottom_bar_more_layout);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

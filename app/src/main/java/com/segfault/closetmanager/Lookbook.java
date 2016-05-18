@@ -39,19 +39,19 @@ public class Lookbook {
         Outfit result = null;
 
         //todo:need constructor to set the fields with the input preference + Category:top
-        PreferenceList shirtPref;
+        PreferenceList shirtPref = null;
 
         /* Get a shirt */
         shirt = pickOne(shirtPref);
 
         //todo:this will be the pants to match the shirt, get a prefList with shirts' attributes
-        PreferenceList pantsPref;
+        PreferenceList pantsPref = null;
 
         /* Get pants */
         pants = pickOne(pantsPref);
 
         //todo: a prefList for shoes with given pants'( or shirts' ?) attributes
-        PreferenceList shoesPref;
+        PreferenceList shoesPref = null;
 
         /* Get shoes */
         shoes = pickOne(shoesPref);
@@ -81,13 +81,13 @@ public class Lookbook {
         //todo: preferenceList needs a method to null the field with lowest priority, and then
         //todo: a) reduce preference list fields one by one until a not-null list is found(1234,123,12,1)
         //todo: b) 1234, 123, 124, 12, 134, 13, 1 (1 is highest priority)
-        if(!match){
+        if(false){ // supposed to be !match
             //todo: the result List will be in match
 
         }
 
         /* Randomly choose one from the list */
-        Random random;
+        Random random = new Random();
         int index = random.nextInt(match.size());
 
         return match.get(index);
@@ -99,7 +99,7 @@ public class Lookbook {
      */
     public Outfit generateRandomOutfit(){
 
-        Random random;
+        Random random = new Random();
 
         Clothing shirt = null;
         Clothing pants = null;
@@ -108,23 +108,27 @@ public class Lookbook {
         Outfit result = null;
 
         //todo: prefList with only category as top
-        PreferenceList topPref;
+        PreferenceList topPref = null;
         List<Clothing> top = filter(topPref);
         shirt = top.get(random.nextInt(top.size()));
 
         //todo: prefList with only category as pants
-        PreferenceList pantsPref;
+        PreferenceList pantsPref = null;
         List<Clothing> bottom = filter(pantsPref);
-        pants = pants.get(random.nextInt(bottom.size()));
+        pants = bottom.get(random.nextInt(bottom.size()));
 
         //todo: prefList with only category as shoes
-        PreferenceList shoesPref;
+        PreferenceList shoesPref = null;
         List<Clothing> shoesL = filter(shoesPref);
-        shoes = shoes.get(random.nextInt(shoesL.size()));
+        shoes = shoesL.get(random.nextInt(shoesL.size()));
 
         //todo: construct the outfit result with selected clothing
 
         return result;
+    }
+
+    private List<Clothing> filter(PreferenceList topPref) {
+        return new ArrayList<>();
     }
 
     public List<Outfit> getOutfitList() {

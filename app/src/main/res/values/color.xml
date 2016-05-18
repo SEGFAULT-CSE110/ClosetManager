@@ -11,7 +11,12 @@
     <color name="colorButtonMore">#e8d0a9</color>
     <color name="grid_state_pressed">#1Affffff</color>
     <color name="grid_state_focused">#80000000</color>
+
+    <color name="background_material_light_closet">#ffffff</color>
+
     <color name="pink">#ffecee</color>
     <color name="darkerblue">#cbe6fb</color>
+    <color name="blue">#cbf3f2</color>
+    <color name="yellow">#f0e38d</color>
 
 </resources>

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,9 +21,9 @@ import java.util.List;
  */
 public class HomeActivity extends AppCompatActivity {
 
-    private Button mClosetButton;
-    private Button mOutfitCreatorButton;
-    private Button mLookbookButton;
+    private LinearLayout mClosetButton;
+    private LinearLayout mOutfitCreatorButton;
+    private LinearLayout mLookbookButton;
     private static boolean mLoaded = false;
 
     @Override
@@ -31,9 +32,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.home);
 
         //assign buttons
-        mClosetButton = (Button) findViewById(R.id.closet_button);
-        mOutfitCreatorButton = (Button) findViewById(R.id.outfit_creator_button);
-        mLookbookButton = (Button) findViewById(R.id.lookbook_button);
+        mClosetButton = (LinearLayout) findViewById(R.id.closet_layout);
+        mOutfitCreatorButton = (LinearLayout) findViewById(R.id.outfitgen_layout);
+        mLookbookButton = (LinearLayout) findViewById(R.id.lookbook_layout);
 
         //load items
         //TODO: why does it run onCreate every time we start the activity? is this an android thing?
