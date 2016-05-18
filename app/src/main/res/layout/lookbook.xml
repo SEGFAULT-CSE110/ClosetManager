@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#c3e9ef"
+    android:background="@color/background_material_light_closet"
     android:id="@+id/lookbook_parent_layout">
 
     <SearchView
@@ -35,7 +35,6 @@
         layout="@layout/bottom_bar"
         android:id="@+id/lookbook_bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"/>
+        android:layout_height="bottom_bar_height" />
 
 </LinearLayout>
