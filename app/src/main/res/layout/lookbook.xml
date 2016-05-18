@@ -35,6 +35,6 @@
         layout="@layout/bottom_bar"
         android:id="@+id/lookbook_bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="bottom_bar_height" />
+        android:layout_height="@+dimen/bottom_bar_height" />
 
 </LinearLayout>
