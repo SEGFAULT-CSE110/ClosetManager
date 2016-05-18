@@ -17,7 +17,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="iCloset"
         android:id="@+id/textView"
-        android:textSize="45dp"
+        android:textSize="45sp"
         android:gravity="center_horizontal" />
 
     <ProgressBar
