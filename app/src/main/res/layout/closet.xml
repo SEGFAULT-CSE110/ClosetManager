@@ -12,7 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#c3e9ef"
         android:orientation="vertical"
         android:id="@+id/closet_vertical_linear_layout">
 
@@ -28,8 +27,7 @@
             android:id="@+id/closet_bottom_bar"
             layout="@layout/bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"/>
+            android:layout_height="bottom_bar_height" />
 
     </LinearLayout>
 

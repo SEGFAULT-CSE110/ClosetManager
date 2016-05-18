@@ -21,19 +21,20 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:src="@mipmap/closet_icon"
+            android:src="@drawable/closet"
             android:layout_alignEnd="@+id/txtTitle"
-            android:scaleType="center" />
+            android:scaleType="fitCenter" />
 
         <TextView android:id="@+id/closetTitle"
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
             android:text="Closet"
             android:layout_below="@+id/bottom_bar_closet_button"
             android:textAlignment="center"
             android:typeface="serif"
-            android:textIsSelectable="false" />
+            android:textIsSelectable="false"
+            android:padding="5dp"/>
     </LinearLayout>
 
     <!--outfit generator icon set -->
@@ -50,19 +51,20 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_toRightOf="@+id/bottom_bar_closet_button"
-            android:src="@mipmap/outfitgen"
+            android:src="@drawable/outfitgen"
             android:layout_alignEnd="@+id/txtTitle"
-            android:scaleType="center" />
+            android:scaleType="fitCenter" />
 
         <TextView android:id="@+id/outfitgenTitle"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
             android:text="Outfit Generator"
             android:layout_toRightOf="@+id/closetTitle"
             android:layout_below="@+id/bottom_bar_outfit_generator_button"
             android:textAlignment="center"
-            android:typeface="serif" />
+            android:typeface="serif"
+            android:padding="5dp"/>
 
     </LinearLayout>
 
@@ -80,18 +82,19 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_toRightOf="@+id/bottom_bar_outfit_generator_button"
-            android:src="@mipmap/lookbook"
-            android:scaleType="center" />
+            android:src="@drawable/lookbook"
+            android:scaleType="fitCenter" />
 
         <TextView android:id="@+id/lookbookTitle"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
             android:text="Lookbook"
             android:layout_toRightOf="@+id/outfitgenTitle"
             android:layout_below="@+id/bottom_bar_lookbook_button"
             android:textAlignment="center"
-            android:typeface="serif" />
+            android:typeface="serif"
+            android:padding="5dp"/>
 
     </LinearLayout>
 
@@ -110,18 +113,19 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_toRightOf="@+id/bottom_bar_lookbook_button"
-            android:src="@mipmap/more"
-            android:scaleType="center" />
+            android:src="@drawable/more"
+            android:scaleType="fitCenter" />
 
         <TextView android:id="@+id/moreTitle"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
             android:text="More"
             android:layout_toRightOf="@+id/lookbookTitle"
             android:layout_below="@+id/more"
             android:textAlignment="center"
-            android:typeface="serif" />
+            android:typeface="serif"
+            android:padding="5dp"/>
 
     </LinearLayout>
 
