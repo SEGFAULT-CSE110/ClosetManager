@@ -17,6 +17,10 @@ public class Lookbook {
         mOutfitList = new ArrayList<>();
     }
 
+    public void assignBelongingCloset(Closet closet){
+        mBelongingCloset = closet;
+    }
+
     public boolean writeToDatabase(){
         return false; //returns true if written successfully.
     }
@@ -110,22 +114,22 @@ public class Lookbook {
 
         //todo: prefList with only category as accessory
         PreferenceList accessoryPref = new PreferenceList(false, Clothing.ACCESSORY, null, null, null, null, null);
-        List<Clothing> accessoryList = filter(accessoryPref);
+        List<Clothing> accessoryList = mBelongingCloset.filter(accessoryPref);
         accessory = accessoryList.get(random.nextInt(accessoryList.size()));
 
         //todo: prefList with only category as top
         PreferenceList topPref = new PreferenceList(false, Clothing.TOP, null, null, null, null, null);
-        List<Clothing> top = filter(topPref);
+        List<Clothing> top = mBelongingCloset.filter(topPref);
         shirt = top.get(random.nextInt(top.size()));
 
         //todo: prefList with only category as pants
         PreferenceList pantsPref = new PreferenceList(false, Clothing.BOTTOM, null, null, null, null, null);;
-        List<Clothing> bottom = filter(pantsPref);
+        List<Clothing> bottom = mBelongingCloset.filter(pantsPref);
         pants = bottom.get(random.nextInt(bottom.size()));
 
         //todo: prefList with only category as shoes
         PreferenceList shoesPref = new PreferenceList(false, Clothing.SHOE, null, null, null, null, null);;
-        List<Clothing> shoesL = filter(shoesPref);
+        List<Clothing> shoesL = mBelongingCloset.filter(shoesPref);
         shoes = shoesL.get(random.nextInt(shoesL.size()));
 
         //todo: construct the outfit result with selected clothing

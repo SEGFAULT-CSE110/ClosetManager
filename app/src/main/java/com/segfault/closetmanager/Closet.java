@@ -10,9 +10,12 @@ import java.util.List;
  */
 public class Closet {
 
-    private List<Clothing> list_clothes = new ArrayList<Clothing>();
+    private List<Clothing> list_clothes;
     private boolean updated;
 
+    public Closet(){
+        list_clothes = new ArrayList<>();
+    }
 
     /**
      * This method will return all clothing matching the preferences given
@@ -64,6 +67,7 @@ public class Closet {
         if (pref.getCategory() != null) {
             numberOfFilters++;
             for (index = 0; index < list_clothes.size(); index++) {
+                System.out.println(list_clothes.get(index).getCategory() + " " + pref.getCategory());
                 if ((list_clothes.get(index).getCategory()).equals(pref.getCategory()))
                     category_filtered_clothes.add(list_clothes.get(index));
             }
@@ -203,14 +207,18 @@ public class Closet {
         }
 
         //if no filters
-        if(numberOfFilters == 0)
+        if(numberOfFilters == 0) {
             return list_clothes;
+        }
         //if multiple filters
-        else if(numberOfFilters > 0)
+        else if(numberOfFilters > 0) {
+            System.out.println(filtered_clothes.size());
             return filtered_clothes;
+        }
         //if some kind of error
-        else
+        else {
             return null;
+        }
     }
 
 

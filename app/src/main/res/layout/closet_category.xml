@@ -19,7 +19,8 @@
             android:layout_height="75dp"
             android:layout_weight="0"
             android:text="picture goes here"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:background="#CCCCCC"/>
 
         <HorizontalScrollView
             android:id="@+id/closet_category_clothing_slider"

@@ -50,6 +50,7 @@ public class HomeActivity extends BaseActivity {
             if (!mLoaded) {
                 Account.currentAccountInstance = new Account("AUTH TOKEN");
                 loadPictures(getApplicationContext(), Account.currentAccountInstance.getCloset().getList());
+                Account.currentAccountInstance.getLookbook().assignBelongingCloset(Account.currentAccountInstance.getCloset());
                 mLoaded = true;
             }
         } catch (IOException e) {
@@ -135,7 +136,7 @@ public class HomeActivity extends BaseActivity {
                 if (file.contains("hat")) {
                     Clothing newHat = new Clothing();
                     newHat.setBitmap(secondBitmap);
-                    newHat.setCategory(Clothing.HAT);
+                    newHat.setCategory(Clothing.ACCESSORY);
                     clothingList.add(newHat);
                 } else if (file.contains("pants")) {
                     Clothing newPants = new Clothing();
