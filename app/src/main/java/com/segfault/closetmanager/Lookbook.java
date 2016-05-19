@@ -101,28 +101,38 @@ public class Lookbook {
 
         Random random = new Random();
 
+        Clothing accessory = null;
         Clothing shirt = null;
         Clothing pants = null;
         Clothing shoes = null;
 
-        Outfit result = null;
+        Outfit result = new Outfit();
+
+        //todo: prefList with only category as accessory
+        PreferenceList accessoryPref = new PreferenceList(false, Clothing.ACCESSORY, null, null, null, null, null);
+        List<Clothing> accessoryList = filter(accessoryPref);
+        accessory = accessoryList.get(random.nextInt(accessoryList.size()));
 
         //todo: prefList with only category as top
-        PreferenceList topPref = null;
+        PreferenceList topPref = new PreferenceList(false, Clothing.TOP, null, null, null, null, null);
         List<Clothing> top = filter(topPref);
         shirt = top.get(random.nextInt(top.size()));
 
         //todo: prefList with only category as pants
-        PreferenceList pantsPref = null;
+        PreferenceList pantsPref = new PreferenceList(false, Clothing.BOTTOM, null, null, null, null, null);;
         List<Clothing> bottom = filter(pantsPref);
         pants = bottom.get(random.nextInt(bottom.size()));
 
         //todo: prefList with only category as shoes
-        PreferenceList shoesPref = null;
+        PreferenceList shoesPref = new PreferenceList(false, Clothing.SHOE, null, null, null, null, null);;
         List<Clothing> shoesL = filter(shoesPref);
         shoes = shoesL.get(random.nextInt(shoesL.size()));
 
         //todo: construct the outfit result with selected clothing
+        result.addAccessory(accessory);
+        result.addTop(shirt);
+        result.addBottom(pants);
+        result.setShoes(shoes);
 
         return result;
     }

@@ -59,7 +59,6 @@
             android:id="@+id/bottom_bar_outfit_generator_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_alignEnd="@+id/txtTitle"
             android:layout_weight="1"
             android:scaleType="fitCenter"
             android:src="@drawable/outfitgen"
@@ -71,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:padding="5dp"
-            android:text="Outfit Generator"
+            android:text="Outfit Creator"
             android:textAlignment="center"
             android:typeface="serif"/>
 
@@ -82,7 +81,6 @@
         android:id="@+id/lookbook_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_toRightOf="@+id/outfitgen_layout"
         android:layout_weight="1"
         android:background="@color/darkerblue"
         android:orientation="vertical"
@@ -116,7 +114,8 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:background="@color/yellow"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:onClick="onMorePressed">
 
         <ImageView
             android:id="@+id/more"

@@ -28,4 +28,35 @@ public class Outfit{
         //mark everything as worn
     }
 
+    public void addAccessory(Clothing clothing){
+        mAccessories.add(clothing);
+    }
+
+    public void addTop(Clothing clothing){
+        mTops.add(clothing);
+    }
+
+    public void addBottom(Clothing clothing){
+        mBottoms.add(clothing);
+    }
+
+    public void setShoes(Clothing clothing){
+        mShoes = clothing;
+    }
+
+    public Clothing getTop(){
+        return mTops.get(0);
+    }
+
+    public Clothing getBottom(){
+        return mBottoms.get(0);
+    }
+
+    public Clothing getAccessory(){
+        return mAccessories.get(0);
+    }
+
+    public Clothing getShoes(){
+        return mShoes;
+    }
 }
