@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class PreferenceList {
 
-    private boolean mWorn;
+    private Boolean mWorn;
 
     private String mCategory;
 
@@ -17,7 +17,7 @@ public class PreferenceList {
     private String mStyle;
     private String mWeather;
 
-    public PreferenceList(boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather) {
+    public PreferenceList(Boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather) {
         this.mWorn = mWorn;
         this.mCategory = mCategory;
         this.mColor = mColor;
@@ -27,8 +27,44 @@ public class PreferenceList {
         this.mWeather = mWeather;
     }
 
-    // TODO: constructor that modifies one preference
-    public PreferenceList(PreferenceList pref, boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather) {
+    /* Copy Constructor */
+    public PreferenceList(PreferenceList pref) {
+        pref.mWorn = mWorn;
+        pref.mCategory = mCategory;
+        pref.mColor = mColor;
+        pref.mSize = mSize;
+        pref.mOccasion = mOccasion;
+        pref.mStyle = mStyle;
+        pref.mWeather = mWeather;
+    }
+
+    /* Constructor that modifies one preference */
+    public PreferenceList(PreferenceList pref, String attributeType, Object attribute) {
+        this(pref);
+        switch(attributeType){
+            case "worn":
+                mWorn = (Boolean)attribute;
+                break;
+            case "category":
+                mCategory = (String)attribute;
+                break;
+            case "color":
+                mColor = (String)attribute;
+                break;
+            case "size":
+                mSize = (String)attribute;
+                break;
+            case "occasion":
+                mOccasion = (List<String>)attribute;
+                break;
+            case "style":
+                mStyle = (String)attribute;
+                break;
+            case "weather":
+                mStyle = (String)attribute;
+                break;
+            default: break;
+        }
     }
 
     public PreferenceList(Clothing clothing) {
@@ -41,7 +77,7 @@ public class PreferenceList {
         this.mWeather = clothing.getWeather();
     }
 
-    public boolean isWorn() {
+    public Boolean isWorn() {
         return mWorn;
     }
 
