@@ -28,6 +28,10 @@ public class PreferenceList {
         this.mWeather = mWeather;
     }
 
+    public PreferenceList(boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather) {
+        this(Boolean.valueOf(mWorn), mCategory, mColor, mSize, mOccasion, mStyle, mWeather);
+    }
+
     /* Copy Constructor */
     public PreferenceList(PreferenceList pref) {
         pref.mWorn = mWorn;
