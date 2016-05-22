@@ -32,8 +32,9 @@
                 android:layout_gravity="end"
                 android:layout_weight="1"
                 android:background="@color/pink"
-                android:text="@string/doneButtonText"
-                android:textColor="#000000" />
+                android:text="Create an outfit"
+                android:textColor="#000000"
+                android:typeface="serif" />
 
             <Button
                 android:id="@+id/chooseForMeButton"
@@ -42,8 +43,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/blue"
-                android:text="@string/choose_for_me_button_text"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:typeface="serif"
+                android:text="I&apos;m feeling lucky" />
 
         </LinearLayout>
 
