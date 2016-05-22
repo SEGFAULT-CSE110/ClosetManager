@@ -13,6 +13,18 @@
         <item name="android:colorBackground">@color/background_material_light_closet</item>
     </style>
 
+    <style name="EcoTheme" parent="AppTheme">
+        <item name="colorPrimary">#3a2215</item>
+        <item name="colorPrimaryDark">#291810</item>
+        <item name="colorAccent">#466b03</item>
+    </style>
+
+    <style name="DynamicTheme" parent="AppTheme">
+        <item name="colorPrimary">#00a5f7</item>
+        <item name="colorPrimaryDark">#0084f7</item>
+        <item name="colorAccent">#f45a00</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
