@@ -12,6 +12,7 @@ public class PreferenceList {
     private String mCategory;
 
     private String mColor;
+    private String mSecondaryColor;
     private String mSize;
     private List<String> mOccasion;
     private String mStyle;
