@@ -43,7 +43,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:text="Closet"
+                android:text="@string/closet"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textIsSelectable="false"
@@ -71,7 +71,7 @@
                 android:id="@+id/outfitgenTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Outfit Generator"
+                android:text="@string/outfit_creator"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:typeface="serif"/>
@@ -99,7 +99,7 @@
                 android:id="@+id/lookbookTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Lookbook"
+                android:text="@string/lookbook"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:typeface="serif"/>
@@ -129,7 +129,7 @@
                 android:id="@+id/moreTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="More"
+                android:text="@string/more"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:typeface="serif"/>
