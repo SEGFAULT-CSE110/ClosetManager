@@ -3,6 +3,7 @@ package com.segfault.closetmanager;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -13,7 +14,7 @@ import android.widget.TextView;
  * Created by Christopher Cabreros on 05-May-16.
  * Class that defines the lookbook activity
  */
-public class LookbookActivity extends AppCompatActivity {
+public class LookbookActivity extends BaseActivity {
 
     private GridView mLookbookGridView;
     private ViewGroup mLookbookParentLayout;
@@ -25,7 +26,17 @@ public class LookbookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lookbook);
 
-        //FInd all the views
+        // set pref_layout toolbar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        //Find all the views
         mLookbookParentLayout = (ViewGroup) findViewById(R.id.lookbook_parent_layout);
         mLookbookGridView = (GridView) findViewById(R.id.lookbook_grid_view);
         mLookbookGridViewIndex = mLookbookParentLayout.indexOfChild(mLookbookGridView);
@@ -41,7 +52,7 @@ public class LookbookActivity extends AppCompatActivity {
         //update lookbook
         mCurrentLookbook = Account.currentAccountInstance.getLookbook();
 
-        //referesh the amount of clothing we have
+        //refresh the amount of clothing we have
 
         //check if we have any clothing
         //TODO: implement actual account info here

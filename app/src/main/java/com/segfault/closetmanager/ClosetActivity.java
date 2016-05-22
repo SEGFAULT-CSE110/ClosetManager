@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import java.util.List;
  * Created by Christopher Cabreros on 05-May-16.
  * Defines the activity that displays the closet.
  */
-public class ClosetActivity extends AppCompatActivity {
+public class ClosetActivity extends BaseActivity {
 
     private ListView mClosetListView;
     private ViewGroup mClosetParentLayout;
@@ -41,6 +42,16 @@ public class ClosetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet);
+
+        // set pref_layout toolbar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         //Find all the views
         mClosetParentLayout = (ViewGroup) findViewById(R.id.closet_vertical_linear_layout);
