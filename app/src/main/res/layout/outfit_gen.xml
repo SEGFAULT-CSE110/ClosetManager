@@ -5,71 +5,86 @@
     style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C1DAD6"
+    android:background="@color/background_material_light_closet"
     android:orientation="vertical"
     tools:context="com.segfault.closetmanager.OutfitGenActivity">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        android:layout_height="61dp"
+        android:layout_width="fill_parent" />
 
     <LinearLayout
         android:id="@+id/imageButtons"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:padding="5dp">
 
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            style="?android:attr/buttonBarStyle">
+            android:visibility="visible">
 
             <Button
                 android:id="@+id/doneButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_weight="1"
-                android:background="#b7afa3"
-                android:text="@string/doneButtonText"
+                android:background="@color/pink"
+                android:text="Create Outfit"
+                android:textColor="#000000"
                 android:textStyle="bold"
-                android:textColor="#000000"/>
+                android:onClick="outfitDone"/>
 
             <Button
-                android:id="@+id/chooseForMeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/lastButton"
                 style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#ACD1E9"
-                android:text="@string/choose_for_me_button_text"
+                android:background="@color/blue"
+                android:text="I'm Feeling Lucky"
+                android:textColor="#000000"
                 android:textStyle="bold"
-                android:textColor="#000000"/>
+                android:onClick="generateOutfit"/>
 
         </LinearLayout>
 
+        <include
+            layout="@layout/outfit"
+            android:id="@+id/lookbook_bottom_bar"
+            android:layout_width="match_parent"
+<<<<<<< HEAD
+            android:layout_height="fill_parent" />
+=======
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="@color/background_material_light_closet"
+            android:contentDescription="Top"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/cap"/>
+
         <ImageButton
-            android:id="@+id/accessoriesButton"
+            android:id="@+id/topButton"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:background="@mipmap/accessories"
-            android:contentDescription="Top"
+            android:background="#ffffff"
+            android:contentDescription="Shirt/Top"
             android:cropToPadding="false"
-            android:scaleType="center"/>
+            android:scaleType="fitCenter"
 
-        <ImageButton
-            android:id="@+id/topButton"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="@mipmap/tops"
-            android:contentDescription="Shirt/Top"/>
+            android:src="@drawable/nylon_jacket"/>
 
         <ImageButton
             android:id="@+id/bottomButton"
@@ -77,27 +92,33 @@
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:background="@mipmap/bottom"
-            android:contentDescription="Pants/Bottom"/>
+            android:background="#ffffff"
+            android:contentDescription="Pants/Bottom"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/pants"
+            android:visibility="visible"/>
 
         <ImageButton
             android:id="@+id/shoesButton"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-
             android:layout_weight="1"
-            android:background="@mipmap/shoes"
-            android:contentDescription="Shoes"/>
+            android:background="#ffffff"
+            android:contentDescription="Shoes"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/sneaker"/>
+>>>>>>> origin/master
 
     </LinearLayout>
 
     <include
-        layout="@layout/bottom_bar"
         android:id="@+id/outfit_gen_bottom_bar"
+        layout="@layout/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"/>
+        android:layout_height="@+dimen/bottom_bar_height"/>
 
 
 </LinearLayout>

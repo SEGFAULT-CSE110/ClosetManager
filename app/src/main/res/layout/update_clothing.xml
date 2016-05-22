@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Done"
         android:id="@+id/submit"
-        android:layout_gravity="right" />
+        android:layout_gravity="end" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -87,7 +87,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText" />
+            android:id="@+id/editText"
+            android:inputType="text"/>
     </LinearLayout>
 
 </LinearLayout>

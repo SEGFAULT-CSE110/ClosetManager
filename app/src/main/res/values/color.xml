@@ -6,10 +6,17 @@
 
     <!-- bottom bar buttons -->
     <color name="colorButtonCloset">#F5FAFA</color>
-    <color name="colorButtonOutfitGen">#ACD1E9</color>
+    <color name="colorButtonOutfitGen">#acd1e9</color>
     <color name="colorButtonLookbook">#6D929B</color>
-    <color name="colorButtonMore">#E8D0A9</color>
+    <color name="colorButtonMore">#e8d0a9</color>
     <color name="grid_state_pressed">#1Affffff</color>
     <color name="grid_state_focused">#80000000</color>
+
+    <color name="background_material_light_closet">#ffffff</color>
+
+    <color name="pink">#ffecee</color>
+    <color name="darkerblue">#cbe6fb</color>
+    <color name="blue">#cbf3f2</color>
+    <color name="yellow">#f0e38d</color>
 
 </resources>

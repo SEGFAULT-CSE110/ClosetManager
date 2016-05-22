@@ -6,8 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#c3e9ef"
+    android:background="@color/background_material_light_closet"
     android:id="@+id/lookbook_parent_layout">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        android:layout_height="61dp"
+        android:layout_width="fill_parent" />
 
     <SearchView
         android:id="@+id/searchView"
@@ -35,7 +41,6 @@
         layout="@layout/bottom_bar"
         android:id="@+id/lookbook_bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"/>
+        android:layout_height="@+dimen/bottom_bar_height" />
 
 </LinearLayout>

@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ViewClothingActivity">
+    tools:context=".ViewClothingActivity"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true" >
 
-
-    <LinearLayout
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        android:layout_height="61dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin_bottom">
-        <!-- clothing item image -->
-
-        <ImageView
-            android:id="@+id/view_clothing_picture"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:src="@android:drawable/sym_def_app_icon"/>
-
+        />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -29,10 +21,18 @@
             android:layout_weight="1">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_horizontal_margin"
-                android:orientation="vertical">
+                android:orientation="vertical" >
+
+                <!-- clothing item image -->
+                <ImageView
+                    android:id="@+id/view_clothing_picture"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:src="@android:drawable/sym_def_app_icon"/>
 
                 <TextView
                     android:id="@+id/closet_item_category"
@@ -87,13 +87,13 @@
 
         </ScrollView>
 
-    </LinearLayout>
 
     <include
         layout="@layout/bottom_bar"
         android:id="@+id/view_clothing_bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:layout_height="@+dimen/bottom_bar_height"
+        android:layout_weight="0"
+        />
 
-</RelativeLayout>
+</LinearLayout>

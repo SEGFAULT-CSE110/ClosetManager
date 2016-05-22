@@ -3,6 +3,7 @@ package com.segfault.closetmanager;
 import android.graphics.Bitmap;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,12 +11,12 @@ import java.util.List;
  */
 public class Outfit{
 
-    private List<Clothing> mTops;
-    private List<Clothing> mBottoms;
+    private List<Clothing> mTops = new ArrayList<>();
+    private List<Clothing> mBottoms = new ArrayList<>();
     private Clothing mShoes;
-    private List<Clothing> mAccessories;
+    private List<Clothing> mAccessories = new ArrayList<>();
     private Clothing mSocks;
-    private List<Clothing> mUnderwear;
+    private List<Clothing> mUnderwear = new ArrayList<>();
 
     private String mName;
     private String mOccasion;
@@ -24,8 +25,40 @@ public class Outfit{
     private Bitmap mBitmap;
 
 
+
     public void markAsWorn(){
         //mark everything as worn
     }
 
+    public void addAccessory(Clothing clothing){
+        mAccessories.add(clothing);
+    }
+
+    public void addTop(Clothing clothing){
+        mTops.add(clothing);
+    }
+
+    public void addBottom(Clothing clothing){
+        mBottoms.add(clothing);
+    }
+
+    public void setShoes(Clothing clothing){
+        mShoes = clothing;
+    }
+
+    public Clothing getTop(){
+        return mTops.get(0);
+    }
+
+    public Clothing getBottom(){
+        return mBottoms.get(0);
+    }
+
+    public Clothing getAccessory(){
+        return mAccessories.get(0);
+    }
+
+    public Clothing getShoes(){
+        return mShoes;
+    }
 }

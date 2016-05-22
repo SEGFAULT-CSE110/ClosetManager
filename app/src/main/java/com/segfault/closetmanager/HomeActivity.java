@@ -8,8 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,22 +21,28 @@ import java.util.List;
 /**
  * THIS IS THE ACTIVITY THAT RUNS
  */
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
 
-    private Button mClosetButton;
-    private Button mOutfitCreatorButton;
-    private Button mLookbookButton;
+    private LinearLayout mClosetButton;
+    private LinearLayout mOutfitCreatorButton;
+    private LinearLayout mLookbookButton;
     private static boolean mLoaded = false;
+    private boolean backButtonPressed;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
+        // set pref_layout toolbar
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
         //assign buttons
-        mClosetButton = (Button) findViewById(R.id.closet_button);
-        mOutfitCreatorButton = (Button) findViewById(R.id.outfit_creator_button);
-        mLookbookButton = (Button) findViewById(R.id.lookbook_button);
+        mClosetButton = (LinearLayout) findViewById(R.id.closet_layout);
+        mOutfitCreatorButton = (LinearLayout) findViewById(R.id.outfitgen_layout);
+        mLookbookButton = (LinearLayout) findViewById(R.id.lookbook_layout);
 
         //load items
         //TODO: why does it run onCreate every time we start the activity? is this an android thing?
@@ -41,6 +50,7 @@ public class HomeActivity extends AppCompatActivity {
             if (!mLoaded) {
                 Account.currentAccountInstance = new Account("AUTH TOKEN");
                 loadPictures(getApplicationContext(), Account.currentAccountInstance.getCloset().getList());
+                Account.currentAccountInstance.getLookbook().assignBelongingCloset(Account.currentAccountInstance.getCloset());
                 mLoaded = true;
             }
         } catch (IOException e) {
@@ -51,6 +61,11 @@ public class HomeActivity extends AppCompatActivity {
         tester.testMethod();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        backButtonPressed = false;
+    }
 
     /**
      * Button method to go to closet
@@ -69,6 +84,28 @@ public class HomeActivity extends AppCompatActivity {
     public void goToLookbook(View view) {
         Intent intent = new Intent(this, LookbookActivity.class);
         startActivity(intent);
+    }
+
+
+    public void onMorePressed(View view) {
+    }
+
+    @Override
+    /**
+     * Defines closing the app through the home activity
+     */
+    public void onBackPressed() {
+        //leave app if backButton was pressed twice
+        if (!backButtonPressed){
+            backButtonPressed = true;
+            Toast newToast = Toast.makeText(this, "Press the back button again to leave.",
+                    Toast.LENGTH_SHORT);
+            newToast.show();
+        }
+        else{
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
+        }
     }
 
     public void loadPictures(Context context, List<Clothing> clothingList) throws IOException{
@@ -99,7 +136,7 @@ public class HomeActivity extends AppCompatActivity {
                 if (file.contains("hat")) {
                     Clothing newHat = new Clothing();
                     newHat.setBitmap(secondBitmap);
-                    newHat.setCategory(Clothing.HAT);
+                    newHat.setCategory(Clothing.ACCESSORY);
                     clothingList.add(newHat);
                 } else if (file.contains("pants")) {
                     Clothing newPants = new Clothing();

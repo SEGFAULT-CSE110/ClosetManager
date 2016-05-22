@@ -1,61 +1,140 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:gravity="center_vertical|bottom"
-    android:layout_alignParentBottom="true"
-    android:layout_marginBottom="40dp"
-    android:id="@+id/bottom_bar_linear_layout">
+<?xml version="1.0" encoding="utf-8"?>
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:text="@string/closet"
-        android:id="@+id/bottom_bar_closet_button"
-        android:layout_gravity="bottom"
-        android:background="@color/colorButtonCloset"
-        android:textStyle="bold"
-        android:textAlignment="center" />
+<!--created by Yuanmin Zhang on May16,2016-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="80dp"
+    android:orientation="vertical">
 
+    <!--small divider-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/white"
+        android:padding="1dp"/>
 
-    <Button
-        android:layout_weight="1"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:text="@string/outfit_gen"
-        android:id="@+id/bottom_bar_outfit_generator_button"
-        android:layout_gravity="bottom"
-        android:background="@color/colorButtonOutfitGen"
-        android:textStyle="bold"
-        android:textAlignment="center" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_weight="1"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:text="@string/lookbook"
-        android:id="@+id/bottom_bar_lookbook_button"
-        android:layout_gravity="bottom"
-        android:background="@color/colorButtonLookbook"
-        android:textStyle="bold"
-        android:textAlignment="center" />
+        <!--closet icon set-->
+        <LinearLayout
+            android:id="@+id/bottom_bar_closet_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/blue"
+            android:orientation="vertical"
+            android:padding="3dp"
+            android:visibility="visible">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:src="@drawable/closet"/>
 
-    <Button
-        android:layout_weight="1"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:text="@string/more"
-        android:id="@+id/more"
-        android:layout_gravity="bottom"
-        android:background="@color/colorButtonMore"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:singleLine="false" />
+            <TextView
+                android:id="@+id/closetTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="@string/closet"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textIsSelectable="false"
+                android:typeface="serif"/>
+        </LinearLayout>
 
+        <!--outfit generator icon set -->
+        <LinearLayout
+            android:id="@+id/bottom_bar_outfit_generator_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/pink"
+            android:orientation="vertical"
+            android:padding="3dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:src="@drawable/outfitgen"/>
+
+            <TextView
+                android:id="@+id/outfitgenTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/outfit_creator"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:typeface="serif"/>
+
+        </LinearLayout>
+
+        <!--lookbook icon set -->
+        <LinearLayout
+            android:id="@+id/bottom_bar_lookbook_button"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/darkerblue"
+            android:orientation="vertical"
+            android:padding="3dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:src="@drawable/lookbook"/>
+
+            <TextView
+                android:id="@+id/lookbookTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lookbook"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:typeface="serif"/>
+
+        </LinearLayout>
+
+        <!--More icon set-->
+        <LinearLayout
+            android:id="@+id/bottom_bar_more_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/yellow"
+            android:orientation="vertical"
+            android:padding="3dp">
+
+            <ImageView
+                android:id="@+id/more"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/more"/>
+
+            <TextView
+                android:id="@+id/moreTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/more"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:typeface="serif"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>
