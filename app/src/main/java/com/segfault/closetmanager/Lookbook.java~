@@ -145,9 +145,6 @@ public class Lookbook {
 				}
 
 				/* Worn */
-				if(!match){
-					
-				}
 
 				/* Delete occasion field */
 			}
