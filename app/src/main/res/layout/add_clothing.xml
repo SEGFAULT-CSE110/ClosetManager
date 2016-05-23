@@ -1,62 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/AppTheme"
-=======
 <!--modified by Yuanmin Zhang on May 22rd,2016-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
->>>>>>> refs/remotes/origin/UI_changes
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:paddingBottom="16dp"
-<<<<<<< HEAD
-    android:fitsSystemWindows="true"
-    tools:context="com.segfault.closetmanager.AddClothingActivity">
-=======
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp">
-
->>>>>>> refs/remotes/origin/UI_changes
+    tools:context="com.segfault.closetmanager.AddClothingActivity" >
 
     <include
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar"
         android:layout_height="61dp"
-        android:layout_width="fill_parent"
-        />
-
-    <ScrollView
-        android:layout_width="match_parent"
-<<<<<<< HEAD
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/tool_bar" >
+        android:layout_width="fill_parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="1"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="16dp" >
 
-        <TextView
-            android:id="@+id/attributes_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Color"/>
-=======
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:background="@color/pink">
->>>>>>> refs/remotes/origin/UI_changes
+        android:background="@color/pink" >
 
 
         <!--category icon set-->
@@ -286,18 +257,16 @@
 
 
     </LinearLayout>
-    </ScrollView>
-
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Done"
         android:id="@+id/doneOutfitPreferences"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:typeface="serif" />
+
+    </LinearLayout>
 
 
 </LinearLayout>
