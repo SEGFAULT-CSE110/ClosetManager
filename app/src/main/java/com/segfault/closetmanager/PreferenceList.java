@@ -12,6 +12,7 @@ public class PreferenceList {
     private String mCategory;
 
     private String mColor;
+    private String mSecondaryColor;
     private String mSize;
     private List<String> mOccasion;
     private String mStyle;
@@ -25,6 +26,10 @@ public class PreferenceList {
         this.mOccasion = mOccasion;
         this.mStyle = mStyle;
         this.mWeather = mWeather;
+    }
+
+    public PreferenceList(boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather) {
+        this(Boolean.valueOf(mWorn), mCategory, mColor, mSize, mOccasion, mStyle, mWeather);
     }
 
     /* Copy Constructor */
