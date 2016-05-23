@@ -43,13 +43,13 @@ public class Outfit{
         mBottoms.add(clothing);
     }
 
+    public void setHat(Clothing clothing) { mHat = clothing;}
+
     public void setShoes(Clothing clothing){
         mShoes = clothing;
     }
 
-    public void setHat(Clothing clothing){
-        mHat = clothing;
-    }
+    public Clothing getHat() {return mHat;}
 
     public Clothing getTop(){
         return mTops.get(0);
@@ -65,9 +65,5 @@ public class Outfit{
 
     public Clothing getShoes(){
         return mShoes;
-    }
-
-    public Clothing getHat(){
-        return mHat;
     }
 }
