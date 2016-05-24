@@ -6,7 +6,7 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical"
-              android:background="@color/blue" >
+              android:background="?color1" >
 
     <include
         android:id="@+id/tool_bar"
@@ -20,7 +20,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:background="@color/blue"
+        android:background="?color1"
         android:orientation="vertical"
         android:visibility="visible"
         android:onClick="goToCloset">
@@ -52,7 +52,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:background="@color/pink"
+        android:background="?color2"
         android:orientation="vertical"
         android:onClick="goToOutfitGenerator">
 
@@ -83,7 +83,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:background="@color/darkerblue"
+        android:background="?color3"
         android:orientation="vertical"
         android:onClick="goToLookbook">
 
@@ -114,7 +114,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:background="@color/yellow"
+        android:background="?color4"
         android:orientation="vertical"
         android:onClick="onMorePressed">
 

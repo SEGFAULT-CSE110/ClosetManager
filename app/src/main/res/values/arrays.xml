@@ -4,12 +4,14 @@
         <item>App Theme</item>
         <item>Eco</item>
         <item>Dynamic</item>
+        <item>Monochrome</item>
     </string-array>
 
     <string-array name="pref_themes_list_values">
         <item>App Theme</item>
         <item>Eco</item>
         <item>Dynamic</item>
+        <item>Monochrome</item>
     </string-array>
 
     <string-array name="pref_categories_list_titles">

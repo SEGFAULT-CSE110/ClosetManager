@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v4.content.IntentCompat;
 
+import java.util.Arrays;
+
 /**
  * Created by Christina on 5/16/2016.
  */
 public class PreferencesFragment extends PreferenceFragment
 {
     protected SharedPreferences.OnSharedPreferenceChangeListener mListener;
+    private String[] themesList = {"App Theme", "Eco", "Dynamic", "Monochrome" };
 
     @Override
     public void onCreate(final Bundle savedInstanceState)
@@ -26,8 +29,8 @@ public class PreferencesFragment extends PreferenceFragment
         mListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                // TODO: find better way to check
-                if (!key.equals("Eco") || !key.equals("App Theme") || !key.equals("Dynamic")) {
+                if (!Arrays.asList(themesList).contains(key))
+                {
                     getActivity().recreate();
                     return;
                 }
