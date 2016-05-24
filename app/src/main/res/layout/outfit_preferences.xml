@@ -19,7 +19,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:background="@color/pink">
+        android:background="?color2">
 
         <!--color icon set-->
         <LinearLayout
@@ -27,7 +27,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@color/blue"
+            android:background="?color1"
             android:orientation="vertical"
             android:padding="3dp"
             android:visibility="visible">
@@ -63,7 +63,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:background="@color/pink">
+        android:background="?color2">
 
         <!--weather icon set-->
         <LinearLayout
@@ -71,7 +71,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@color/blue"
+            android:background="?color1"
             android:orientation="vertical"
             android:padding="3dp"
             android:visibility="visible">
@@ -108,7 +108,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:background="@color/pink">
+        android:background="?color2">
 
         <!--occasion icon set-->
         <LinearLayout
@@ -116,7 +116,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@color/blue"
+            android:background="?color1"
             android:orientation="vertical"
             android:padding="3dp"
             android:visibility="visible">

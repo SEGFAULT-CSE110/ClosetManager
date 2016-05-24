@@ -14,6 +14,7 @@ public class AddClothingActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_clothing);
 
