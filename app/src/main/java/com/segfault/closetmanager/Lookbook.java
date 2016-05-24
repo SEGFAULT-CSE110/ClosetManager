@@ -54,7 +54,7 @@ public class Lookbook {
         shirt = pickOne(shirtPref);
 
 		/* If no shirt then no outfit will be produced */
-        if(!shirt){
+        if(shirt == null){
             return null;
         }
 
@@ -66,7 +66,7 @@ public class Lookbook {
         pants = pickOne(pantsPref);
 
 		/* If no pants then no outfit will be produced */
-        if(!pants){
+        if( pants == null){
             return null;
         }
 
@@ -76,7 +76,7 @@ public class Lookbook {
         shoes = pickOne(shoesPref);
 
 		/* If no shoes then no outfit will be produced */
-        if(!shoes){
+        if( shoes == null){
             return null;
         }
 
@@ -96,6 +96,46 @@ public class Lookbook {
         result.setHat(hat);
 
         return result;
+    }
+    private List<String> colorMatches (String color){
+        switch (color){
+            case "red":
+                //blue, black
+                break;
+            case "green":
+                // blue, black, white, grey
+                break;
+            case "blue":
+                // yellow, black, white, grey, purple, brown, pink, red, green
+                break;
+            case "yellow":
+                //white, grey
+                break;
+            case "black":
+                //everything
+                break;
+            case "white":
+                //green, blue, yellow, black, grey, brown, pink
+                break;
+            case "grey":
+                //green, blue, black, white
+                break;
+            case "purple":
+                //blue, black
+                break;
+            case "orange":
+                //black,
+                break;
+            case "brown":
+                //blue, black, white
+                break;
+            case "pink":
+                //blue, black, white
+                break;
+            default:
+                break;
+        }
+
     }
 
     /*
@@ -128,32 +168,30 @@ public class Lookbook {
         PreferenceList second = new PreferenceList( prefList, attriWorn, true);
 
         /* Find second best */
-        if(match == NULL){
+        if(match == null){
             match = mBelongingCloset.filter(second);
         }
 
 		/* Next filter */
-        if(match == NULL){
+        if(match == null){
 			/* If color is set, then consider color first */
-            if(color != NULL && !color.isEmpty()){
 
-				/* Delete lowest priority weather field */
-                if(weather != NULL && !weather.isEmpty()){
-                    PreferenceList third = new PreferenceList(second,
-                            attriWeather, null);
+            PreferenceList third = new PreferenceList(second,
+                    attriWeather, null);
+            /* Delete lowest priority weather field */
+            if(weather != null && !weather.isEmpty()){
                     match = mBelongingCloset.filter(third);
-                }
-
-				/* Worn */
-                if(match == NULL){
-
-                }
-
-				/* Delete occasion field */
             }
 
+            /* Worn */
+            if(match == null){
+                    PreferenceList fourth = new PreferenceList(third, attriWorn, true);
+                }
+            /* Delete occasion field */
+
+
 			/* If color is not set, occasion is primary and weather follows */
-            else{
+            if(color != null && !color.isEmpty()){
 
             }
         }
