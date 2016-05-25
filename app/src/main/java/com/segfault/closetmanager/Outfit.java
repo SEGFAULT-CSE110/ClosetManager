@@ -17,6 +17,7 @@ public class Outfit{
     private List<Clothing> mAccessories = new ArrayList<>();
     private Clothing mSocks;
     private List<Clothing> mUnderwear = new ArrayList<>();
+    private Clothing mHat;
 
     private String mName;
     private String mOccasion;
@@ -42,9 +43,13 @@ public class Outfit{
         mBottoms.add(clothing);
     }
 
+    public void setHat(Clothing clothing) { mHat = clothing;}
+
     public void setShoes(Clothing clothing){
         mShoes = clothing;
     }
+
+    public Clothing getHat() {return mHat;}
 
     public Clothing getTop(){
         return mTops.get(0);

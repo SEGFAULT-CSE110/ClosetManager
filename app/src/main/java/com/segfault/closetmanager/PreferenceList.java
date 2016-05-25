@@ -18,7 +18,7 @@ public class PreferenceList {
     private String mStyle;
     private String mWeather;
 
-    public PreferenceList(Boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather) {
+    public PreferenceList(Boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather, String mSecondaryColor) {
         this.mWorn = mWorn;
         this.mCategory = mCategory;
         this.mColor = mColor;
@@ -26,10 +26,11 @@ public class PreferenceList {
         this.mOccasion = mOccasion;
         this.mStyle = mStyle;
         this.mWeather = mWeather;
+        this.mSecondaryColor = mSecondaryColor;
     }
 
-    public PreferenceList(boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather) {
-        this(Boolean.valueOf(mWorn), mCategory, mColor, mSize, mOccasion, mStyle, mWeather);
+    public PreferenceList(boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather, String mSecondaryColor) {
+        this(Boolean.valueOf(mWorn), mCategory, mColor, mSize, mOccasion, mStyle, mWeather, mSecondaryColor);
     }
 
     /* Copy Constructor */
@@ -41,6 +42,7 @@ public class PreferenceList {
         pref.mOccasion = mOccasion;
         pref.mStyle = mStyle;
         pref.mWeather = mWeather;
+        pref.mSecondaryColor = mSecondaryColor;
     }
 
     /* Constructor that modifies one preference */
@@ -80,6 +82,7 @@ public class PreferenceList {
         this.mOccasion = clothing.getOccasion();
         this.mStyle = clothing.getStyle();
         this.mWeather = clothing.getWeather();
+        this.mSecondaryColor = clothing.getSecondaryColor();
     }
 
     public Boolean isWorn() {
@@ -89,6 +92,8 @@ public class PreferenceList {
     public String getCategory() {
         return mCategory;
     }
+
+    public String getSecondaryColor(){return mSecondaryColor;}
 
     public String getColor() {
         return mColor;

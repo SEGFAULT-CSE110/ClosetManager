@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_weight="1"
-                android:background="@color/pink"
+                android:background="?color2"
                 android:text="Create Outfit"
                 android:textColor="#000000"
                 android:textStyle="bold"
@@ -49,7 +49,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/blue"
+                android:background="?color1"
                 android:text="I'm Feeling Lucky"
                 android:textColor="#000000"
                 android:textStyle="bold"
@@ -61,52 +61,7 @@
             layout="@layout/outfit"
             android:id="@+id/lookbook_bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="@color/background_material_light_closet"
-            android:contentDescription="Top"
-            android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/cap"/>
-
-        <ImageButton
-            android:id="@+id/topButton"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="#ffffff"
-            android:contentDescription="Shirt/Top"
-            android:cropToPadding="false"
-            android:scaleType="fitCenter"
-
-            android:src="@drawable/nylon_jacket"/>
-
-        <ImageButton
-            android:id="@+id/bottomButton"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="#ffffff"
-            android:contentDescription="Pants/Bottom"
-            android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/pants"
-            android:visibility="visible"/>
-
-        <ImageButton
-            android:id="@+id/shoesButton"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="#ffffff"
-            android:contentDescription="Shoes"
-            android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/sneaker"/>
+            android:layout_height="fill_parent" />
 
     </LinearLayout>
 

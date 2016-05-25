@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ClosetManager.iml" filepath="$PROJECT_DIR$/ClosetManager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ClosetManagerRenu.iml" filepath="$PROJECT_DIR$/ClosetManagerRenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ClosetManager_Preferences.iml" filepath="$PROJECT_DIR$/ClosetManager_Preferences.iml" />
       <module fileurl="file://$PROJECT_DIR$/ClosetManager_app.iml" filepath="$PROJECT_DIR$/ClosetManager_app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
