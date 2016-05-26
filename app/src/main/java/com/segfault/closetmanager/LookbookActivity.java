@@ -1,9 +1,7 @@
 package com.segfault.closetmanager;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,14 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.StackView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 /**
@@ -68,7 +62,7 @@ public class LookbookActivity extends BaseActivity {
             //replace the linear layout with the no_elements_layout
             mLookbookParentLayout.removeViewAt(mLookbookGridViewIndex);
             View noElementsLayout = getLayoutInflater().inflate(
-                    R.layout.no_elements_layout, mLookbookParentLayout,   false);
+                    R.layout.no_elements_layout, mLookbookParentLayout, false);
             mLookbookParentLayout.addView(noElementsLayout, mLookbookGridViewIndex);
 
             //change the text of the no_elements_layout
@@ -84,81 +78,163 @@ public class LookbookActivity extends BaseActivity {
 
             //Create the adapter and add stuff to the closet view
             List<Outfit> outfitList = mCurrentLookbook.getOutfitList();
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext(),
-                    LinearLayoutManager.HORIZONTAL, false);
-            mLookbookRecyclerView.setLayoutManager(layoutManager);
+            OutfitListingAdapter recyclerListAdapter = new OutfitListingAdapter(outfitList);
+            mLookbookRecyclerView.setAdapter(recyclerListAdapter);
 
-            //Go through the lookbook and add all the outfits
-            for (int index = 0; index < outfitList.size(); index++){
-                //Get the layout inflater and the outfit view
-                LayoutInflater inflater = LayoutInflater.from(this.getBaseContext());
-                View outfitView = inflater.inflate(R.layout.outfit_fragment, mLookbookRecyclerView);
 
-                //Get the current outfit
-                Outfit currentOutfit = outfitList.get(index);
-
-                //Add image bitmap for hat
-                ImageView hatView = (ImageView) outfitView.findViewById(R.id.outfit_fragment_accessories_view);
-                if (currentOutfit.getHat() != null) {
-                    hatView.setImageBitmap(currentOutfit.getHat().getBitmap());
-                } else{
-                    hatView.setImageResource(android.R.color.transparent);
-                }
-
-                //Add image bitmaps for shirts
-                StackView shirtView = (StackView) outfitView.findViewById(R.id.shirt_stack_view);
-                shirtView.setAdapter(new OutfitStackViewAdapter(getBaseContext(), currentOutfit.getTops()));
-
-                //Add image bitmaps for pants
-                StackView pantsView = (StackView) outfitView.findViewById(R.id.pants_stack_view);
-                pantsView.setAdapter(new OutfitStackViewAdapter(getBaseContext(), currentOutfit.getBottoms()));
-
-                //Add image bitmaps for shoes
-                ImageView shoesView = (ImageView) outfitView.findViewById(R.id.outfit_fragment_shoes_view);
-                if (currentOutfit.getShoes() != null) {
-                    shoesView.setImageBitmap(currentOutfit.getHat().getBitmap());
-                } else{
-                    shoesView.setImageResource(android.R.color.transparent);
-                }
-
-                //Finally, add the outfitView to the layoutmanager
-                layoutManager.addView(outfitView);
-            }
         }//end else
     }
 
 
     /**
-     * Private class usedd to handle the stackView in outfits
+     * Inner class for the recycler view
      */
-    private class OutfitStackViewAdapter extends ArrayAdapter<Clothing>{
+    private class OutfitListingAdapter extends RecyclerView.Adapter<OutfitListingAdapter.ViewHolder>{
 
-        public OutfitStackViewAdapter(Context context, List<Clothing> clothes) {
-            super(context, R.layout.outfit_fragment_stack_object, clothes);
+        //Member variables
+        private List<Outfit> mOutfitList;
+
+        /**
+         * Inner inner class to represent the view holder
+         */
+        public class ViewHolder extends RecyclerView.ViewHolder{
+
+            //Members
+            private ImageView mHatView; //TODO change this to a horizontal layout
+            private StackView mShirtView;
+            private StackView mPantsView;
+            private ImageView mShoesView;
+
+            /**
+             * Constructor
+             * @param itemView - the item to view
+             */
+            public ViewHolder(View itemView) {
+                super(itemView);
+
+                //Get all of the layouts
+                mHatView = (ImageView) itemView.findViewById(R.id.outfit_fragment_accessories_view);
+                mShirtView = (StackView) itemView.findViewById(R.id.shirt_stack_view);
+                mPantsView = (StackView) itemView.findViewById(R.id.pants_stack_view);
+                mShoesView = (ImageView) itemView.findViewById(R.id.outfit_fragment_shoes_view);
+            }
+
+            public ImageView getHatView() {
+                return mHatView;
+            }
+
+            public StackView getShirtView() {
+                return mShirtView;
+            }
+
+            public StackView getPantsView() {
+                return mPantsView;
+            }
+
+            public ImageView getShoesView() {
+                return mShoesView;
+            }
         }
+
+        /**
+         * Private class usedd to handle the stackView in outfits
+         */
+        private class OutfitStackViewAdapter extends ArrayAdapter<Clothing>{
+
+            public OutfitStackViewAdapter(Context context, List<Clothing> clothes) {
+                super(context, R.layout.outfit_fragment_stack_object, clothes);
+            }
+
+
+            /**
+             * Gets the view for the outpit
+             * @param position - position in list
+             * @param view - view to reset/add to
+             * @param parent - parent of the view
+             * @return - view that was edited
+             */
+            public View getView(int position, View view, ViewGroup parent) {
+                //Get view to inflate
+                if (view == null) {
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    view = inflater.inflate(R.layout.outfit_fragment_stack_object, parent, false);
+                } else {
+                    //TODO: implement recycling
+                }
+
+                ImageView imageView = (ImageView) view.findViewById(R.id.outfit_fragment_stack_object_image);
+                imageView.setImageBitmap(getItem(position).getBitmap());
+
+                return view;
+            }
+        }//end class OutfitStackViewAdapter
 
 
         /**
-         * Gets the view for the outpit
-         * @param position - position in list
-         * @param view - view to reset/add to
-         * @param parent - parent of the view
-         * @return - view that was edited
+         * Constructor
+         * @param outfitList - outfit list to load into
          */
-        public View getView(int position, View view, ViewGroup parent) {
-            //Get view to inflate
-            if (view == null) {
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                view = inflater.inflate(R.layout.outfit_fragment_stack_object, parent, false);
-            } else {
-                //TODO: implement recycling
+        public OutfitListingAdapter(List<Outfit> outfitList) {
+            mOutfitList = outfitList;
+        }
+
+        @Override
+        /**
+         * Inflates the layout and returns the viewHolder
+         */
+        public OutfitListingAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+            Context context = parent.getContext();
+            LayoutInflater inflater = LayoutInflater.from(context);
+
+            //Inflate our custom layout
+            View outfitView = inflater.inflate(R.layout.outfit_fragment, parent, false);
+
+            //Return a new holder instance
+            return new ViewHolder(outfitView);
+        }
+
+        @Override
+        /**
+         * Populate the data through the holder
+         */
+        public void onBindViewHolder(OutfitListingAdapter.ViewHolder holder, int position) {
+            //Get the data model based on position
+            Outfit currentOutfit = mOutfitList.get(position);
+
+            //Set item views based on the data model
+            //Add image bitmap for hat
+            ImageView hatView = holder.getHatView();
+            if (currentOutfit.getHat() != null) {
+                hatView.setImageBitmap(currentOutfit.getHat().getBitmap());
+            } else{
+                hatView.setImageResource(android.R.color.transparent);
             }
 
-            ImageView imageView = (ImageView) view.findViewById(R.id.outfit_fragment_stack_object_image);
-            imageView.setImageBitmap(getItem(position).getBitmap());
+            //Add image bitmaps for shirts
+            StackView shirtView = holder.getShirtView();
+            shirtView.setAdapter(new OutfitStackViewAdapter(getBaseContext(), currentOutfit.getTops()));
 
-            return view;
+            //Add image bitmaps for pants
+            StackView pantsView = holder.getPantsView();
+            pantsView.setAdapter(new OutfitStackViewAdapter(getBaseContext(), currentOutfit.getBottoms()));
+
+            //Add image bitmaps for shoes
+            ImageView shoesView = holder.getShoesView();
+            if (currentOutfit.getShoes() != null) {
+                shoesView.setImageBitmap(currentOutfit.getShoes().getBitmap());
+            } else{
+                shoesView.setImageResource(android.R.color.transparent);
+            }
+
         }
-    }//end class OutfitStackViewAdapter
+
+        @Override
+        public int getItemCount() {
+            return mOutfitList.size();
+        }
+    }
+
+
+
 
 }//end class LookbookActivity

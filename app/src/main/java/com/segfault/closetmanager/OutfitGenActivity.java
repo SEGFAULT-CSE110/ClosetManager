@@ -110,6 +110,7 @@ public class OutfitGenActivity extends BaseActivity {
             mShoesButton.setImageBitmap(mCurrentOutfit.getShoes().getBitmap());
         }
 
+        mOutfitGeneratedAlready = true;
         Toast newToast = Toast.makeText(this, "Generated a random outfit", Toast.LENGTH_SHORT);
         newToast.show();
     }
