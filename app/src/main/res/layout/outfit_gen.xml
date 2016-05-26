@@ -2,18 +2,20 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/AppTheme"
+    style="@style/AppTheme.AppBarOverlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_material_light_closet"
     android:orientation="vertical"
-    tools:context="com.segfault.closetmanager.OutfitGenActivity">
+    tools:context="com.segfault.closetmanager.OutfitGenActivity"
+    android:id="@+id/outfit_gen_parent_layout"
+    android:fitsSystemWindows="true" >
 
     <include
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar"
-        android:layout_height="61dp"
-        android:layout_width="fill_parent" />
+        android:layout_width="match_parent"
+        android:layout_height="61dp"/>
 
     <LinearLayout
         android:id="@+id/imageButtons"
@@ -37,11 +39,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_weight="1"
-                android:background="?color2"
+                android:background="@color/blue"
+                android:onClick="outfitDone"
                 android:text="Create Outfit"
                 android:textColor="#000000"
-                android:textStyle="bold"
-                android:onClick="outfitDone"/>
+                android:textStyle="bold"/>
 
             <Button
                 android:id="@+id/lastButton"
@@ -49,19 +51,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?color1"
+                android:background="@color/pink"
+                android:onClick="generateOutfit"
                 android:text="I'm Feeling Lucky"
                 android:textColor="#000000"
-                android:textStyle="bold"
-                android:onClick="generateOutfit"/>
+                android:textStyle="bold"/>
 
         </LinearLayout>
 
         <include
-            layout="@layout/outfit"
             android:id="@+id/lookbook_bottom_bar"
+            layout="@layout/outfit"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"/>
 
     </LinearLayout>
 

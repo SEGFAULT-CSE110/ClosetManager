@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -14,7 +13,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.5"
         android:background="@color/background_material_light_closet"
-        android:contentDescription="Top"
+        android:contentDescription="@string/top_image_description"
         android:cropToPadding="false"
         android:scaleType="fitCenter"
         android:src="@drawable/cap"/>
@@ -22,8 +21,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="0.9">
+        android:layout_weight="0.9"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/topButton"
@@ -32,7 +31,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.9"
             android:background="#ffffff"
-            android:contentDescription="Shirt/Top"
+            android:contentDescription="@string/shirt_top_image_description"
             android:cropToPadding="false"
             android:scaleType="fitCenter"
             android:src="@drawable/nylon_jacket"/>
@@ -42,8 +41,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="0.9">
+        android:layout_weight="0.9"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/bottomButton"
@@ -52,7 +51,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:background="#ffffff"
-            android:contentDescription="Pants/Bottom"
+            android:contentDescription="@string/pants_bottom_image_description"
             android:cropToPadding="false"
             android:scaleType="fitCenter"
             android:src="@drawable/bag_pants"
@@ -68,7 +67,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.5"
         android:background="#ffffff"
-        android:contentDescription="Shoes"
+        android:contentDescription="@string/shoes_image_description"
         android:cropToPadding="false"
         android:scaleType="fitCenter"
         android:src="@drawable/sneaker"/>

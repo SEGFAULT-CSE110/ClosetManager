@@ -23,4 +23,5 @@ public class LoginActivity extends Activity {
         this.finish();
         startActivity(intent);
     }
+
 }
