@@ -1,48 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<!-- This layout is added to the lookbook view adapter. -->
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:padding="32dp"
+    android:background="@android:color/transparent"
     android:visibility="visible">
 
-    <ImageButton
-        android:id="@+id/accessoriesButton"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.5"
-        android:background="@color/background_material_light_closet"
-        android:contentDescription="@string/top_image_description"
-        android:cropToPadding="false"
-        android:scaleType="fitCenter"
-        android:src="@drawable/cap"/>
+        android:layout_height="match_parent"
+        android:background="@color/blue"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <StackView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/shirt_stack_view"
-        android:layout_weight="0.9"
-        android:src="@drawable/nylon_jacket"/>
+        <ImageView
+            android:id="@+id/outfit_fragment_accessories_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.5"
+            android:background="@color/background_material_light_closet"
+            android:contentDescription="@string/top_image_description"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/cap"/>
 
-    <StackView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/pants_stack_view"
-        android:layout_weight="0.9">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.9">
 
-    </StackView>
+            <StackView
+                android:id="@+id/shirt_stack_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/nylon_jacket"/>
 
-    <ImageButton
-        android:id="@+id/shoesButton"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.5"
-        android:background="#ffffff"
-        android:contentDescription="@string/shoes_image_description"
-        android:cropToPadding="false"
-        android:scaleType="fitCenter"
-        android:src="@drawable/sneaker"/>
+        </FrameLayout>
 
-</LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.9">
+
+            <StackView
+                android:id="@+id/pants_stack_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/nylon_jacket"/>
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/outfit_fragment_shoes_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.5"
+            android:background="#ffffff"
+            android:contentDescription="@string/shoes_image_description"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/sneaker"/>
+
+    </LinearLayout>
+</FrameLayout>

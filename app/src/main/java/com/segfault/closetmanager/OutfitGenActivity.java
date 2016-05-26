@@ -25,6 +25,11 @@ public class OutfitGenActivity extends BaseActivity {
     private ImageButton mBottomButton;
     private ImageButton mShoesButton;
 
+    //Outfit and tracking variable to prevent duplicates
+    private boolean mAddedOutfitAlready;
+    private boolean mOutfitGeneratedAlready;
+    private Outfit mCurrentOutfit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setPrefTheme();
@@ -54,23 +59,59 @@ public class OutfitGenActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        mAddedOutfitAlready = false;
+        mOutfitGeneratedAlready = false;
     }
 
+
+    /**
+     * Saves the outfit when the button is pressed
+     *
+     * @param view - deprecated
+     */
     public void outfitDone(View view) {
-        Toast newToast = Toast.makeText(this, "Saving outfit to lookbook (not implemented)", Toast.LENGTH_SHORT);
-        newToast.show();
+        //Add the outfit only if it hasnt been added in already
+        if (!mAddedOutfitAlready && mOutfitGeneratedAlready) {
+            mLookbook.addOutfit(mCurrentOutfit);
+            Toast newToast = Toast.makeText(this, "Saving outfit to Lookbook.", Toast.LENGTH_SHORT);
+            newToast.show();
+            mAddedOutfitAlready = true;
+        } else if (mOutfitGeneratedAlready) {
+            Toast newToast = Toast.makeText(this, "You have already saved this outfit.", Toast.LENGTH_SHORT);
+            newToast.show();
+        } else {
+            //TODO: when user adds in a piece of clothing, set outfitGeneratedAlready to true.
+            Toast newToast = Toast.makeText(this, "You have not yet created an outfit.", Toast.LENGTH_SHORT);
+            newToast.show();
+        }
     }
 
+
+    /**
+     * Generates a random outfit
+     *
+     * @param view - deprecated
+     */
     public void generateOutfit(View view) {
         //create a random outfit
-        Outfit randomOutfit = mLookbook.generateRandomOutfit();
-        //TODO: check if we get some clothing
-        mAccessoriesButton.setImageBitmap(randomOutfit.getAccessory().getBitmap());
-        mTopButton.setImageBitmap(randomOutfit.getTop().getBitmap());
-        mBottomButton.setImageBitmap(randomOutfit.getBottom().getBitmap());
-        mShoesButton.setImageBitmap(randomOutfit.getShoes().getBitmap());
+        mCurrentOutfit = mLookbook.generateRandomOutfit();
+        //TODO: generate outfit with a layout manager side by side
 
-        Toast newToast = Toast.makeText(this, "Generated a random outfit (not implemented)", Toast.LENGTH_SHORT);
+        if (mCurrentOutfit.getFirstAccessory() != null) {
+            mAccessoriesButton.setImageBitmap(mCurrentOutfit.getFirstAccessory().getBitmap());
+        }
+        if (mCurrentOutfit.getFirstTop() != null) {
+            mTopButton.setImageBitmap(mCurrentOutfit.getFirstTop().getBitmap());
+        }
+        if (mCurrentOutfit.getFirstBottom() != null) {
+            mBottomButton.setImageBitmap(mCurrentOutfit.getFirstBottom().getBitmap());
+        }
+        if (mCurrentOutfit.getShoes() != null) {
+            mShoesButton.setImageBitmap(mCurrentOutfit.getShoes().getBitmap());
+        }
+
+        mOutfitGeneratedAlready = true;
+        Toast newToast = Toast.makeText(this, "Generated a random outfit", Toast.LENGTH_SHORT);
         newToast.show();
     }
-}
+}//end class OutfitGenActivity
