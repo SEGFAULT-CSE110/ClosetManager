@@ -19,7 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
     <Button
-        android:background="@drawable/camera_icon"
+        android:background="@drawable/icloset_icon"
         android:layout_width="75dip"
         android:layout_height="75dip"
         android:onClick="captureImage"
