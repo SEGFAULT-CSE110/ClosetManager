@@ -90,7 +90,11 @@ public class LookbookActivity extends BaseActivity {
 
             //Go through the lookbook and add all the outfits
             for (int index = 0; index < outfitList.size(); index++){
-                View outfitView = R.layout.outfit_fragment;
+                //Get the layout inflater and the outfit view
+                LayoutInflater inflater = LayoutInflater.from(this.getBaseContext());
+                View outfitView = inflater.inflate(R.layout.outfit_fragment, mLookbookRecyclerView);
+
+                //Get the current outfit
                 Outfit currentOutfit = outfitList.get(index);
 
                 //Add image bitmap for hat

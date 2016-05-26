@@ -27,6 +27,7 @@ public class OutfitGenActivity extends BaseActivity {
 
     //Outfit and tracking variable to prevent duplicates
     private boolean mAddedOutfitAlready;
+    private boolean mOutfitGeneratedAlready;
     private Outfit mCurrentOutfit;
 
     @Override
@@ -59,6 +60,7 @@ public class OutfitGenActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         mAddedOutfitAlready = false;
+        mOutfitGeneratedAlready = false;
     }
 
 
@@ -68,13 +70,17 @@ public class OutfitGenActivity extends BaseActivity {
      */
     public void outfitDone(View view) {
         //Add the outfit only if it hasnt been added in already
-        if (!mAddedOutfitAlready) {
+        if (!mAddedOutfitAlready && mOutfitGeneratedAlready) {
             mLookbook.addOutfit(mCurrentOutfit);
             Toast newToast = Toast.makeText(this, "Saving outfit to Lookbook.", Toast.LENGTH_SHORT);
             newToast.show();
             mAddedOutfitAlready = true;
-        } else{
+        } else if (mOutfitGeneratedAlready){
             Toast newToast = Toast.makeText(this, "You have already saved this outfit.", Toast.LENGTH_SHORT);
+            newToast.show();
+        } else{
+            //TODO: when user adds in a piece of clothing, set outfitGeneratedAlready to true.
+            Toast newToast = Toast.makeText(this, "You have not yet created an outfit.", Toast.LENGTH_SHORT);
             newToast.show();
         }
     }
