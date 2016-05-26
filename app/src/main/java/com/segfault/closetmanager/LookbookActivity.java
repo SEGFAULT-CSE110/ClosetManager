@@ -78,9 +78,14 @@ public class LookbookActivity extends BaseActivity {
 
             //Create the adapter and add stuff to the closet view
             List<Outfit> outfitList = mCurrentLookbook.getOutfitList();
+            //Set and Create Adapter
             OutfitListingAdapter recyclerListAdapter = new OutfitListingAdapter(outfitList);
             mLookbookRecyclerView.setAdapter(recyclerListAdapter);
-
+            //Set and create layout manager
+            LinearLayoutManager recyclerListManager = new LinearLayoutManager(this);
+            recyclerListManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            recyclerListManager.scrollToPosition(0);
+            mLookbookRecyclerView.setLayoutManager(recyclerListManager);
 
         }//end else
     }
@@ -88,6 +93,9 @@ public class LookbookActivity extends BaseActivity {
 
     /**
      * Inner class for the recycler view
+     * Are you confused? Check out the tutorial at
+     *      https://guides.codepath.com/android/using-the-recyclerview#components-of-a-recyclerview
+     *      because srsly this is pretty cool
      */
     private class OutfitListingAdapter extends RecyclerView.Adapter<OutfitListingAdapter.ViewHolder>{
 
