@@ -39,7 +39,8 @@
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="1">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -92,10 +93,11 @@
                 android:onClick="runLogin"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="268dp"
                 android:layout_height="wrap_content"
-                android:text="@string/login_broken_text"
-                android:padding="10dp"/>
+                android:text="Don&apos;t have an account? Sign it up!"
+                android:padding="10dp"
+                android:layout_weight="1.88" />
 
         </LinearLayout>
 
