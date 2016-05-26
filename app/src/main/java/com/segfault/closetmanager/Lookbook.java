@@ -97,6 +97,7 @@ public class Lookbook {
 
         return result;
     }
+
     private List<String> colorMatches (String color){
         switch (color){
             case "red":
@@ -135,6 +136,9 @@ public class Lookbook {
             default:
                 break;
         }
+
+        //TODO: Baowen plz replace this
+        return new ArrayList<String>();
 
     }
 

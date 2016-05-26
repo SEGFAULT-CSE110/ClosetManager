@@ -2,17 +2,18 @@
 
 <!--created by Yuanmin Zhang on May16,2016-->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical"
-              android:background="?color1" >
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?color1"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar"
-        android:layout_height="61dp"
-        android:layout_width="fill_parent" />
+        android:layout_width="fill_parent"
+        android:layout_height="61dp"/>
 
     <!--closet icon set-->
     <LinearLayout
@@ -21,18 +22,19 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:background="?color1"
+        android:onClick="goToCloset"
         android:orientation="vertical"
-        android:visibility="visible"
-        android:onClick="goToCloset">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/bottom_bar_closet_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:padding="3dp"
             android:scaleType="fitCenter"
             android:src="@drawable/closet"
-            android:padding="3dp"/>
+            android:contentDescription="@string/closet_button_picture_description"/>
 
         <TextView
             android:id="@+id/closetTitle"
@@ -53,17 +55,18 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:background="?color2"
-        android:orientation="vertical"
-        android:onClick="goToOutfitGenerator">
+        android:onClick="goToOutfitGenerator"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/bottom_bar_outfit_generator_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:padding="3dp"
             android:scaleType="fitCenter"
             android:src="@drawable/outfitgen"
-            android:padding="3dp"/>
+            android:contentDescription="@string/stylist_button_picture_description"/>
 
         <TextView
             android:id="@+id/outfitgenTitle"
@@ -84,17 +87,18 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:background="?color3"
-        android:orientation="vertical"
-        android:onClick="goToLookbook">
+        android:onClick="goToLookbook"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/bottom_bar_lookbook_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:padding="3dp"
             android:scaleType="fitCenter"
             android:src="@drawable/lookbook"
-            android:padding="3dp"/>
+            android:contentDescription="@string/lookbook_button_picture_description"/>
 
         <TextView
             android:id="@+id/lookbookTitle"
@@ -115,17 +119,18 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:background="?color4"
-        android:orientation="vertical"
-        android:onClick="onMorePressed">
+        android:onClick="onMorePressed"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/more"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:padding="3dp"
             android:scaleType="fitCenter"
             android:src="@drawable/more"
-            android:padding="3dp"/>
+            android:contentDescription="@string/more_button_picture_description"/>
 
         <TextView
             android:id="@+id/moreTitle"
