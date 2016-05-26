@@ -34,7 +34,8 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/color_icon"/>
+                    android:src="@drawable/color_icon"
+                    android:padding="@dimen/abc_action_bar_overflow_padding_start_material" />
 
                 <TextView
                     android:id="@+id/ColorTitle"
@@ -79,7 +80,8 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/weather_icon"/>
+                    android:src="@drawable/weather_icon"
+                    android:padding="@dimen/abc_action_bar_overflow_padding_start_material" />
 
                 <TextView
                     android:id="@+id/weatherTitle"
@@ -124,7 +126,8 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/formal"/>
+                    android:src="@drawable/formal"
+                    android:padding="@dimen/abc_action_bar_overflow_padding_start_material" />
 
                 <TextView
                     android:id="@+id/occasionTitle"
