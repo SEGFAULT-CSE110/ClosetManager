@@ -43,7 +43,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/clothing_category"/>
+                    android:src="@drawable/category"/>
 
                 <TextView
                     android:id="@+id/CategoryTitle"
