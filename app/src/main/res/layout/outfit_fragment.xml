@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- This layout is added to the lookbook view adapter. -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -6,8 +7,8 @@
     android:orientation="vertical"
     android:visibility="visible">
 
-    <ImageButton
-        android:id="@+id/accessoriesButton"
+    <ImageView
+        android:id="@+id/outfit_fragment_accessories_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
@@ -23,7 +24,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/shirt_stack_view"
         android:layout_weight="0.9"
-        android:src="@drawable/nylon_jacket"/>
+        android:src="@drawable/nylon_jacket">
+
+    </StackView>
 
     <StackView
         android:layout_width="match_parent"
@@ -33,8 +36,8 @@
 
     </StackView>
 
-    <ImageButton
-        android:id="@+id/shoesButton"
+    <ImageView
+        android:id="@+id/outfit_fragment_shoes_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
