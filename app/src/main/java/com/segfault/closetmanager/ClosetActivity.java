@@ -167,9 +167,46 @@ public class ClosetActivity extends BaseActivity {
 
             //Get the linear layout
             final LinearLayout linearLayout = (LinearLayout) categoryView.findViewById(R.id.closet_category_clothing_slider_layout);
-
             //add stuff to the linearLayout
             final List<Clothing> currentList = getItem(position);
+
+            //Set the picture and the text for the closet Category
+            ImageView categoryViewImage = (ImageView) categoryView.findViewById(R.id.closet_category_picture);
+            TextView categoryTextView = (TextView) categoryView.findViewById(R.id.closet_category_text);
+            if (currentList.get(0).getCategory().equals(Clothing.HAT)){
+                categoryViewImage.setImageResource(R.drawable.cap);
+                categoryTextView.setText("Hat");
+            }
+            else if (currentList.get(0).getCategory().equals(Clothing.ACCESSORY)){
+                //set image to accessory
+                categoryViewImage.setImageResource(R.drawable.accessory);
+                categoryTextView.setText("Accessory");
+            }
+            else if (currentList.get(0).getCategory().equals(Clothing.BODY)){
+                //set image to body
+                categoryViewImage.setImageResource(R.drawable.dress);
+               categoryTextView.setText("Body");
+            }
+            else if (currentList.get(0).getCategory().equals(Clothing.BOTTOM)){
+                //set image to bottom
+                categoryViewImage.setImageResource(R.drawable.bag_pants);
+                categoryTextView.setText("Bottom");
+            }
+            else if (currentList.get(0).getCategory().equals(Clothing.JACKET)){
+                //set image to jacket
+                categoryViewImage.setImageResource(R.drawable.nylon_jacket);
+                categoryTextView.setText("Jacket");
+            }
+            else if (currentList.get(0).getCategory().equals(Clothing.SHOE)){
+                //set image to shoes
+                categoryViewImage.setImageResource(R.drawable.sneaker);
+                categoryTextView.setText("Shoes");
+            }
+            else if(currentList.get(0).getCategory().equals(Clothing.TOP)){
+                //set image to top
+                categoryViewImage.setImageResource(R.drawable.top);
+                categoryTextView.setText("Top");
+            }
 
             for (int index = 0; index < currentList.size(); index++){
                 //get clothing bitmap and the appropriate view
