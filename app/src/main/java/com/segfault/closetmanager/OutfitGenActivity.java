@@ -66,6 +66,7 @@ public class OutfitGenActivity extends BaseActivity {
 
     /**
      * Saves the outfit when the button is pressed
+     *
      * @param view - deprecated
      */
     public void outfitDone(View view) {
@@ -75,10 +76,10 @@ public class OutfitGenActivity extends BaseActivity {
             Toast newToast = Toast.makeText(this, "Saving outfit to Lookbook.", Toast.LENGTH_SHORT);
             newToast.show();
             mAddedOutfitAlready = true;
-        } else if (mOutfitGeneratedAlready){
+        } else if (mOutfitGeneratedAlready) {
             Toast newToast = Toast.makeText(this, "You have already saved this outfit.", Toast.LENGTH_SHORT);
             newToast.show();
-        } else{
+        } else {
             //TODO: when user adds in a piece of clothing, set outfitGeneratedAlready to true.
             Toast newToast = Toast.makeText(this, "You have not yet created an outfit.", Toast.LENGTH_SHORT);
             newToast.show();
@@ -88,16 +89,26 @@ public class OutfitGenActivity extends BaseActivity {
 
     /**
      * Generates a random outfit
+     *
      * @param view - deprecated
      */
     public void generateOutfit(View view) {
         //create a random outfit
         mCurrentOutfit = mLookbook.generateRandomOutfit();
-        //TODO: check if we get some clothing
-        mAccessoriesButton.setImageBitmap(mCurrentOutfit.getFirstAccessory().getBitmap());
-        mTopButton.setImageBitmap(mCurrentOutfit.getFirstTop().getBitmap());
-        mBottomButton.setImageBitmap(mCurrentOutfit.getFirstBottom().getBitmap());
-        mShoesButton.setImageBitmap(mCurrentOutfit.getShoes().getBitmap());
+        //TODO: generate outfit with a layout manager side by side
+
+        if (mCurrentOutfit.getFirstAccessory() != null) {
+            mAccessoriesButton.setImageBitmap(mCurrentOutfit.getFirstAccessory().getBitmap());
+        }
+        if (mCurrentOutfit.getFirstTop() != null) {
+            mTopButton.setImageBitmap(mCurrentOutfit.getFirstTop().getBitmap());
+        }
+        if (mCurrentOutfit.getFirstBottom() != null) {
+            mBottomButton.setImageBitmap(mCurrentOutfit.getFirstBottom().getBitmap());
+        }
+        if (mCurrentOutfit.getShoes() != null) {
+            mShoesButton.setImageBitmap(mCurrentOutfit.getShoes().getBitmap());
+        }
 
         Toast newToast = Toast.makeText(this, "Generated a random outfit", Toast.LENGTH_SHORT);
         newToast.show();
