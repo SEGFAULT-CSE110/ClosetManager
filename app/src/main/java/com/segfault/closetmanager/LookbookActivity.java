@@ -60,10 +60,8 @@ public class LookbookActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //update lookbook
+        //Update lookbook
         mCurrentLookbook = Account.currentAccountInstance.getLookbook();
-
-        //refresh the amount of clothing we have
 
         //check if we have any clothing
         if(mCurrentLookbook.getOutfitList().isEmpty()){
@@ -103,12 +101,15 @@ public class LookbookActivity extends BaseActivity {
                     hatView.setImageResource(android.R.color.transparent);
                 }
 
+                //Add image bitmaps for shirts
                 StackView shirtView = (StackView) outfitView.findViewById(R.id.shirt_stack_view);
                 shirtView.setAdapter(new OutfitStackViewAdapter(getBaseContext(), currentOutfit.getTops()));
 
+                //Add image bitmaps for pants
                 StackView pantsView = (StackView) outfitView.findViewById(R.id.pants_stack_view);
                 pantsView.setAdapter(new OutfitStackViewAdapter(getBaseContext(), currentOutfit.getBottoms()));
 
+                //Add image bitmaps for shoes
                 ImageView shoesView = (ImageView) outfitView.findViewById(R.id.outfit_fragment_shoes_view);
                 if (currentOutfit.getShoes() != null) {
                     shoesView.setImageBitmap(currentOutfit.getHat().getBitmap());
@@ -116,17 +117,30 @@ public class LookbookActivity extends BaseActivity {
                     shoesView.setImageResource(android.R.color.transparent);
                 }
 
+                //Finally, add the outfitView to the layoutmanager
                 layoutManager.addView(outfitView);
             }
-        }
+        }//end else
     }
 
+
+    /**
+     * Private class usedd to handle the stackView in outfits
+     */
     private class OutfitStackViewAdapter extends ArrayAdapter<Clothing>{
 
         public OutfitStackViewAdapter(Context context, List<Clothing> clothes) {
             super(context, R.layout.outfit_fragment_stack_object, clothes);
         }
 
+
+        /**
+         * Gets the view for the outpit
+         * @param position - position in list
+         * @param view - view to reset/add to
+         * @param parent - parent of the view
+         * @return - view that was edited
+         */
         public View getView(int position, View view, ViewGroup parent) {
             //Get view to inflate
             if (view == null) {
@@ -141,7 +155,6 @@ public class LookbookActivity extends BaseActivity {
 
             return view;
         }
-    }
+    }//end class OutfitStackViewAdapter
 
-
-}
+}//end class LookbookActivity
