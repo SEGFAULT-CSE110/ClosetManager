@@ -23,6 +23,7 @@ public class LookbookActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lookbook);
 

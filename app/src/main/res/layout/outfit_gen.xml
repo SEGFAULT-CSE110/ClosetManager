@@ -2,12 +2,20 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/AppTheme"
+    style="@style/AppTheme.AppBarOverlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_material_light_closet"
     android:orientation="vertical"
-    tools:context="com.segfault.closetmanager.OutfitGenActivity">
+    tools:context="com.segfault.closetmanager.OutfitGenActivity"
+    android:id="@+id/outfit_gen_parent_layout"
+    android:fitsSystemWindows="true" >
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"/>
 
     <LinearLayout
         android:id="@+id/imageButtons"
@@ -31,14 +39,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_weight="1"
-                android:background="@color/pink"
-<<<<<<< HEAD
+                android:background="@color/blue"
+                android:onClick="outfitDone"
                 android:text="Create Outfit"
-=======
-                android:text="Create an outfit"
->>>>>>> refs/remotes/origin/UI_changes
                 android:textColor="#000000"
-                android:typeface="serif" />
+                android:textStyle="bold"/>
 
             <Button
                 android:id="@+id/lastButton"
@@ -46,71 +51,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/blue"
-<<<<<<< HEAD
+                android:background="@color/pink"
+                android:onClick="generateOutfit"
                 android:text="I'm Feeling Lucky"
-=======
->>>>>>> refs/remotes/origin/UI_changes
                 android:textColor="#000000"
-                android:typeface="serif"
-                android:text="I&apos;m feeling lucky" />
+                android:textStyle="bold"/>
 
         </LinearLayout>
 
         <include
-            layout="@layout/outfit"
             android:id="@+id/lookbook_bottom_bar"
+            layout="@layout/outfit"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="@color/background_material_light_closet"
-            android:contentDescription="Top"
-            android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/cap"/>
-
-        <ImageButton
-            android:id="@+id/topButton"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="#ffffff"
-            android:contentDescription="Shirt/Top"
-            android:cropToPadding="false"
-            android:scaleType="fitCenter"
-
-            android:src="@drawable/nylon_jacket"/>
-
-        <ImageButton
-            android:id="@+id/bottomButton"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="#ffffff"
-            android:contentDescription="Pants/Bottom"
-            android:cropToPadding="false"
-            android:scaleType="fitCenter"
-<<<<<<< HEAD
-            android:src="@drawable/pants"
-=======
-            android:src="@drawable/bagpants"
->>>>>>> refs/remotes/origin/UI_changes
-            android:visibility="visible"/>
-
-        <ImageButton
-            android:id="@+id/shoesButton"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="#ffffff"
-            android:contentDescription="Shoes"
-            android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/sneaker"/>
+            android:layout_height="fill_parent"/>
 
     </LinearLayout>
 
