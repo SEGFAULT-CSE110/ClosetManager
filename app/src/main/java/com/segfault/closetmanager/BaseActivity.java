@@ -1,6 +1,8 @@
 package com.segfault.closetmanager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,5 +38,28 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void goToSettings() {
         Intent intent = new Intent(this, PreferencesActivity.class);
         startActivity(intent);
+    }
+
+    public void setPrefTheme() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = prefs.getString("theme", "App Theme");
+
+        switch (theme) {
+            case "App Theme":
+                setTheme(R.style.AppTheme);
+                break;
+            case "Eco":
+                setTheme(R.style.EcoTheme);
+                break;
+            case "Dynamic":
+                setTheme(R.style.DynamicTheme);
+                break;
+            case "Monochrome":
+                setTheme(R.style.MonochromeTheme);
+                break;
+            default:
+                break;
+
+        }
     }
 }

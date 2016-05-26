@@ -32,6 +32,7 @@ public class Clothing implements Parcelable{
     private String mStyle;
     private String mWeather;
     private String mNotes; //might change implementation
+    private String mSecondaryColor;
 
     private Bitmap mBitmap;
 
@@ -49,6 +50,7 @@ public class Clothing implements Parcelable{
         mWeather = in.readString();
         mNotes = in.readString();
         mBitmap = in.readParcelable(Bitmap.class.getClassLoader());
+        mSecondaryColor = in.readString();
     }
 
     public static final Creator<Clothing> CREATOR = new Creator<Clothing>() {
@@ -135,6 +137,10 @@ public class Clothing implements Parcelable{
         mBitmap = bitmap;
     }
 
+    public String getSecondaryColor() {return mSecondaryColor;}
+
+    public void setSecondaryColor(String SecondaryColor) { mSecondaryColor = SecondaryColor; }
+
     @Override
     public int describeContents() {
         return 0;
@@ -151,5 +157,6 @@ public class Clothing implements Parcelable{
         dest.writeString(mWeather);
         dest.writeString(mNotes);
         dest.writeParcelable(mBitmap, flags);
+        dest.writeString(mSecondaryColor);
     }
 }

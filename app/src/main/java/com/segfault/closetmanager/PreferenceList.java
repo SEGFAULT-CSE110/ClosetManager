@@ -7,17 +7,18 @@ import java.util.List;
  */
 public class PreferenceList {
 
-    private boolean mWorn;
+    private Boolean mWorn;
 
     private String mCategory;
 
     private String mColor;
+    private String mSecondaryColor;
     private String mSize;
     private List<String> mOccasion;
     private String mStyle;
     private String mWeather;
 
-    public PreferenceList(boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather) {
+    public PreferenceList(Boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather, String mSecondaryColor) {
         this.mWorn = mWorn;
         this.mCategory = mCategory;
         this.mColor = mColor;
@@ -25,10 +26,52 @@ public class PreferenceList {
         this.mOccasion = mOccasion;
         this.mStyle = mStyle;
         this.mWeather = mWeather;
+        this.mSecondaryColor = mSecondaryColor;
     }
 
-    // TODO: constructor that modifies one preference
-    public PreferenceList(PreferenceList pref, boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather) {
+    public PreferenceList(boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather, String mSecondaryColor) {
+        this(Boolean.valueOf(mWorn), mCategory, mColor, mSize, mOccasion, mStyle, mWeather, mSecondaryColor);
+    }
+
+    /* Copy Constructor */
+    public PreferenceList(PreferenceList pref) {
+        pref.mWorn = mWorn;
+        pref.mCategory = mCategory;
+        pref.mColor = mColor;
+        pref.mSize = mSize;
+        pref.mOccasion = mOccasion;
+        pref.mStyle = mStyle;
+        pref.mWeather = mWeather;
+        pref.mSecondaryColor = mSecondaryColor;
+    }
+
+    /* Constructor that modifies one preference */
+    public PreferenceList(PreferenceList pref, String attributeType, Object attribute) {
+        this(pref);
+        switch(attributeType){
+            case "worn":
+                mWorn = (Boolean)attribute;
+                break;
+            case "category":
+                mCategory = (String)attribute;
+                break;
+            case "color":
+                mColor = (String)attribute;
+                break;
+            case "size":
+                mSize = (String)attribute;
+                break;
+            case "occasion":
+                mOccasion = (List<String>)attribute;
+                break;
+            case "style":
+                mStyle = (String)attribute;
+                break;
+            case "weather":
+                mStyle = (String)attribute;
+                break;
+            default: break;
+        }
     }
 
     public PreferenceList(Clothing clothing) {
@@ -39,15 +82,18 @@ public class PreferenceList {
         this.mOccasion = clothing.getOccasion();
         this.mStyle = clothing.getStyle();
         this.mWeather = clothing.getWeather();
+        this.mSecondaryColor = clothing.getSecondaryColor();
     }
 
-    public boolean isWorn() {
+    public Boolean isWorn() {
         return mWorn;
     }
 
     public String getCategory() {
         return mCategory;
     }
+
+    public String getSecondaryColor(){return mSecondaryColor;}
 
     public String getColor() {
         return mColor;

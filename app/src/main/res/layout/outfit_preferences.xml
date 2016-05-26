@@ -1,158 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--created by Yuanmin Zhang on May 22rd,2016-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp">
-
-    <LinearLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:background="@color/pink">
-
-        <!--color icon set-->
-        <LinearLayout
-            android:id="@+id/clothing_attributes_color"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@color/blue"
-            android:orientation="vertical"
-            android:padding="3dp"
-            android:visibility="visible">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/color_icon"/>
-
-            <TextView
-                android:id="@+id/ColorTitle"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Color:"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textIsSelectable="false"
-                android:typeface="serif"/>
-        </LinearLayout>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/colorSpinner"
-            android:layout_weight="0.3"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:background="@color/pink">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <!--weather icon set-->
         <LinearLayout
-            android:id="@+id/clothing_attributes_weather"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/blue"
-            android:orientation="vertical"
-            android:padding="3dp"
-            android:visibility="visible">
+            android:background="?color2"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/weather_icon"/>
-
-            <TextView
-                android:id="@+id/weatherTitle"
+            <!--color icon set-->
+            <LinearLayout
+                android:id="@+id/clothing_attributes_color"
                 android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="?color1"
+                android:orientation="vertical"
+                android:padding="3dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/color_icon"/>
+
+                <TextView
+                    android:id="@+id/ColorTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="Color:"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textIsSelectable="false"
+                    android:typeface="serif"/>
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/colorSpinner"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Weather:"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textIsSelectable="false"
-                android:typeface="serif"/>
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.3"/>
         </LinearLayout>
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/weatherSpinner"
-            android:layout_weight="0.3"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:background="@color/pink">
-
-        <!--occasion icon set-->
         <LinearLayout
-            android:id="@+id/clothing_attributes_occasion"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/blue"
-            android:orientation="vertical"
-            android:padding="3dp"
-            android:visibility="visible">
+            android:background="?color2"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scaleType="fitCenter"
-                android:src="@drawable/formal"/>
-
-            <TextView
-                android:id="@+id/occasionTitle"
+            <!--weather icon set-->
+            <LinearLayout
+                android:id="@+id/clothing_attributes_weather"
                 android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="?color1"
+                android:orientation="vertical"
+                android:padding="3dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/weather_icon"/>
+
+                <TextView
+                    android:id="@+id/weatherTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="Weather:"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textIsSelectable="false"
+                    android:typeface="serif"/>
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/weatherSpinner"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Occasion:"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textIsSelectable="false"
-                android:typeface="serif"/>
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.3"/>
         </LinearLayout>
 
-        <Spinner
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:id="@+id/occasionSpinner"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="?color2"
+            android:orientation="horizontal">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Done"
-        android:id="@+id/doneOutfitPreferences"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="right"
-        android:typeface="serif" />
+            <!--occasion icon set-->
+            <LinearLayout
+                android:id="@+id/clothing_attributes_occasion"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="?color1"
+                android:orientation="vertical"
+                android:padding="3dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/formal"/>
+
+                <TextView
+                    android:id="@+id/occasionTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="Occasion:"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textIsSelectable="false"
+                    android:typeface="serif"/>
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/occasionSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.3"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/doneOutfitPreferences"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="Done"
+            android:typeface="serif"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -32,6 +32,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
@@ -119,7 +120,7 @@ public class HomeActivity extends BaseActivity {
         String[] files = assetManager.list("images");
 
         for (String file : files) {
-            if (file.contains(".jpg")) {
+            if (file.contains(".jpg") || file.contains(".png")) {
                 InputStream istr = assetManager.open(root + file);
                 Bitmap firstBitmap = BitmapFactory.decodeStream(istr);
 

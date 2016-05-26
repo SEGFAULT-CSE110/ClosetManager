@@ -2,16 +2,18 @@
 
 <!--created by Yuanmin Zhang on May16,2016-->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?color1"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar"
-        android:layout_height="61dp"
-        android:layout_width="fill_parent" />
+        android:layout_width="fill_parent"
+        android:layout_height="61dp"/>
 
     <!--closet icon set-->
     <LinearLayout
@@ -19,19 +21,20 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:background="@color/blue"
+        android:background="?color1"
+        android:onClick="goToCloset"
         android:orientation="vertical"
-        android:visibility="visible"
-        android:onClick="goToCloset">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/bottom_bar_closet_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:padding="3dp"
             android:scaleType="fitCenter"
             android:src="@drawable/closet"
-            android:padding="3dp"/>
+            android:contentDescription="@string/closet_button_picture_description"/>
 
         <TextView
             android:id="@+id/closetTitle"
@@ -39,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:padding="5dp"
-            android:text="Closet"
+            android:text="@string/closet"
             android:textAlignment="center"
             android:textIsSelectable="false"
             android:typeface="serif"/>
@@ -51,18 +54,19 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:background="@color/pink"
-        android:orientation="vertical"
-        android:onClick="goToOutfitGenerator">
+        android:background="?color2"
+        android:onClick="goToOutfitGenerator"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/bottom_bar_outfit_generator_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:padding="3dp"
             android:scaleType="fitCenter"
             android:src="@drawable/outfitgen"
-            android:padding="3dp"/>
+            android:contentDescription="@string/stylist_button_picture_description"/>
 
         <TextView
             android:id="@+id/outfitgenTitle"
@@ -70,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:padding="5dp"
-            android:text="Outfit Creator"
+            android:text="@string/outfit_creator"
             android:textAlignment="center"
             android:typeface="serif"/>
 
@@ -82,18 +86,19 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:background="@color/darkerblue"
-        android:orientation="vertical"
-        android:onClick="goToLookbook">
+        android:background="?color3"
+        android:onClick="goToLookbook"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/bottom_bar_lookbook_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:padding="3dp"
             android:scaleType="fitCenter"
             android:src="@drawable/lookbook"
-            android:padding="3dp"/>
+            android:contentDescription="@string/lookbook_button_picture_description"/>
 
         <TextView
             android:id="@+id/lookbookTitle"
@@ -101,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:padding="5dp"
-            android:text="Lookbook"
+            android:text="@string/lookbook"
             android:textAlignment="center"
             android:typeface="serif"/>
 
@@ -113,18 +118,19 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:background="@color/yellow"
-        android:orientation="vertical"
-        android:onClick="onMorePressed">
+        android:background="?color4"
+        android:onClick="onMorePressed"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/more"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:padding="3dp"
             android:scaleType="fitCenter"
             android:src="@drawable/more"
-            android:padding="3dp"/>
+            android:contentDescription="@string/more_button_picture_description"/>
 
         <TextView
             android:id="@+id/moreTitle"
@@ -132,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:padding="5dp"
-            android:text="More"
+            android:text="@string/more"
             android:textAlignment="center"
             android:typeface="serif"/>
 

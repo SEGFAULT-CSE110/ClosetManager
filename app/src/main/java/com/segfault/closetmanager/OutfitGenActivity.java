@@ -27,6 +27,7 @@ public class OutfitGenActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.outfit_gen);
 

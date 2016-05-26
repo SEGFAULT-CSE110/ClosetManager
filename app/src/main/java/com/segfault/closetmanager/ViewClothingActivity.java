@@ -10,6 +10,7 @@ public class ViewClothingActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_clothing);
 
