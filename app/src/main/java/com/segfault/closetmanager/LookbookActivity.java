@@ -109,8 +109,8 @@ public class LookbookActivity extends BaseActivity {
 
             //Members
             private ImageView mHatView; //TODO change this to a horizontal layout
-            private StackView mShirtView;
-            private StackView mPantsView;
+            private ClothingStackLayout mShirtView;
+            private ClothingStackLayout mPantsView;
             private ImageView mShoesView;
 
             /**
@@ -122,8 +122,8 @@ public class LookbookActivity extends BaseActivity {
 
                 //Get all of the layouts
                 mHatView = (ImageView) itemView.findViewById(R.id.outfit_fragment_accessories_view);
-                mShirtView = (StackView) itemView.findViewById(R.id.shirt_stack_view);
-                mPantsView = (StackView) itemView.findViewById(R.id.pants_stack_view);
+                mShirtView = (ClothingStackLayout) itemView.findViewById(R.id.shirt_clothing_stack_layout);
+                mPantsView = (ClothingStackLayout) itemView.findViewById(R.id.pants_clothing_stack_layout);
                 mShoesView = (ImageView) itemView.findViewById(R.id.outfit_fragment_shoes_view);
             }
 
@@ -131,11 +131,11 @@ public class LookbookActivity extends BaseActivity {
                 return mHatView;
             }
 
-            public StackView getShirtView() {
+            public ClothingStackLayout getShirtView() {
                 return mShirtView;
             }
 
-            public StackView getPantsView() {
+            public ClothingStackLayout getPantsView() {
                 return mPantsView;
             }
 
@@ -144,38 +144,38 @@ public class LookbookActivity extends BaseActivity {
             }
         }
 
-        /**
-         * Private class usedd to handle the stackView in outfits
-         */
-        private class OutfitStackViewAdapter extends ArrayAdapter<Clothing>{
-
-            public OutfitStackViewAdapter(Context context, List<Clothing> clothes) {
-                super(context, R.layout.outfit_fragment_stack_object, clothes);
-            }
-
-
-            /**
-             * Gets the view for the outpit
-             * @param position - position in list
-             * @param view - view to reset/add to
-             * @param parent - parent of the view
-             * @return - view that was edited
-             */
-            public View getView(int position, View view, ViewGroup parent) {
-                //Get view to inflate
-                if (view == null) {
-                    LayoutInflater inflater = LayoutInflater.from(getContext());
-                    view = inflater.inflate(R.layout.outfit_fragment_stack_object, parent, false);
-                } else {
-                    //TODO: implement recycling
-                }
-
-                ImageView imageView = (ImageView) view.findViewById(R.id.outfit_fragment_stack_object_image);
-                imageView.setImageBitmap(getItem(position).getBitmap());
-
-                return view;
-            }
-        }//end class OutfitStackViewAdapter
+//        /**
+//         * Private class usedd to handle the stackView in outfits
+//         */
+//        private class OutfitStackViewAdapter extends ArrayAdapter<Clothing>{
+//
+//            public OutfitStackViewAdapter(Context context, List<Clothing> clothes) {
+//                super(context, R.layout.outfit_fragment_stack_object, clothes);
+//            }
+//
+//
+//            /**
+//             * Gets the view for the outpit
+//             * @param position - position in list
+//             * @param view - view to reset/add to
+//             * @param parent - parent of the view
+//             * @return - view that was edited
+//             */
+//            public View getView(int position, View view, ViewGroup parent) {
+//                //Get view to inflate
+//                if (view == null) {
+//                    LayoutInflater inflater = LayoutInflater.from(getContext());
+//                    view = inflater.inflate(R.layout.outfit_fragment_stack_object, parent, false);
+//                } else {
+//                    //TODO: implement recycling
+//                }
+//
+//                ImageView imageView = (ImageView) view.findViewById(R.id.outfit_fragment_stack_object_image);
+//                imageView.setImageBitmap(getItem(position).getBitmap());
+//
+//                return view;
+//            }
+//        }//end class OutfitStackViewAdapter
 
 
         /**
@@ -219,12 +219,36 @@ public class LookbookActivity extends BaseActivity {
             }
 
             //Add image bitmaps for shirts
-            StackView shirtView = holder.getShirtView();
-            shirtView.setAdapter(new OutfitStackViewAdapter(getBaseContext(), currentOutfit.getTops()));
+            ClothingStackLayout shirtViewGroup = holder.getShirtView();
+            List<Clothing> topList = currentOutfit.getTops();
+            for (int index = 0; index < topList.size(); index++){
+                //Get view to inflate
+                LayoutInflater inflater = LayoutInflater.from(getBaseContext());
+                View view = inflater.inflate(R.layout.outfit_fragment_stack_object, shirtViewGroup, false);
+
+                //Set the image view to the bitmap desired
+                ImageView imageView = (ImageView) view.findViewById(R.id.outfit_fragment_stack_object_image);
+                imageView.setImageBitmap(topList.get(index).getBitmap());
+
+                //Add the view to the viewGroup
+                shirtViewGroup.addView(view);
+            }
 
             //Add image bitmaps for pants
-            StackView pantsView = holder.getPantsView();
-            pantsView.setAdapter(new OutfitStackViewAdapter(getBaseContext(), currentOutfit.getBottoms()));
+            ClothingStackLayout pantsViewGroup = holder.getPantsView();
+            List<Clothing> bottomList = currentOutfit.getBottoms();
+            for (int index = 0; index < bottomList.size(); index++){
+                //Get view to inflate
+                LayoutInflater inflater = LayoutInflater.from(getBaseContext());
+                View view = inflater.inflate(R.layout.outfit_fragment_stack_object, pantsViewGroup, false);
+
+                //Set the image view to the bitmap desired
+                ImageView imageView = (ImageView) view.findViewById(R.id.outfit_fragment_stack_object_image);
+                imageView.setImageBitmap(bottomList.get(index).getBitmap());
+
+                //Add the view to the viewGroup
+                pantsViewGroup.addView(view);
+            }
 
             //Add image bitmaps for shoes
             ImageView shoesView = holder.getShoesView();

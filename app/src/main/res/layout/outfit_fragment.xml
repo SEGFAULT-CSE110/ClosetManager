@@ -32,8 +32,8 @@
             android:layout_height="0dp"
             android:layout_weight="0.9">
 
-            <StackView
-                android:id="@+id/shirt_stack_view"
+            <com.segfault.closetmanager.ClothingStackLayout
+                android:id="@+id/shirt_clothing_stack_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/nylon_jacket"/>
@@ -45,8 +45,8 @@
             android:layout_height="0dp"
             android:layout_weight="0.9">
 
-            <StackView
-                android:id="@+id/pants_stack_view"
+            <com.segfault.closetmanager.ClothingStackLayout
+                android:id="@+id/pants_clothing_stack_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/nylon_jacket"/>
