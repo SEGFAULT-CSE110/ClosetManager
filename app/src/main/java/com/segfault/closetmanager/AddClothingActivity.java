@@ -41,4 +41,13 @@ public class AddClothingActivity extends BaseActivity {
 
     public void addClothingNext(View view) {
     }
+
+    public void retakePicture(View view) {
+        //TODO: remove picture, go to camera, retrieve bitmap from camera
+        //TODO: delete old picture if it was saved
+    }
+
+    public void addClothing(View view) {
+        //TODO: take the values from all the spinners and add the clothing to the closet
+    }
 }
