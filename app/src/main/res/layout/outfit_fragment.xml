@@ -21,7 +21,6 @@
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.5"
-            android:background="@color/background_material_light_closet"
             android:contentDescription="@string/top_image_description"
             android:cropToPadding="false"
             android:scaleType="fitCenter"
@@ -30,30 +29,26 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.9"
-            android:background="@android:color/white">
+            android:layout_weight="0.9">
 
             <com.segfault.closetmanager.ClothingStackLayout
                 android:id="@+id/shirt_clothing_stack_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/nylon_jacket"
-                android:background="@color/darkerblue"/>
+                android:src="@drawable/nylon_jacket"/>
 
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.9"
-            android:background="@android:color/white">
+            android:layout_weight="0.9">
 
             <com.segfault.closetmanager.ClothingStackLayout
                 android:id="@+id/pants_clothing_stack_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/nylon_jacket"
-                android:background="@color/darkerblue"/>
+                android:src="@drawable/nylon_jacket"/>
 
         </FrameLayout>
 
@@ -63,7 +58,7 @@
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.3"
-            android:background="#ffffff"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/shoes_image_description"
             android:cropToPadding="false"
             android:scaleType="fitCenter"

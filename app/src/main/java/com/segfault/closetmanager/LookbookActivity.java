@@ -145,7 +145,7 @@ public class LookbookActivity extends BaseActivity {
         }
 
         /**
-         * Private class usedd to handle the stackView in outfits
+         * Private class used to handle the stackView in outfits
          */
         private class OutfitStackViewAdapter extends ArrayAdapter<Clothing>{
 
@@ -155,7 +155,7 @@ public class LookbookActivity extends BaseActivity {
 
 
             /**
-             * Gets the view for the outpit
+             * Gets the view for the outfit
              * @param position - position in list
              * @param view - view to reset/add to
              * @param parent - parent of the view
@@ -166,8 +166,6 @@ public class LookbookActivity extends BaseActivity {
                 if (view == null) {
                     LayoutInflater inflater = LayoutInflater.from(getContext());
                     view = inflater.inflate(R.layout.outfit_fragment_stack_object, parent, false);
-                } else {
-                    //TODO: implement recycling
                 }
 
                 ImageView imageView = (ImageView) view.findViewById(R.id.outfit_fragment_stack_object_image);

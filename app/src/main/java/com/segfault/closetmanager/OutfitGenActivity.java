@@ -97,8 +97,8 @@ public class OutfitGenActivity extends BaseActivity {
         mCurrentOutfit = mLookbook.generateRandomOutfit();
         //TODO: generate outfit with a layout manager side by side
 
-        if (mCurrentOutfit.getFirstAccessory() != null) {
-            mAccessoriesButton.setImageBitmap(mCurrentOutfit.getFirstAccessory().getBitmap());
+        if (mCurrentOutfit.getHat() != null) {
+            mAccessoriesButton.setImageBitmap(mCurrentOutfit.getHat().getBitmap());
         }
         if (mCurrentOutfit.getFirstTop() != null) {
             mTopButton.setImageBitmap(mCurrentOutfit.getFirstTop().getBitmap());

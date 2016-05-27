@@ -215,7 +215,7 @@ public class Lookbook {
 
     /*
      * Randomly pick a clothing from each category.
-     * @preturn Outfit
+     * @return Outfit
      */
     public Outfit generateRandomOutfit(){
 
@@ -229,7 +229,7 @@ public class Lookbook {
 
         Outfit result = new Outfit();
 
-        //accesories
+        //accessories
         if(random.nextInt(4)==0){
             PreferenceList accessoryPref = new PreferenceList
                     (false, Clothing.ACCESSORY, null, null, null, null, null, null);
