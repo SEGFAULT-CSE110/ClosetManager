@@ -1,27 +1,51 @@
 package com.segfault.closetmanager;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.LinearLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Christopher Cabreros on 26-May-16.
  * This is a custom layout I created for our uses, like LinearLayout or FrameLayout.
  * This will be used for the outfit to correctly display shirts and pants.
+ *
  * If you are interested in how I developed this, I recommend you read the article
  * http://javatechig.com/android/how-to-create-custom-layout-in-android-by-extending-viewgroup-class
+ *
+ * For LinearLayout and adding in an adapter, look at this StackOverflow question
+ * http://stackoverflow.com/questions/14550309/creating-an-adapter-to-a-customview
  */
-public class ClothingStackLayout extends ViewGroup {
+
+public class ClothingStackLayout extends LinearLayout {
 
     private static final float SIZE_MULTIPLIER = 0.85f;
     private static final float SHIFT_MULTIPLIER = 0.1f;
     private static final float SHIFT_RECENTER_MULTIPLIER = SHIFT_MULTIPLIER / 2.0f;
-
     private static final int CHILD_LEFT_COORDINATE = 0;
     private static final int CHILD_TOP_COORDINATE = 1;
     private static final int CHILD_RIGHT_COORDINATE = 2;
     private static final int CHILD_BOTTOM_COORDINATE = 3;
+
+    private Adapter mAdapter;
+    private SparseArray<List<View>> mTypedViewsCache = new SparseArray<>();
+    private final DataSetObserver mObserver = new DataSetObserver() {
+        @Override
+        public void onChanged() {
+            refreshViewsFromAdapter();
+        }
+
+        @Override
+        public void onInvalidated() {
+            removeAllViews();
+        }
+    };
 
     public ClothingStackLayout(Context context) {
         super(context);
@@ -33,6 +57,116 @@ public class ClothingStackLayout extends ViewGroup {
 
     public ClothingStackLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    /**
+     * Getter method for adapter
+     * @return - adapter for this layout
+     */
+    public Adapter getAdapter(){
+        return mAdapter;
+    }
+
+
+    /**
+     * Sets the adapter
+     * @param adapter - adapter to set
+     */
+    public void setAdapter(Adapter adapter){
+        //if we have a current adapter, remove the current observer
+        if (mAdapter != null){
+            mAdapter.unregisterDataSetObserver(mObserver);
+        }
+
+        //add new adapter
+        mAdapter = adapter;
+        //set a data set observer if the new adapter is not null
+        if (mAdapter != null){
+            mAdapter.registerDataSetObserver(mObserver);
+        }
+
+        //Initialize full views
+        initViewsFromAdapter();
+    }
+
+    /**
+     * Initialize all the views from the adapter
+     */
+    protected void initViewsFromAdapter(){
+        //Clear the caches
+        mTypedViewsCache.clear();
+        removeAllViews();
+
+        //nullptr check
+        if (mAdapter != null){
+            for (int index = 0; index < mAdapter.getCount(); index++){
+                View view = mAdapter.getView(index, null, this);
+                //We have a map for all the types we can add
+                addViewToMap(mAdapter.getItemViewType(index), view, mTypedViewsCache);
+                addView(view, index);
+            }
+        }
+    }
+
+
+    /**
+     * When adapter changes, refresh the views
+     */
+    protected void refreshViewsFromAdapter(){
+        //Cache the old map and create a new map
+        SparseArray<List<View>> typedViewsCacheCopy = mTypedViewsCache;
+        mTypedViewsCache = new SparseArray<>();
+        removeAllViews();
+
+        //Loop through all the views
+        for (int index = 0; index < mAdapter.getCount(); index++){
+            int type = mAdapter.getItemViewType(index);
+
+            //The recycling happens here. ShiftCachedViewsOfType will recycle the views
+            View convertView = shiftCachedViewOfType(type, typedViewsCacheCopy);
+            convertView = mAdapter.getView(index, convertView, this);
+
+            //Add the view to the map
+            addViewToMap(type, convertView, mTypedViewsCache);
+
+            //Finally, add the view back to the adapter
+            addView(convertView, index);
+        }
+    }
+
+    /**
+     * Adds any views to the map
+     * @param type - type of view to add
+     * @param view - view to add
+     * @param typedViewsCache - cache of views to add to
+     */
+    private static void addViewToMap(int type, View view, SparseArray<List<View>> typedViewsCache){
+        List<View> singleTypedViews = typedViewsCache.get(type);
+        //If the type of view is null, it is new and we have to create the list
+        if (singleTypedViews == null){
+            singleTypedViews = new ArrayList<View>();
+            typedViewsCache.put(type, singleTypedViews);
+        }
+
+        //Finally, add the view to the appropriate list
+        singleTypedViews.add(view);
+    }
+
+    /**
+     * Shifts the cached view of type.
+     * This is where the recycling happens
+     * @param type - type of view to move
+     * @param typedViewsCache - views cache to edit
+     * @return - the view that was removed.
+     */
+    private static View shiftCachedViewOfType(int type, SparseArray<List<View>> typedViewsCache) {
+        List<View> singleTypeViews = typedViewsCache.get(type);
+        if(singleTypeViews != null) {
+            if(singleTypeViews.size() > 0) {
+                return singleTypeViews.remove(0);
+            }
+        }
+        return null;
     }
 
     @Override

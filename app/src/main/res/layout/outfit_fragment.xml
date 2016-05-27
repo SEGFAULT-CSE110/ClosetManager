@@ -30,26 +30,30 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.9">
+            android:layout_weight="0.9"
+            android:background="@android:color/white">
 
             <com.segfault.closetmanager.ClothingStackLayout
                 android:id="@+id/shirt_clothing_stack_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/nylon_jacket"/>
+                android:src="@drawable/nylon_jacket"
+                android:background="@color/darkerblue"/>
 
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.9">
+            android:layout_weight="0.9"
+            android:background="@android:color/white">
 
             <com.segfault.closetmanager.ClothingStackLayout
                 android:id="@+id/pants_clothing_stack_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/nylon_jacket"/>
+                android:src="@drawable/nylon_jacket"
+                android:background="@color/darkerblue"/>
 
         </FrameLayout>
 
