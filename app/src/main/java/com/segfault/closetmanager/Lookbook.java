@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.lang.String;
 
 /**
  * Created by Christopher Cabreros on 05-May-16.
@@ -53,11 +54,6 @@ public class Lookbook {
         /* Get a shirt */
         shirt = pickOne(shirtPref);
 
-		/* If no shirt then no outfit will be produced */
-        if(shirt == null){
-            return null;
-        }
-
 		/* Pants should match the shirt */
         PreferenceList pantsPref = new PreferenceList(shirt);
         pantsPref = new PreferenceList(pantsPref, cat, Clothing.BOTTOM);
@@ -65,20 +61,10 @@ public class Lookbook {
         /* Get pants */
         pants = pickOne(pantsPref);
 
-		/* If no pants then no outfit will be produced */
-        if( pants == null){
-            return null;
-        }
-
         /* Get shoes */
         PreferenceList shoesPref = new PreferenceList(shirtPref,
                 cat, Clothing.SHOE);
         shoes = pickOne(shoesPref);
-
-		/* If no shoes then no outfit will be produced */
-        if( shoes == null){
-            return null;
-        }
 
 		/* 20% chance there will be an hat */
         Random randHat = new Random();
@@ -87,6 +73,10 @@ public class Lookbook {
             PreferenceList hatPref = new PreferenceList(shirt);
             hatPref = new PreferenceList(hatPref, cat, Clothing.HAT);
             hat = pickOne(hatPref);
+        }
+
+        if( result.getFirstTop() == null || result.getFirstBottom() == null || result.getShoes( ) == null) {
+            return generateRandomOutfit();
         }
 
         /* Construct the outfit */
@@ -98,44 +88,107 @@ public class Lookbook {
         return result;
     }
 
+<<<<<<< HEAD
     private List<String> colorMatches (String color){
+=======
+    private String colorMatches (String color){
+
+        List<String> colorL = null;
+
+>>>>>>> refs/remotes/origin/Generator
         switch (color){
             case "red":
+                colorL.add("Blue");
+                colorL.add("Black");
                 //blue, black
                 break;
             case "green":
+                colorL.add("Blue");
+                colorL.add("Black");
+                colorL.add("White");
+                colorL.add("Grey");
                 // blue, black, white, grey
                 break;
             case "blue":
+                colorL.add("Yellow");
+                colorL.add("Black");
+                colorL.add("White");
+                colorL.add("Grey");
+                colorL.add("Purple");
+                colorL.add("Brown");
+                colorL.add("Pink");
+                colorL.add("Red");
+                colorL.add("Green");
+                colorL.add("Orange");
                 // yellow, black, white, grey, purple, brown, pink, red, green
                 break;
             case "yellow":
+                colorL.add("White");
+                colorL.add("Grey");
                 //white, grey
                 break;
             case "black":
+                colorL.add("Blue");
+                colorL.add("Black");
+                colorL.add("White");
+                colorL.add("Grey");
+                colorL.add("Purple");
+                colorL.add("Brown");
+                colorL.add("Pink");
+                colorL.add("Red");
+                colorL.add("Green");
                 //everything
                 break;
             case "white":
-                //green, blue, yellow, black, grey, brown, pink
+                colorL.add("Blue");
+                colorL.add("Green");
+                colorL.add("Yellow");
+                colorL.add("Black");
+                colorL.add("Grey");
+                colorL.add("Brown");
+                colorL.add("Pink");
+                colorL.add("Orange");
+                //green, blue, yellow, black, grey, brown, pink, orange
                 break;
             case "grey":
+                colorL.add("Blue");
+                colorL.add("Green");
+                colorL.add("Black");
+                colorL.add("White");
                 //green, blue, black, white
                 break;
             case "purple":
+                colorL.add("Blue");
+                colorL.add("Black");
                 //blue, black
                 break;
             case "orange":
-                //black,
+                colorL.add("Blue");
+                colorL.add("White");
+                //blue, white
                 break;
             case "brown":
+                colorL.add("Blue");
+                colorL.add("Black");
+                colorL.add("White");
                 //blue, black, white
                 break;
             case "pink":
+                colorL.add("Blue");
+                colorL.add("Black");
+                colorL.add("White");
                 //blue, black, white
                 break;
             default:
                 break;
         }
+        Random random = new Random();
+
+        String result = null;
+        if (colorL != null) {
+            result = colorL.get(random.nextInt(colorL.size()));
+        }
+        return result;
 
         //TODO: Baowen plz replace this
         return new ArrayList<String>();
@@ -166,43 +219,47 @@ public class Lookbook {
 
         String attriWorn = "worn";
         String attriWeather = "weather";
+        String attriTop = "Top";
+        String attriColor = "color";
+        String attriOcca = "occasion";
+
+        /* Do we need to pick color or use the one passed in */
+        if(category.equals(attriTop) && color != null){
+            color = colorMatches(color);
+        }
+
+        /* Create a new preference list with this color */
+        PreferenceList first = new PreferenceList(prefList, attriColor, color);
 
         /* Filter for the perfect list */
-        match = mBelongingCloset.filter(prefList);
-        PreferenceList second = new PreferenceList( prefList, attriWorn, true);
-
-        /* Find second best */
-        if(match == null){
-            match = mBelongingCloset.filter(second);
-        }
+        match = mBelongingCloset.filter(first);
 
 		/* Next filter */
         if(match == null){
 			/* If color is set, then consider color first */
-
-            PreferenceList third = new PreferenceList(second,
+            PreferenceList third = new PreferenceList(first,
                     attriWeather, null);
             /* Delete lowest priority weather field */
-            if(weather != null && !weather.isEmpty()){
-                    match = mBelongingCloset.filter(third);
-            }
+            match = mBelongingCloset.filter(third);
 
-            /* Worn */
-            if(match == null){
-                    PreferenceList fourth = new PreferenceList(third, attriWorn, true);
-                }
+
             /* Delete occasion field */
-
+            PreferenceList fifth = new PreferenceList(third,attriOcca,null);
+            if( match == null ){
+                match = mBelongingCloset.filter(fifth);
+            }
 
 			/* If color is not set, occasion is primary and weather follows */
-            if(color != null && !color.isEmpty()){
-
+            PreferenceList seventh = new PreferenceList(fifth,attriColor,null);
+            if( match == null ){
+                match = mBelongingCloset.filter(seventh);
             }
+
         }
 		
 		/* If still nothing is found, then pick fails */
-        if(false){ // supposed to be !match
-            //todo: the result List will be in match
+        if(match == null){
+            return null;
 
         }
 
