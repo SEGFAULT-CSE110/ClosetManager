@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -175,7 +173,7 @@ public class ClosetActivity extends BaseActivity {
             LinearLayout categoryLeftBox = (LinearLayout) categoryView.findViewById(R.id.closet_category_left_layout);
             ImageView categoryViewImage = (ImageView) categoryView.findViewById(R.id.closet_category_picture);
             TextView categoryTextView = (TextView) categoryView.findViewById(R.id.closet_category_text);
-            PreferenceList categoryPreferenceList;
+            PreferenceList categoryPreferenceList = null;
 
             //Set the picture and the text for the closet Category
             if (currentList.get(0).getCategory().equals(Clothing.HAT)){
@@ -219,13 +217,16 @@ public class ClosetActivity extends BaseActivity {
                 categoryTextView.setText("Top");
                 categoryPreferenceList = new PreferenceList(false, Clothing.TOP, null, null, null, null, null, null);
             }
+            final PreferenceList clickPreference = categoryPreferenceList;
 
             //Set the pictures to each have an on click listener
             categoryLeftBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), ViewClothingByCatActivity.class);
-                    //TODO: start new intent
+                    intent.putExtra(PreferenceList.EXTRA_STRING, clickPreference);
+                    intent.putExtra(ViewClothingByCatActivity.CAME_FROM_CLOSET_STRING, true);
+                    startActivity(intent);
                 }
             });
 
@@ -234,7 +235,7 @@ public class ClosetActivity extends BaseActivity {
                 Bitmap currentBitmap = currentList.get(index).getBitmap();
 
                 //get the view and add a click listener to go to the correct view
-                View clothingFrame = inflater.inflate(R.layout.clothing_image_fragment, linearLayout, false);
+                View clothingFrame = inflater.inflate(R.layout.closet_category_clothing_image, linearLayout, false);
                 final int finalIndex = index; //required to be a final variable
                 clothingFrame.setOnClickListener(new View.OnClickListener() {
                     @Override

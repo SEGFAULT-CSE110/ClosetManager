@@ -58,8 +58,6 @@ public class HomeActivity extends BaseActivity {
             e.printStackTrace();
         }
 
-        TESTING_CLASS tester = new TESTING_CLASS();
-        tester.testMethod();
     }
 
     @Override
@@ -160,7 +158,6 @@ public class HomeActivity extends BaseActivity {
                 System.out.println("Loaded " + file);
             }
         }
-        return;
     }
 
 }

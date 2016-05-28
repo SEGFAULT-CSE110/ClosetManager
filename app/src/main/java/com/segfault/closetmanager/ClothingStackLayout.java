@@ -60,15 +60,6 @@ public class ClothingStackLayout extends LinearLayout {
     }
 
     /**
-     * Getter method for adapter
-     * @return - adapter for this layout
-     */
-    public Adapter getAdapter(){
-        return mAdapter;
-    }
-
-
-    /**
      * Sets the adapter
      * @param adapter - adapter to set
      */
@@ -144,7 +135,7 @@ public class ClothingStackLayout extends LinearLayout {
         List<View> singleTypedViews = typedViewsCache.get(type);
         //If the type of view is null, it is new and we have to create the list
         if (singleTypedViews == null){
-            singleTypedViews = new ArrayList<View>();
+            singleTypedViews = new ArrayList<>();
             typedViewsCache.put(type, singleTypedViews);
         }
 
