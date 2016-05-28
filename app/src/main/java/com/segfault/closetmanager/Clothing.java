@@ -23,6 +23,8 @@ public class Clothing implements Parcelable{
     public static final String JACKET = "Jacket";
 
     private boolean mWorn;
+    private boolean mShared;
+    private boolean mLost;
 
     private String mCategory;
 
@@ -34,10 +36,25 @@ public class Clothing implements Parcelable{
     private String mNotes; //might change implementation
     private String mSecondaryColor;
 
+
     private Bitmap mBitmap;
 
     public Clothing(){
         mOccasion = new ArrayList<String>();
+    }
+    public Clothing(String cat, String col, String weat, String occ, String not, boolean wor, boolean shar, boolean los ) {
+
+        mWorn = wor;
+        mShared = shar;
+        mLost = los;
+
+        mCategory = cat;
+        mColor = col;
+        mOccasion = new ArrayList<String>();
+        mOccasion.add(occ);
+        mWeather = weat;
+        mNotes = not;
+
     }
 
     protected Clothing(Parcel in) {
