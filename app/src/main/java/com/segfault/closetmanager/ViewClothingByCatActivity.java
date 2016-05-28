@@ -27,6 +27,8 @@ public class ViewClothingByCatActivity extends BaseActivity{
     private Closet mCurrentCloset = mCurrentAccount.getCloset();
     private boolean mCameFromCloset;
 
+    private boolean mRemovedClothing;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setPrefTheme();
@@ -86,6 +88,13 @@ public class ViewClothingByCatActivity extends BaseActivity{
                         currentActivity.finish();
                         currentActivity.startActivity(intent);
                     }
+                    else {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra(OutfitGenActivity.OUTFIT_GEN_REMOVED_CLOTHING_EXTRA, mRemovedClothing);
+                        returnIntent.putExtra(Clothing.EXTRA_STRING, mClothingList.get(position));
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    }
                 }
             });
 
@@ -101,7 +110,7 @@ public class ViewClothingByCatActivity extends BaseActivity{
     private class GridImageAdapter extends ArrayAdapter<Clothing>{
 
         public GridImageAdapter(Context context, List<Clothing> clothingList) {
-            super(context, R.layout.closet_category_clothing_image, clothingList);
+            super(context, R.layout.closet_preference_clothing_image, clothingList);
         }
 
         @Override
@@ -116,7 +125,7 @@ public class ViewClothingByCatActivity extends BaseActivity{
             } else{
                 //Get the correct view to inflate
                 LayoutInflater inflater = LayoutInflater.from(getContext());
-                view = inflater.inflate(R.layout.closet_category_clothing_image, parent, false);
+                view = inflater.inflate(R.layout.closet_preference_clothing_image, parent, false);
             }
 
             //Get the desired bitmap
