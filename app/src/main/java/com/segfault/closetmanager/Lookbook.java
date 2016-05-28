@@ -88,10 +88,14 @@ public class Lookbook {
         return result;
     }
 
+<<<<<<< HEAD
+    private List<String> colorMatches (String color){
+=======
     private String colorMatches (String color){
 
         List<String> colorL = null;
 
+>>>>>>> refs/remotes/origin/Generator
         switch (color){
             case "red":
                 colorL.add("Blue");
@@ -186,6 +190,9 @@ public class Lookbook {
         }
         return result;
 
+        //TODO: Baowen plz replace this
+        return new ArrayList<String>();
+
     }
 
     /*
@@ -265,7 +272,7 @@ public class Lookbook {
 
     /*
      * Randomly pick a clothing from each category.
-     * @preturn Outfit
+     * @return Outfit
      */
     public Outfit generateRandomOutfit(){
 
@@ -279,7 +286,7 @@ public class Lookbook {
 
         Outfit result = new Outfit();
 
-        //accesories
+        //accessories
         if(random.nextInt(4)==0){
             PreferenceList accessoryPref = new PreferenceList
                     (false, Clothing.ACCESSORY, null, null, null, null, null, null);

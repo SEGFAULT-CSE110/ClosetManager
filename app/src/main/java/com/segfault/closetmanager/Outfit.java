@@ -51,19 +51,40 @@ public class Outfit{
 
     public Clothing getHat() {return mHat;}
 
-    public Clothing getTop(){
+    public Clothing getFirstTop(){
+        if (mTops.isEmpty()){
+            return null;
+        }
         return mTops.get(0);
     }
 
-    public Clothing getBottom(){
+    public Clothing getFirstBottom(){
+        if (mBottoms.isEmpty()){
+            return null;
+        }
         return mBottoms.get(0);
     }
 
-    public Clothing getAccessory(){
+    public Clothing getFirstAccessory(){
+        if (mAccessories.isEmpty()){
+            return null;
+        }
         return mAccessories.get(0);
     }
 
     public Clothing getShoes(){
         return mShoes;
+    }
+
+    public List<Clothing> getTops() {
+        return mTops;
+    }
+
+    public List<Clothing> getBottoms() {
+        return mBottoms;
+    }
+
+    public List<Clothing> getAccessories() {
+        return mAccessories;
     }
 }

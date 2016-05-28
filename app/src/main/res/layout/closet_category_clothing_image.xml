@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Defines a small piece of clothing to view-->
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="75dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:adjustViewBounds="true"
     android:padding="2dp"
@@ -11,7 +12,8 @@
     <ImageView
         android:id="@+id/clothing_image_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/clothing_image_fragment_text">
     </ImageView>
 
 </FrameLayout>

@@ -36,4 +36,16 @@
 
     <string name="pref_default_display_name">92092</string>
 
+    <string name="clothing_image_fragment_text">clothing image</string>
+    <string name="closet_button_picture_description">closet_button_picture</string>
+    <string name="stylist_button_picture_description">stylist button picture</string>
+    <string name="lookbook_button_picture_description">lookbook button picture</string>
+    <string name="more_button_picture_description">more button picture</string>
+    <string name="login_broken_text">Login is broken, just login</string>
+    <string name="top_image_description">Top Image</string>
+    <string name="shirt_top_image_description">Shirt/Top</string>
+    <string name="pants_bottom_image_description">Pants/Bottom</string>
+    <string name="shoes_image_description">Shoes Image</string>
+    <string name="outfit_fragment_stack_object_image_description">outfit fragment stack object image</string>
+
 </resources>

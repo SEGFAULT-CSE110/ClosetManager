@@ -12,15 +12,36 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <!--To be changed to an image view later-->
-        <TextView
-            android:id="@+id/closet_category_picture"
+        <!--side category indicator modified by Yuanmin Zhang on May 25th-->
+
+        <LinearLayout
+            android:id="@+id/closet_category_left_layout"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:layout_weight="0"
-            android:text="picture goes here"
-            android:textAlignment="center"
-            android:background="#CCCCCC"/>
+            android:background="?color1"
+            android:orientation="vertical"
+            android:padding="3dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/closet_category_picture"
+                android:scaleType="fitCenter"
+                android:padding="3dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/closet_category_text"
+                android:background="@android:color/transparent"
+                android:textAlignment="center"
+                android:text="picture goes here"
+                android:textColor="@android:color/black"
+                android:textIsSelectable="false"
+                android:typeface="serif"/>
+        </LinearLayout>
 
         <HorizontalScrollView
             android:id="@+id/closet_category_clothing_slider"

@@ -1,10 +1,10 @@
 package com.segfault.closetmanager;
+import android.app.Activity;
 import android.content.Context;
-import android.content.res.AssetManager;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,97 +13,117 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Defines the activity when user decides to view clothing by category.
  */
-public class ViewClothingByCatActivity extends FragmentActivity{
+public class ViewClothingByCatActivity extends BaseActivity{
 
-    public BitmapFactory.Options mOptions;
-    public static List<Bitmap> bitmapList;
+    public static final String CAME_FROM_CLOSET_STRING = "yes it did come from the closet";
 
+    private List<Clothing> mClothingList;
+    private Account mCurrentAccount = Account.currentAccountInstance;
+    private Closet mCurrentCloset = mCurrentAccount.getCloset();
+    private boolean mCameFromCloset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_clothing_by_cat);
 
-        //load images
-        try {
-            bitmapList = getImages(this);
-        } catch (IOException e) {
-            e.printStackTrace();
+        // set pref_layout toolbar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        GridImageAdapter theAdapter = new GridImageAdapter(this, bitmapList);
+        //Recreate bottom bar here because the account has not been created
+        View bottomBarView = findViewById(R.id.view_clothing_by_cat_bottom_bar);
+        BottomBar mBottomBar = new BottomBar(bottomBarView, this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //Create essential references. this is needed for onItemClick
+        final Activity currentActivity = this;
+        Intent previousIntent = getIntent();
+
+        //Get the activity it came from
+        mCameFromCloset = previousIntent.getBooleanExtra(CAME_FROM_CLOSET_STRING, true);
+
+        //Get the extra preference
+        PreferenceList getPreference;
+
+        //Check if it actually exists
+        if (previousIntent.hasExtra(PreferenceList.EXTRA_STRING)) {
+            getPreference = (PreferenceList) previousIntent.
+                    getSerializableExtra(PreferenceList.EXTRA_STRING);
+        } else {
+            getPreference = new PreferenceList(false, null, null, null, null, null, null, null);
+        };
+        //Get the correct list
+        mClothingList = mCurrentCloset.filter(getPreference);
+
+        GridImageAdapter theAdapter = new GridImageAdapter(this, mClothingList);
         GridView theListView = (GridView) findViewById(R.id.gridView);
-        theListView.setAdapter(theAdapter);
+        if (theListView != null) { //requires nullptr check
+            theListView.setAdapter(theAdapter);
+            //catch any clicks
+            theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //Two different actions based on the activity it came from
+                    if (mCameFromCloset){
+                        Intent intent = new Intent(currentActivity, ViewClothingActivity.class);
+                        intent.putExtra("Clothing", mClothingList.get(position));
+                        currentActivity.finish();
+                        currentActivity.startActivity(intent);
+                    }
+                }
+            });
 
-        //catch any clicks
-        theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String bitmapSelectedText = "You selected " + position;
-            }
-        });
-
-    }
-
-    /**
-     * Loading method. Only for debug purposes
-     * @param context
-     * @return
-     * @throws IOException
-     */
-    private List<Bitmap> getImages(Context context) throws IOException {
-        //get root directory
-        String root = "images/";
-        System.out.println(root);
-
-        AssetManager assetManager = context.getAssets();
-        String[] files = assetManager.list("images");
-        List<String> it= Arrays.asList(files);
-
-        List<Bitmap> bitmaps = new ArrayList<Bitmap>();
-
-        for (int index = 0; index < it.size(); index++) {
-
-            if (it.get(index).contains(".jpg")) {
-                InputStream istr = assetManager.open(root + it.get(index));
-                Bitmap bitmap = BitmapFactory.decodeStream(istr);
-                bitmaps.add(bitmap);
-                istr.close();
-                System.out.println("Loaded " + it.get(index));
-            }
         }
-        return bitmaps;
+
+        //TODO: if list size is 0, then add in another view
     }
 
 
     /**
-     * Image Adapter class
+     * Image Adapter class for clothing
      */
-    private class GridImageAdapter extends ArrayAdapter<Bitmap>{
+    private class GridImageAdapter extends ArrayAdapter<Clothing>{
 
-        public GridImageAdapter(Context context, List<Bitmap> bitmapList) {
-            super(context, R.layout.clothing_image_fragment, bitmapList);
+        public GridImageAdapter(Context context, List<Clothing> clothingList) {
+            super(context, R.layout.closet_category_clothing_image, clothingList);
         }
 
         @Override
         /**
-         * convert view is a reaference to other reusable views
+         * convert view is a reference to other reusable views
          */
         public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
+            //Recycling views
+            View view;
+            if (convertView != null){
+                view = convertView;
+            } else{
+                //Get the correct view to inflate
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                view = inflater.inflate(R.layout.closet_category_clothing_image, parent, false);
+            }
 
-            View view = inflater.inflate(R.layout.clothing_image_fragment, parent, false);
+            //Get the desired bitmap
+            Clothing currentClothing = getItem(position);
+            Bitmap currentBitmap = currentClothing.getBitmap();
 
-            Bitmap currentBitmap = getItem(position);
+            //Set the image view to have the bitmap
             ImageView imageView = (ImageView) view.findViewById(R.id.clothing_image_view);
             imageView.setImageBitmap(currentBitmap);
 
