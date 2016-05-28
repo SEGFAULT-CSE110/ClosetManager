@@ -93,6 +93,12 @@ public class OutfitGenActivity extends BaseActivity {
      * @param view - deprecated
      */
     public void generateOutfit(View view) {
+        //Clear all of the buttons
+        mAccessoriesButton.setImageResource(R.drawable.cap);
+        mTopButton.setImageResource(R.drawable.nylon_jacket);
+        mBottomButton.setImageResource(R.drawable.bag_pants);
+        mShoesButton.setImageResource(R.drawable.sneaker);
+
         //create a random outfit
         mCurrentOutfit = mLookbook.generateRandomOutfit();
         //TODO: generate outfit with a layout manager side by side

@@ -1,5 +1,6 @@
 package com.segfault.closetmanager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,25 +25,33 @@ import java.util.List;
  */
 public class ViewClothingByCatActivity extends FragmentActivity{
 
-    public BitmapFactory.Options mOptions;
-    public static List<Bitmap> bitmapList;
-
+    private List<Clothing> mClothingList;
+    private Account mCurrentAccount = Account.currentAccountInstance;
+    private Closet mCurrentCloset = mCurrentAccount.getCloset();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_clothing_by_cat);
 
-        //load images
-        try {
-            bitmapList = getImages(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //Get the extra preference
+        Intent previousIntent = getIntent();
+        PreferenceList getPreference;
+        //Check if it actually exists
+        if (previousIntent.hasExtra(PreferenceList.EXTRA_STRING)) {
+            getPreference = (PreferenceList) getIntent().
+                    getSerializableExtra(PreferenceList.EXTRA_STRING);
+        } else {
+            getPreference = new PreferenceList(false, null, null, null, null, null, null, null);
+        };
+        //Get the correct list
+        mClothingList = mCurrentCloset.filter(getPreference);
 
-        GridImageAdapter theAdapter = new GridImageAdapter(this, bitmapList);
+        GridImageAdapter theAdapter = new GridImageAdapter(this, mClothingList);
         GridView theListView = (GridView) findViewById(R.id.gridView);
         theListView.setAdapter(theAdapter);
+
+        //TODO: if list size is 0, then add in another view
 
         //catch any clicks
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -54,56 +63,36 @@ public class ViewClothingByCatActivity extends FragmentActivity{
 
     }
 
-    /**
-     * Loading method. Only for debug purposes
-     * @param context
-     * @return
-     * @throws IOException
-     */
-    private List<Bitmap> getImages(Context context) throws IOException {
-        //get root directory
-        String root = "images/";
-        System.out.println(root);
-
-        AssetManager assetManager = context.getAssets();
-        String[] files = assetManager.list("images");
-        List<String> it= Arrays.asList(files);
-
-        List<Bitmap> bitmaps = new ArrayList<Bitmap>();
-
-        for (int index = 0; index < it.size(); index++) {
-
-            if (it.get(index).contains(".jpg")) {
-                InputStream istr = assetManager.open(root + it.get(index));
-                Bitmap bitmap = BitmapFactory.decodeStream(istr);
-                bitmaps.add(bitmap);
-                istr.close();
-                System.out.println("Loaded " + it.get(index));
-            }
-        }
-        return bitmaps;
-    }
-
 
     /**
-     * Image Adapter class
+     * Image Adapter class for clothing
      */
-    private class GridImageAdapter extends ArrayAdapter<Bitmap>{
+    private class GridImageAdapter extends ArrayAdapter<Clothing>{
 
-        public GridImageAdapter(Context context, List<Bitmap> bitmapList) {
-            super(context, R.layout.clothing_image_fragment, bitmapList);
+        public GridImageAdapter(Context context, List<Clothing> clothingList) {
+            super(context, R.layout.clothing_image_fragment, clothingList);
         }
 
         @Override
         /**
-         * convert view is a reaference to other reusable views
+         * convert view is a reference to other reusable views
          */
         public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
+            //Recycling views
+            View view;
+            if (convertView != null){
+                view = convertView;
+            } else{
+                //Get the correct view to inflate
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                view = inflater.inflate(R.layout.clothing_image_fragment, parent, false);
+            }
 
-            View view = inflater.inflate(R.layout.clothing_image_fragment, parent, false);
+            //Get the desired bitmap
+            Clothing currentClothing = getItem(position);
+            Bitmap currentBitmap = currentClothing.getBitmap();
 
-            Bitmap currentBitmap = getItem(position);
+            //Set the image view to have the bitmap
             ImageView imageView = (ImageView) view.findViewById(R.id.clothing_image_view);
             imageView.setImageBitmap(currentBitmap);
 

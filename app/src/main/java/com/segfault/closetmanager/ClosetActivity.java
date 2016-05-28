@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -170,43 +171,63 @@ public class ClosetActivity extends BaseActivity {
             //add stuff to the linearLayout
             final List<Clothing> currentList = getItem(position);
 
-            //Set the picture and the text for the closet Category
+            //Get each closet category
+            LinearLayout categoryLeftBox = (LinearLayout) categoryView.findViewById(R.id.closet_category_left_layout);
             ImageView categoryViewImage = (ImageView) categoryView.findViewById(R.id.closet_category_picture);
             TextView categoryTextView = (TextView) categoryView.findViewById(R.id.closet_category_text);
+            PreferenceList categoryPreferenceList;
+
+            //Set the picture and the text for the closet Category
             if (currentList.get(0).getCategory().equals(Clothing.HAT)){
                 categoryViewImage.setImageResource(R.drawable.cap);
                 categoryTextView.setText("Hat");
+                categoryPreferenceList = new PreferenceList(false, Clothing.HAT, null, null, null, null, null, null);
             }
             else if (currentList.get(0).getCategory().equals(Clothing.ACCESSORY)){
                 //set image to accessory
                 categoryViewImage.setImageResource(R.drawable.accessory);
                 categoryTextView.setText("Accessory");
+                categoryPreferenceList = new PreferenceList(false, Clothing.ACCESSORY, null, null, null, null, null, null);
             }
             else if (currentList.get(0).getCategory().equals(Clothing.BODY)){
                 //set image to body
                 categoryViewImage.setImageResource(R.drawable.dress);
                categoryTextView.setText("Body");
+                categoryPreferenceList = new PreferenceList(false, Clothing.BODY, null, null, null, null, null, null);
             }
             else if (currentList.get(0).getCategory().equals(Clothing.BOTTOM)){
                 //set image to bottom
                 categoryViewImage.setImageResource(R.drawable.bag_pants);
                 categoryTextView.setText("Bottom");
+                categoryPreferenceList = new PreferenceList(false, Clothing.BOTTOM, null, null, null, null, null, null);
             }
             else if (currentList.get(0).getCategory().equals(Clothing.JACKET)){
                 //set image to jacket
                 categoryViewImage.setImageResource(R.drawable.nylon_jacket);
                 categoryTextView.setText("Jacket");
+                categoryPreferenceList = new PreferenceList(false, Clothing.JACKET, null, null, null, null, null, null);
             }
             else if (currentList.get(0).getCategory().equals(Clothing.SHOE)){
                 //set image to shoes
                 categoryViewImage.setImageResource(R.drawable.sneaker);
                 categoryTextView.setText("Shoes");
+                categoryPreferenceList = new PreferenceList(false, Clothing.SHOE, null, null, null, null, null, null);
             }
             else if(currentList.get(0).getCategory().equals(Clothing.TOP)){
                 //set image to top
                 categoryViewImage.setImageResource(R.drawable.top);
                 categoryTextView.setText("Top");
+                categoryPreferenceList = new PreferenceList(false, Clothing.TOP, null, null, null, null, null, null);
             }
+
+            //Set the pictures to each have an on click listener
+            categoryLeftBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), ViewClothingByCatActivity.class);
+                    //TODO: start new intent
+                }
+            });
 
             for (int index = 0; index < currentList.size(); index++){
                 //get clothing bitmap and the appropriate view

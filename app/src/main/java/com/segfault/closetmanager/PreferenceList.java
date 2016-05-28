@@ -7,6 +7,8 @@ import java.util.List;
  */
 public class PreferenceList {
 
+    public static final String EXTRA_STRING = "PreferenceList181881";
+
     private Boolean mWorn;
 
     private String mCategory;
