@@ -22,6 +22,8 @@ public class Clothing implements Parcelable{
     public static final String HAT = "Hat";
     public static final String JACKET = "Jacket";
 
+    public static final String EXTRA_STRING = "clothing";
+
     private boolean mWorn;
     private boolean mShared;
     private boolean mLost;
