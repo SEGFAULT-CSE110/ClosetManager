@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.lang.String;
 
 /**
  * Created by Christopher Cabreros on 05-May-16.
@@ -53,11 +54,6 @@ public class Lookbook {
         /* Get a shirt */
         shirt = pickOne(shirtPref);
 
-		/* If no shirt then no outfit will be produced */
-        if(shirt == null){
-            return null;
-        }
-
 		/* Pants should match the shirt */
         PreferenceList pantsPref = new PreferenceList(shirt);
         pantsPref = new PreferenceList(pantsPref, cat, Clothing.BOTTOM);
@@ -65,20 +61,10 @@ public class Lookbook {
         /* Get pants */
         pants = pickOne(pantsPref);
 
-		/* If no pants then no outfit will be produced */
-        if( pants == null){
-            return null;
-        }
-
         /* Get shoes */
         PreferenceList shoesPref = new PreferenceList(shirtPref,
                 cat, Clothing.SHOE);
         shoes = pickOne(shoesPref);
-
-		/* If no shoes then no outfit will be produced */
-        if( shoes == null){
-            return null;
-        }
 
 		/* 20% chance there will be an hat */
         Random randHat = new Random();
@@ -89,6 +75,10 @@ public class Lookbook {
             hat = pickOne(hatPref);
         }
 
+        if( result.getFirstTop() == null || result.getFirstBottom() == null || result.getShoes( ) == null) {
+            return generateRandomOutfit();
+        }
+
         /* Construct the outfit */
         result.addTop(shirt);
         result.addBottom(pants);
@@ -97,44 +87,104 @@ public class Lookbook {
 
         return result;
     }
-    private List<String> colorMatches (String color){
+
+    private String colorMatches (String color){
+
+        List<String> colorL = null;
+
         switch (color){
             case "red":
+                colorL.add("Blue");
+                colorL.add("Black");
                 //blue, black
                 break;
             case "green":
+                colorL.add("Blue");
+                colorL.add("Black");
+                colorL.add("White");
+                colorL.add("Grey");
                 // blue, black, white, grey
                 break;
             case "blue":
+                colorL.add("Yellow");
+                colorL.add("Black");
+                colorL.add("White");
+                colorL.add("Grey");
+                colorL.add("Purple");
+                colorL.add("Brown");
+                colorL.add("Pink");
+                colorL.add("Red");
+                colorL.add("Green");
+                colorL.add("Orange");
                 // yellow, black, white, grey, purple, brown, pink, red, green
                 break;
             case "yellow":
+                colorL.add("White");
+                colorL.add("Grey");
                 //white, grey
                 break;
             case "black":
+                colorL.add("Blue");
+                colorL.add("Black");
+                colorL.add("White");
+                colorL.add("Grey");
+                colorL.add("Purple");
+                colorL.add("Brown");
+                colorL.add("Pink");
+                colorL.add("Red");
+                colorL.add("Green");
                 //everything
                 break;
             case "white":
-                //green, blue, yellow, black, grey, brown, pink
+                colorL.add("Blue");
+                colorL.add("Green");
+                colorL.add("Yellow");
+                colorL.add("Black");
+                colorL.add("Grey");
+                colorL.add("Brown");
+                colorL.add("Pink");
+                colorL.add("Orange");
+                //green, blue, yellow, black, grey, brown, pink, orange
                 break;
             case "grey":
+                colorL.add("Blue");
+                colorL.add("Green");
+                colorL.add("Black");
+                colorL.add("White");
                 //green, blue, black, white
                 break;
             case "purple":
+                colorL.add("Blue");
+                colorL.add("Black");
                 //blue, black
                 break;
             case "orange":
-                //black,
+                colorL.add("Blue");
+                colorL.add("White");
+                //blue, white
                 break;
             case "brown":
+                colorL.add("Blue");
+                colorL.add("Black");
+                colorL.add("White");
                 //blue, black, white
                 break;
             case "pink":
+                colorL.add("Blue");
+                colorL.add("Black");
+                colorL.add("White");
                 //blue, black, white
                 break;
             default:
                 break;
         }
+        Random random = new Random();
+
+        String result = null;
+        if (colorL != null) {
+            result = colorL.get(random.nextInt(colorL.size()));
+        }
+        return result;
 
     }
 
@@ -162,43 +212,47 @@ public class Lookbook {
 
         String attriWorn = "worn";
         String attriWeather = "weather";
+        String attriTop = "Top";
+        String attriColor = "color";
+        String attriOcca = "occasion";
+
+        /* Do we need to pick color or use the one passed in */
+        if(category.equals(attriTop) && color != null){
+            color = colorMatches(color);
+        }
+
+        /* Create a new preference list with this color */
+        PreferenceList first = new PreferenceList(prefList, attriColor, color);
 
         /* Filter for the perfect list */
-        match = mBelongingCloset.filter(prefList);
-        PreferenceList second = new PreferenceList( prefList, attriWorn, true);
-
-        /* Find second best */
-        if(match == null){
-            match = mBelongingCloset.filter(second);
-        }
+        match = mBelongingCloset.filter(first);
 
 		/* Next filter */
         if(match == null){
 			/* If color is set, then consider color first */
-
-            PreferenceList third = new PreferenceList(second,
+            PreferenceList third = new PreferenceList(first,
                     attriWeather, null);
             /* Delete lowest priority weather field */
-            if(weather != null && !weather.isEmpty()){
-                    match = mBelongingCloset.filter(third);
-            }
+            match = mBelongingCloset.filter(third);
 
-            /* Worn */
-            if(match == null){
-                    PreferenceList fourth = new PreferenceList(third, attriWorn, true);
-                }
+
             /* Delete occasion field */
-
+            PreferenceList fifth = new PreferenceList(third,attriOcca,null);
+            if( match == null ){
+                match = mBelongingCloset.filter(fifth);
+            }
 
 			/* If color is not set, occasion is primary and weather follows */
-            if(color != null && !color.isEmpty()){
-
+            PreferenceList seventh = new PreferenceList(fifth,attriColor,null);
+            if( match == null ){
+                match = mBelongingCloset.filter(seventh);
             }
+
         }
 		
 		/* If still nothing is found, then pick fails */
-        if(false){ // supposed to be !match
-            //todo: the result List will be in match
+        if(match == null){
+            return null;
 
         }
 
@@ -225,47 +279,54 @@ public class Lookbook {
 
         Outfit result = new Outfit();
 
-        //todo: prefList with only category as accessory
+        //accesories
         if(random.nextInt(4)==0){
             PreferenceList accessoryPref = new PreferenceList
                     (false, Clothing.ACCESSORY, null, null, null, null, null, null);
-            List<Clothing> accessoryList = mBelongingCloset.filter
-                    (accessoryPref);
-            accessory = accessoryList.get(random.nextInt(accessoryList.size()));
+            List<Clothing> accessoryList = mBelongingCloset.filter(accessoryPref);
+            if(!accessoryList.isEmpty()) { //nullptr check
+                accessory = accessoryList.get(random.nextInt(accessoryList.size()));
+                result.addAccessory(accessory);
+            }
         }
 
-        //todo: prefList with only category as top
+        //top
         PreferenceList topPref = new PreferenceList
                 (false, Clothing.TOP, null, null, null, null, null, null);
-        List<Clothing> top = mBelongingCloset.filter(topPref);
-        shirt = top.get(random.nextInt(top.size()));
+        List<Clothing> topList = mBelongingCloset.filter(topPref);
+        if (!topList.isEmpty()) { //nullptr check
+            shirt = topList.get(random.nextInt(topList.size()));
+            result.addTop(shirt);
+        }
 
-        //todo: prefList with only category as pants
+        //bottom
         PreferenceList pantsPref = new PreferenceList
                 (false, Clothing.BOTTOM, null, null, null, null, null, null);;
-        List<Clothing> bottom = mBelongingCloset.filter(pantsPref);
-        pants = bottom.get(random.nextInt(bottom.size()));
+        List<Clothing> bottomList = mBelongingCloset.filter(pantsPref);
+        if (!bottomList.isEmpty()) {
+            pants = bottomList.get(random.nextInt(bottomList.size()));
+            result.addBottom(pants);
+        }
 
-        //todo: prefList with only category as shoes
+        //shoes
         PreferenceList shoesPref = new PreferenceList
                 (false, Clothing.SHOE, null, null, null, null, null, null);;
-        List<Clothing> shoesL = mBelongingCloset.filter(shoesPref);
-        shoes = shoesL.get(random.nextInt(shoesL.size()));
+        List<Clothing> shoesList = mBelongingCloset.filter(shoesPref);
+        if (!shoesList.isEmpty()) {
+            shoes = shoesList.get(random.nextInt(shoesList.size()));
+            result.setShoes(shoes);
+        }
 
-        //todo: prefList with only category as hat
+        //hat
         if(random.nextInt(4)==0){
             PreferenceList hatPref = new PreferenceList
                     (false, Clothing.HAT, null, null, null, null, null, null);;
-            List<Clothing> hats = mBelongingCloset.filter(hatPref);
-            hat = hats.get(random.nextInt(hats.size()));
+            List<Clothing> hatList = mBelongingCloset.filter(hatPref);
+            if (!hatList.isEmpty()){
+                hat = hatList.get(random.nextInt(hatList.size()));
+                result.setHat(hat);
+            }
         }
-
-        //todo: construct the outfit result with selected clothing
-        result.addAccessory(accessory);
-        result.addTop(shirt);
-        result.addBottom(pants);
-        result.setShoes(shoes);
-        result.setHat(hat);
 
         return result;
     }
