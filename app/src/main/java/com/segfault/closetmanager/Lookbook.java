@@ -229,47 +229,54 @@ public class Lookbook {
 
         Outfit result = new Outfit();
 
-        //todo: prefList with only category as accessory
+        //accesories
         if(random.nextInt(4)==0){
             PreferenceList accessoryPref = new PreferenceList
                     (false, Clothing.ACCESSORY, null, null, null, null, null, null);
-            List<Clothing> accessoryList = mBelongingCloset.filter
-                    (accessoryPref);
-            accessory = accessoryList.get(random.nextInt(accessoryList.size()));
+            List<Clothing> accessoryList = mBelongingCloset.filter(accessoryPref);
+            if(!accessoryList.isEmpty()) { //nullptr check
+                accessory = accessoryList.get(random.nextInt(accessoryList.size()));
+                result.addAccessory(accessory);
+            }
         }
 
-        //todo: prefList with only category as top
+        //top
         PreferenceList topPref = new PreferenceList
                 (false, Clothing.TOP, null, null, null, null, null, null);
-        List<Clothing> top = mBelongingCloset.filter(topPref);
-        shirt = top.get(random.nextInt(top.size()));
+        List<Clothing> topList = mBelongingCloset.filter(topPref);
+        if (!topList.isEmpty()) { //nullptr check
+            shirt = topList.get(random.nextInt(topList.size()));
+            result.addTop(shirt);
+        }
 
-        //todo: prefList with only category as pants
+        //bottom
         PreferenceList pantsPref = new PreferenceList
                 (false, Clothing.BOTTOM, null, null, null, null, null, null);;
-        List<Clothing> bottom = mBelongingCloset.filter(pantsPref);
-        pants = bottom.get(random.nextInt(bottom.size()));
+        List<Clothing> bottomList = mBelongingCloset.filter(pantsPref);
+        if (!bottomList.isEmpty()) {
+            pants = bottomList.get(random.nextInt(bottomList.size()));
+            result.addBottom(pants);
+        }
 
-        //todo: prefList with only category as shoes
+        //shoes
         PreferenceList shoesPref = new PreferenceList
                 (false, Clothing.SHOE, null, null, null, null, null, null);;
-        List<Clothing> shoesL = mBelongingCloset.filter(shoesPref);
-        shoes = shoesL.get(random.nextInt(shoesL.size()));
+        List<Clothing> shoesList = mBelongingCloset.filter(shoesPref);
+        if (!shoesList.isEmpty()) {
+            shoes = shoesList.get(random.nextInt(shoesList.size()));
+            result.setShoes(shoes);
+        }
 
-        //todo: prefList with only category as hat
+        //hat
         if(random.nextInt(4)==0){
             PreferenceList hatPref = new PreferenceList
                     (false, Clothing.HAT, null, null, null, null, null, null);;
-            List<Clothing> hats = mBelongingCloset.filter(hatPref);
-            hat = hats.get(random.nextInt(hats.size()));
+            List<Clothing> hatList = mBelongingCloset.filter(hatPref);
+            if (!hatList.isEmpty()){
+                hat = hatList.get(random.nextInt(hatList.size()));
+                result.setHat(hat);
+            }
         }
-
-        //todo: construct the outfit result with selected clothing
-        result.addAccessory(accessory);
-        result.addTop(shirt);
-        result.addBottom(pants);
-        result.setShoes(shoes);
-        result.setHat(hat);
 
         return result;
     }

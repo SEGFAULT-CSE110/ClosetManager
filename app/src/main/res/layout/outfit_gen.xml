@@ -41,7 +41,7 @@
                 android:layout_weight="1"
                 android:background="@color/blue"
                 android:onClick="outfitDone"
-                android:text="Create Outfit"
+                android:text="Save Outfit"
                 android:textColor="#000000"
                 android:textStyle="bold"/>
 
