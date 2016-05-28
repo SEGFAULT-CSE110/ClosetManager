@@ -15,7 +15,7 @@
         <!--side category indicator modified by Yuanmin Zhang on May 25th-->
 
         <LinearLayout
-            android:id="@+id/closet_category_layout"
+            android:id="@+id/closet_category_left_layout"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:background="?color1"

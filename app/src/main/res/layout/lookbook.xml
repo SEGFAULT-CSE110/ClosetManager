@@ -29,7 +29,8 @@
         android:orientation="horizontal"
         android:layout_weight="1"
         android:id="@+id/lookbook_recycler_view"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/white"/>
 
     <include
         layout="@layout/bottom_bar"

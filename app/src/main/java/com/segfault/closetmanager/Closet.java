@@ -24,7 +24,6 @@ public class Closet {
      * @return
      */
     public List<Clothing> filter(PreferenceList pref){
-        System.out.println("FILTER STARTED");
         List<Clothing> filtered_clothes = new ArrayList<Clothing>();
         List<Clothing> temp_clothes = new ArrayList<Clothing>();
 

@@ -58,8 +58,6 @@ public class HomeActivity extends BaseActivity {
             e.printStackTrace();
         }
 
-        TESTING_CLASS tester = new TESTING_CLASS();
-        tester.testMethod();
     }
 
     @Override
@@ -137,7 +135,7 @@ public class HomeActivity extends BaseActivity {
                 if (file.contains("hat")) {
                     Clothing newHat = new Clothing();
                     newHat.setBitmap(secondBitmap);
-                    newHat.setCategory(Clothing.ACCESSORY);
+                    newHat.setCategory(Clothing.HAT);
                     clothingList.add(newHat);
                 } else if (file.contains("pants")) {
                     Clothing newPants = new Clothing();
@@ -160,7 +158,6 @@ public class HomeActivity extends BaseActivity {
                 System.out.println("Loaded " + file);
             }
         }
-        return;
     }
 
 }
