@@ -101,10 +101,11 @@ public class AddClothingActivity extends BaseActivity {
                 if(validSelections) {
                     mCurrClothing = new Clothing(selected_category, selected_color, selected_weather, selected_occasion, input_notes, isWorn, isShared, isLost);
                     mCurrCloset.addClothing(mCurrClothing);
+                    goBackToCloset();
                 }
+
             }
         });
-
         //delete button
         deleteButton = (Button) findViewById(R.id.delete);
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +129,12 @@ public class AddClothingActivity extends BaseActivity {
         }
         return true;
 
+    }
+
+    protected void goBackToCloset() {
+        Intent intent = new Intent(this, ClosetActivity.class);
+        this.finish();
+        startActivity(intent);
     }
     //creates dropdowns given a string and spinner object
     protected void initSpinner (Spinner sp, int resource, String []arr){
