@@ -8,6 +8,7 @@ import java.lang.String;
 
 /**
  * Created by Christopher Cabreros on 05-May-16.
+ * Defines the Lookbook
  */
 public class Lookbook {
 
@@ -45,7 +46,7 @@ public class Lookbook {
 
         String cat = "category";
 
-        Outfit result = null;
+        Outfit result = new Outfit();
 
         // PrefList with top
         PreferenceList shirtPref = new PreferenceList(
@@ -88,14 +89,10 @@ public class Lookbook {
         return result;
     }
 
-<<<<<<< HEAD
-    private List<String> colorMatches (String color){
-=======
     private String colorMatches (String color){
 
-        List<String> colorL = null;
+        List<String> colorL = new ArrayList<>();
 
->>>>>>> refs/remotes/origin/Generator
         switch (color){
             case "red":
                 colorL.add("Blue");
@@ -189,9 +186,6 @@ public class Lookbook {
             result = colorL.get(random.nextInt(colorL.size()));
         }
         return result;
-
-        //TODO: Baowen plz replace this
-        return new ArrayList<String>();
 
     }
 
