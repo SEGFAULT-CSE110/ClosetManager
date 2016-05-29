@@ -85,19 +85,38 @@
             <Button
                 android:id="@+id/email_sign_in_button"
                 style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
+                android:layout_width="278dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold"
-                android:onClick="runLogin"/>
+                android:onClick="runLogin"
+                android:clickable="true"
+                android:layout_gravity="center_horizontal" />
 
-            <TextView
-                android:layout_width="268dp"
+            <Button
+                android:id="@+id/facebook_login_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="279dp"
                 android:layout_height="wrap_content"
-                android:text="Don&apos;t have an account? Sign it up!"
-                android:padding="10dp"
-                android:layout_weight="1.88" />
+                android:layout_marginTop="16dp"
+                android:text="Sign in with Facebook account!"
+                android:textStyle="bold"
+                android:onClick="connectFacebooks"
+                android:clickable="true"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:id="@+id/sign_up_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="283dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Sign Up Now!"
+                android:textStyle="bold"
+                android:onClick="create"
+                android:clickable="true"
+                android:layout_gravity="center_horizontal" />
 
         </LinearLayout>
 
