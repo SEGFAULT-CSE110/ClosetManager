@@ -2,62 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-    <!--laundry_top_bar icon set-->
+
     <LinearLayout
-        android:id="@+id/laundry_top_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="85dp"
-        android:background="@color/watermelon_pink"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        android:padding="3dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-
-            android:scaleType="fitCenter"
-            android:src="@drawable/bleach_soap"
-            android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
-            android:layout_gravity="center_horizontal" />
-        <TextView
-            android:id="@+id/laundry_page_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:text="Laundry Basket"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textIsSelectable="false"
-            android:typeface="monospace"
-            android:textSize="@dimen/abc_text_size_large_material"
-            android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/abc_action_bar_default_padding_end_material" />
-
-    </LinearLayout>
-
-    <GridView
-        android:id="@+id/gridView"
-        style="@style/PhotoGridLayout"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:columnWidth="125dp"
-        android:horizontalSpacing="1dp"
-        android:numColumns="auto_fit"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="1dp">
-    </GridView>
+        android:layout_weight="0.8"
+        android:orientation="horizontal">
     <!--washing icon set-->
     <LinearLayout
         android:id="@+id/laundry_washing_button"
-        android:layout_width="fill_parent"
-        android:layout_height="85dp"
-        android:background="@color/material_grey_300"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:background="@color/grey_blue"
         android:orientation="vertical"
         android:padding="3dp"
         android:visibility="visible"
@@ -75,19 +34,58 @@
         <TextView
             android:id="@+id/do_laundry_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="125dp"
             android:background="@android:color/transparent"
-            android:text="Do laundry!"
+            android:text="Laundry"
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textIsSelectable="false"
             android:typeface="monospace"
-            android:textSize="@dimen/abc_text_size_large_material" />
+            android:textSize="@dimen/abc_text_size_large_material"
+            android:layout_weight="0.12" />
+    </LinearLayout>
+
+    <!--preferences icon set-->
+    <LinearLayout
+        android:id="@+id/more_page_preferences_button"
+
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:background="@color/watermelon_pink"
+        android:orientation="vertical"
+        android:padding="3dp"
+        android:visibility="visible"
+        android:layout_gravity="center_horizontal|right">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/preferences"
+            android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/preferences_button"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:background="@android:color/transparent"
+            android:text="Preferences"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textIsSelectable="false"
+            android:typeface="monospace"
+            android:textSize="@dimen/abc_text_size_large_material"
+            android:layout_weight="0.12" />
+    </LinearLayout>
     </LinearLayout>
     <include
         android:id="@+id/outfit_gen_bottom_bar"
         layout="@layout/bottom_bar"
+
         android:layout_width="match_parent"
-        android:layout_height="@+dimen/bottom_bar_height"/>
+        android:layout_height="@+dimen/bottom_bar_height" />
 
 </LinearLayout>
