@@ -21,7 +21,8 @@
         android:padding="32dp"
         android:text="@string/app_name"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="60sp"/>
+        android:textSize="@dimen/abc_action_button_min_width_material"
+        android:typeface="monospace" />
 
     <ProgressBar
         android:id="@+id/login_progress"
@@ -100,7 +101,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.88"
                 android:padding="10dp"
-                android:text="Don&apos;t have an account? Sign it up!"/>
+                android:text="Don&apos;t have an account? Sign it up!"
+                android:typeface="sans"
+                android:layout_gravity="center" />
 
         </LinearLayout>
 
