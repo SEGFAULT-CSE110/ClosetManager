@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,7 +62,7 @@ public class ClosetActivity extends BaseActivity {
         if (myFab != null) {
             myFab.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(getBaseContext(), AddClothingActivity.class);
+                    Intent intent = new Intent(getBaseContext(), CameraActivity.class);
                     startActivity(intent);
                 }
             });
@@ -173,36 +172,36 @@ public class ClosetActivity extends BaseActivity {
             //Set the picture and the text for the closet Category
             ImageView categoryViewImage = (ImageView) categoryView.findViewById(R.id.closet_category_picture);
             TextView categoryTextView = (TextView) categoryView.findViewById(R.id.closet_category_text);
-            if (currentList.get(0).getCategory().equals(Clothing.HAT)){
+            if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.HAT)){
                 categoryViewImage.setImageResource(R.drawable.cap);
                 categoryTextView.setText("Hat");
             }
-            else if (currentList.get(0).getCategory().equals(Clothing.ACCESSORY)){
+            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.ACCESSORY)){
                 //set image to accessory
                 categoryViewImage.setImageResource(R.drawable.accessory);
                 categoryTextView.setText("Accessory");
             }
-            else if (currentList.get(0).getCategory().equals(Clothing.BODY)){
+            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.BODY)){
                 //set image to body
                 categoryViewImage.setImageResource(R.drawable.dress);
                categoryTextView.setText("Body");
             }
-            else if (currentList.get(0).getCategory().equals(Clothing.BOTTOM)){
+            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.BOTTOM)){
                 //set image to bottom
                 categoryViewImage.setImageResource(R.drawable.bag_pants);
                 categoryTextView.setText("Bottom");
             }
-            else if (currentList.get(0).getCategory().equals(Clothing.JACKET)){
+            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.JACKET)){
                 //set image to jacket
                 categoryViewImage.setImageResource(R.drawable.nylon_jacket);
                 categoryTextView.setText("Jacket");
             }
-            else if (currentList.get(0).getCategory().equals(Clothing.SHOE)){
+            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.SHOE)){
                 //set image to shoes
                 categoryViewImage.setImageResource(R.drawable.sneaker);
                 categoryTextView.setText("Shoes");
             }
-            else if(currentList.get(0).getCategory().equals(Clothing.TOP)){
+            else if(!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.TOP)){
                 //set image to top
                 categoryViewImage.setImageResource(R.drawable.top);
                 categoryTextView.setText("Top");

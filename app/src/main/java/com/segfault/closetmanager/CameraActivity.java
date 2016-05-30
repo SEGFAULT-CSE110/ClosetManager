@@ -1,6 +1,7 @@
 package com.segfault.closetmanager;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
@@ -42,10 +43,12 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             public void onPictureTaken(byte[] data, Camera camera) {
                 FileOutputStream outStream = null;
                 try {
-                    outStream = new FileOutputStream(String.format("/sdcard/%d.jpg", System.currentTimeMillis()));
+                    outStream = new FileOutputStream(String.format("/sdcard/%d.png", System.currentTimeMillis()));
 
                     outStream.write(data);
                     outStream.close();
+                    Toast.makeText(getApplicationContext(), "Picture Saved", Toast.LENGTH_LONG).show();
+
                 }
 
                 catch (FileNotFoundException e) {
@@ -57,10 +60,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                 }
 
                 finally {
+                    Intent intent = new Intent(getBaseContext(), AddClothingActivity.class);
+                    startActivity(intent);
                 }
-
-                Toast.makeText(getApplicationContext(), "Picture Saved", Toast.LENGTH_LONG).show();
-                refreshCamera();
             }
         };
     }
