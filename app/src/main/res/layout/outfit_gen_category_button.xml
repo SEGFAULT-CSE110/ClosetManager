@@ -8,6 +8,7 @@
     android:layout_gravity="center_horizontal"
     android:contentDescription="@string/outfitgenimagebutton"
     android:cropToPadding="false"
-    android:scaleType="fitCenter">
+    android:scaleType="fitCenter"
+    android:id="@+id/outfit_gen_category_button">
 
 </ImageView>

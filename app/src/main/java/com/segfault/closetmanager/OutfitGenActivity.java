@@ -4,23 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by Christopher Cabreros on 05-May-16.
@@ -44,6 +38,9 @@ public class OutfitGenActivity extends BaseActivity {
     private OutfitGenLinearAdapter mAccessoriesAdapter;
     private OutfitGenLinearAdapter mTopAdapter;
     private OutfitGenLinearAdapter mBottomAdapter;
+    private LinearLayout.LayoutParams mAccessoriesParameters;
+    private LinearLayout.LayoutParams mTopParameters;
+    private LinearLayout.LayoutParams mBottomParameters;
 
     //Outfit and tracking variable to prevent duplicates
     private boolean mAddedOutfitAlready;
@@ -89,6 +86,34 @@ public class OutfitGenActivity extends BaseActivity {
         mAccessoriesAdapter = new OutfitGenLinearAdapter(this, Clothing.ACCESSORY);
         mTopAdapter = new OutfitGenLinearAdapter(this, Clothing.TOP);
         mBottomAdapter = new OutfitGenLinearAdapter(this, Clothing.BOTTOM);
+
+        //Set the layout parameteres
+        //Calculate in post because we need to get the actual height post creation
+        //otherwise the height is 0dp
+        mAccessoriesParameters = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, mAccessoriesLayout.getHeight());
+        mAccessoriesLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mAccessoriesParameters.height = mAccessoriesLayout.getHeight();
+            }
+        });
+        mTopParameters = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, mTopLayout.getHeight());
+        mTopLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mTopParameters.height = mTopLayout.getHeight();
+            }
+        });
+        mBottomParameters = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, mBottomLayout.getHeight());
+        mBottomLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mBottomParameters.height = mBottomLayout.getHeight();
+            }
+        });
     }
 
 
@@ -147,13 +172,13 @@ public class OutfitGenActivity extends BaseActivity {
     }
 
 
-    private class OutfitGenLinearAdapter extends ArrayAdapter<Clothing>{
+    private class OutfitGenLinearAdapter extends ArrayAdapter<Clothing> {
 
         private PreferenceList mPreferenceList;
-        
+
         public OutfitGenLinearAdapter(Context context, String clothingType) {
             super(context, R.layout.closet_category_clothing_image, new ArrayList<Clothing>());
-            
+
             //we can't get the category from objects because sometimes the list will be of size 0
             //Set the picture and the text for the closet Category
             switch (clothingType) {
@@ -184,11 +209,14 @@ public class OutfitGenActivity extends BaseActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             //Recycle views
-            if (convertView == null){
+            if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
-                convertView = inflater.inflate(R.layout.closet_category_clothing_image, parent);
+                convertView = inflater.inflate(R.layout.closet_category_clothing_image, null);
+            } else {
+                //Remove the previous parent
+                parent.removeView(convertView);
             }
-            
+
             //Add picture to view
             ImageView clothingImageView = (ImageView) convertView.findViewById(R.id.clothing_image_view);
             clothingImageView.setImageBitmap(getItem(position).getBitmap());
@@ -204,19 +232,19 @@ public class OutfitGenActivity extends BaseActivity {
                     startActivityForResult(intent, CHOOSE_CLOTHING_REQUEST);
                 }
             });
-            
+
             return convertView;
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         //Handle adding, removing clothing
-        if (requestCode == CHOOSE_CLOTHING_REQUEST){
-            if (resultCode == Activity.RESULT_OK){
+        if (requestCode == CHOOSE_CLOTHING_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
                 //get the intended
-            } else if (resultCode == Activity.RESULT_CANCELED){
+            } else if (resultCode == Activity.RESULT_CANCELED) {
                 //nothing is done
                 System.out.println("Nothing was done");
             }
@@ -224,7 +252,7 @@ public class OutfitGenActivity extends BaseActivity {
     }
 
 
-    private void clearLayouts(){
+    private void clearLayouts() {
         mAccessoriesLayout.removeAllViews();
         mTopLayout.removeAllViews();
         mBottomLayout.removeAllViews();
@@ -234,41 +262,43 @@ public class OutfitGenActivity extends BaseActivity {
     /**
      * Helper method to update each layout
      */
-    private void updateLayouts(){
+    private void updateLayouts() {
         //for each category, update the adapter, then update the layout
-        updateSpecificLayout(Clothing.ACCESSORY, mAccessoriesAdapter, mAccessoriesLayout);
-        updateSpecificLayout(Clothing.TOP, mTopAdapter, mTopLayout);
-        updateSpecificLayout(Clothing.BOTTOM, mBottomAdapter, mBottomLayout);
+        updateSpecificLayout(Clothing.ACCESSORY, mAccessoriesAdapter, mAccessoriesLayout, mAccessoriesParameters);
+        updateSpecificLayout(Clothing.TOP, mTopAdapter, mTopLayout, mTopParameters);
+        updateSpecificLayout(Clothing.BOTTOM, mBottomAdapter, mBottomLayout, mBottomParameters);
     }
 
 
     /**
      * Updates the specific layout given with the items in the adapter
+     *
      * @param adapter - adapter to receive views from
-     * @param layout - layout to place items into
+     * @param layout  - layout to place items into
      */
-    private void updateSpecificLayout(String type, ArrayAdapter<?> adapter, LinearLayout layout){
+    private void updateSpecificLayout(String type, ArrayAdapter<?> adapter, LinearLayout layout, LinearLayout.LayoutParams params) {
         adapter.notifyDataSetChanged();
 
         //Add in an image only if the adapter has more than 0 objects
         if (adapter.getCount() > 0) {
             for (int index = 0; index < adapter.getCount(); index++) {
-                layout.addView(adapter.getView(index, null, layout));
+                layout.addView(adapter.getView(index, null, layout), params);
             }
-        }
-        else{
+        } else {
             //Add in stock image based on what the category is
             LayoutInflater inflater = LayoutInflater.from(this);
-            ImageView view = (ImageView) inflater.inflate(R.layout.outfit_gen_category_button, layout);
+            LinearLayout linearLayoutParent = (LinearLayout) inflater.inflate(R.layout.outfit_gen_category_button, layout);
+            ImageView view = (ImageView) linearLayoutParent.findViewById(R.id.outfit_gen_category_button);
+            //remove the view from the parent
+            linearLayoutParent.removeView(view);
             if (type.equals(Clothing.ACCESSORY)) {
                 view.setImageResource(R.drawable.accessory);
-            } else if (type.equals(Clothing.TOP)){
+            } else if (type.equals(Clothing.TOP)) {
                 view.setImageResource(R.drawable.nylon_jacket);
-            } else if (type.equals(Clothing.BOTTOM)){
+            } else if (type.equals(Clothing.BOTTOM)) {
                 view.setImageResource(R.drawable.bag_pants);
-            }
-            else{
-                System.err.println("ERROR: TYPE " + type + " IS INVALID TYPE IN OUTFIT GEN ACTIVITY" );
+            } else {
+                System.err.println("ERROR: TYPE " + type + " IS INVALID TYPE IN OUTFIT GEN ACTIVITY");
             }
 
             //Add the view into the layout
