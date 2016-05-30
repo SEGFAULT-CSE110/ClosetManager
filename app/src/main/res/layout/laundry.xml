@@ -4,39 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"/>
     <!--laundry_top_bar icon set-->
     <LinearLayout
         android:id="@+id/laundry_top_bar"
         android:layout_width="fill_parent"
         android:layout_height="85dp"
-        android:background="@color/watermelon_pink"
         android:orientation="horizontal"
         android:visibility="visible"
         android:padding="3dp">
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
 
             android:scaleType="fitCenter"
             android:src="@drawable/bleach_soap"
             android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:background="@color/button_material_light" />
+
         <TextView
-            android:id="@+id/laundry_page_bar"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:text="Laundry Basket"
+            android:text="Do Laundry!"
+            android:id="@+id/button"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
             android:textIsSelectable="false"
             android:typeface="monospace"
             android:textSize="@dimen/abc_text_size_large_material"
             android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/abc_action_bar_default_padding_end_material" />
+            android:layout_margin="@dimen/abc_action_bar_default_padding_end_material"
+            android:background="@color/watermelon_pink" />
 
     </LinearLayout>
 
@@ -52,38 +57,7 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="1dp">
     </GridView>
-    <!--washing icon set-->
-    <LinearLayout
-        android:id="@+id/laundry_washing_button"
-        android:layout_width="fill_parent"
-        android:layout_height="85dp"
-        android:background="@color/material_grey_300"
-        android:orientation="vertical"
-        android:padding="3dp"
-        android:visibility="visible"
-        android:layout_gravity="center_horizontal|right">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            android:src="@drawable/washing_machine"
-            android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:id="@+id/do_laundry_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:text="Do laundry!"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textIsSelectable="false"
-            android:typeface="monospace"
-            android:textSize="@dimen/abc_text_size_large_material" />
-    </LinearLayout>
     <include
         android:id="@+id/outfit_gen_bottom_bar"
         layout="@layout/bottom_bar"
