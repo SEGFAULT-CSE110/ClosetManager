@@ -82,7 +82,7 @@ public class PreferenceList implements Serializable{
         this.mCategory = clothing.getCategory();
         this.mColor = clothing.getColor();
         this.mSize = clothing.getSize();
-        this.mOccasion = clothing.getOccasion();
+        this.mOccasion.add(clothing.getOccasion());
         this.mStyle = clothing.getStyle();
         this.mWeather = clothing.getWeather();
         this.mSecondaryColor = clothing.getSecondaryColor();

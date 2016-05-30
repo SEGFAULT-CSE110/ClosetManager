@@ -15,6 +15,11 @@
         android:layout_width="fill_parent"
         android:layout_height="61dp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
     <!--closet icon set-->
     <LinearLayout
         android:id="@+id/closet_layout"
@@ -31,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:padding="3dp"
+            android:padding="@dimen/abc_dialog_padding_material"
             android:scaleType="fitCenter"
             android:src="@drawable/closet"
             android:contentDescription="@string/closet_button_picture_description"/>
@@ -41,11 +46,12 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:padding="5dp"
+            android:padding="@dimen/abc_action_bar_content_inset_material"
             android:text="@string/closet"
             android:textAlignment="center"
             android:textIsSelectable="false"
-            android:typeface="serif"/>
+            android:typeface="monospace"
+            android:textSize="@dimen/abc_text_size_large_material" />
     </LinearLayout>
 
     <!--outfit generator icon set -->
@@ -63,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:padding="3dp"
+            android:padding="@dimen/abc_dialog_padding_material"
             android:scaleType="fitCenter"
             android:src="@drawable/outfitgen"
             android:contentDescription="@string/stylist_button_picture_description"/>
@@ -73,13 +79,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:padding="5dp"
+            android:padding="@dimen/abc_action_bar_content_inset_material"
             android:text="@string/outfit_creator"
             android:textAlignment="center"
-            android:typeface="serif"/>
+            android:typeface="monospace"
+            android:textSize="@dimen/abc_text_size_large_material" />
 
     </LinearLayout>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
     <!--lookbook icon set -->
     <LinearLayout
         android:id="@+id/lookbook_layout"
@@ -95,7 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:padding="3dp"
+            android:padding="@dimen/abc_dialog_padding_material"
             android:scaleType="fitCenter"
             android:src="@drawable/lookbook"
             android:contentDescription="@string/lookbook_button_picture_description"/>
@@ -105,10 +118,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:padding="5dp"
+            android:padding="@dimen/abc_action_bar_content_inset_material"
             android:text="@string/lookbook"
             android:textAlignment="center"
-            android:typeface="serif"/>
+            android:typeface="monospace"
+            android:textSize="@dimen/abc_text_size_large_material" />
 
     </LinearLayout>
 
@@ -127,7 +141,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:padding="3dp"
+            android:padding="@dimen/abc_alert_dialog_button_bar_height"
             android:scaleType="fitCenter"
             android:src="@drawable/more"
             android:contentDescription="@string/more_button_picture_description"/>
@@ -137,11 +151,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:padding="5dp"
+            android:padding="@dimen/abc_action_bar_content_inset_material"
             android:text="@string/more"
             android:textAlignment="center"
-            android:typeface="serif"/>
-
+            android:typeface="monospace"
+            android:textSize="@dimen/abc_text_size_large_material" />
     </LinearLayout>
-
+    </LinearLayout>
 </LinearLayout>

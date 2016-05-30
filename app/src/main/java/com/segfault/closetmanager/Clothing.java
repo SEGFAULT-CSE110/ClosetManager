@@ -33,19 +33,19 @@ public class Clothing implements Parcelable{
 
     private String mColor;
     private String mSize;
-    private List<String> mOccasion;
+    private String mOccasion;
     private String mStyle;
     private String mWeather;
     private String mNotes; //might change implementation
     private String mSecondaryColor;
+    private String mId;
 
 
     private Bitmap mBitmap;
 
     public Clothing(){
-        mOccasion = new ArrayList<String>();
     }
-    public Clothing(String cat, String col, String weat, String occ, String not, boolean wor, boolean shar, boolean los ) {
+    public Clothing(String cat, String col, String weat, String occ, String not, boolean wor, boolean shar, boolean los, String id ) {
 
         mWorn = wor;
         mShared = shar;
@@ -53,10 +53,10 @@ public class Clothing implements Parcelable{
 
         mCategory = cat;
         mColor = col;
-        mOccasion = new ArrayList<String>();
-        mOccasion.add(occ);
+        mOccasion = occ ;
         mWeather = weat;
         mNotes = not;
+        mId=id;
 
     }
 
@@ -65,12 +65,13 @@ public class Clothing implements Parcelable{
         mCategory = in.readString();
         mColor = in.readString();
         mSize = in.readString();
-        mOccasion = in.createStringArrayList();
+        mOccasion = in.readString();
         mStyle = in.readString();
         mWeather = in.readString();
         mNotes = in.readString();
         mBitmap = in.readParcelable(Bitmap.class.getClassLoader());
         mSecondaryColor = in.readString();
+        mId = in.readString();
     }
 
     public static final Creator<Clothing> CREATOR = new Creator<Clothing>() {
@@ -117,11 +118,11 @@ public class Clothing implements Parcelable{
         mSize = size;
     }
 
-    public List<String> getOccasion() {
+    public String getOccasion() {
         return mOccasion;
     }
 
-    public void setOccasion(List<String> occasion) {
+    public void setOccasion(String occasion) {
         mOccasion = occasion;
     }
 
@@ -159,6 +160,10 @@ public class Clothing implements Parcelable{
 
     public String getSecondaryColor() {return mSecondaryColor;}
 
+    public String getId() { return mId;}
+
+    public void setId(String id){ mId = id;}
+
     public void setSecondaryColor(String SecondaryColor) { mSecondaryColor = SecondaryColor; }
 
     @Override
@@ -172,11 +177,12 @@ public class Clothing implements Parcelable{
         dest.writeString(mCategory);
         dest.writeString(mColor);
         dest.writeString(mSize);
-        dest.writeStringList(mOccasion);
+        dest.writeString(mOccasion);
         dest.writeString(mStyle);
         dest.writeString(mWeather);
         dest.writeString(mNotes);
         dest.writeParcelable(mBitmap, flags);
         dest.writeString(mSecondaryColor);
+        dest.writeString(mId);
     }
 }

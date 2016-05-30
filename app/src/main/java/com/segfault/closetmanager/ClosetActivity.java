@@ -62,7 +62,7 @@ public class ClosetActivity extends BaseActivity {
         if (myFab != null) {
             myFab.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(getBaseContext(), AddClothingActivity.class);
+                    Intent intent = new Intent(getBaseContext(), CameraActivity.class);
                     startActivity(intent);
                 }
             });
@@ -173,6 +173,7 @@ public class ClosetActivity extends BaseActivity {
             LinearLayout categoryLeftBox = (LinearLayout) categoryView.findViewById(R.id.closet_category_left_layout);
             ImageView categoryViewImage = (ImageView) categoryView.findViewById(R.id.closet_category_picture);
             TextView categoryTextView = (TextView) categoryView.findViewById(R.id.closet_category_text);
+            if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.HAT)){
             PreferenceList categoryPreferenceList = null;
 
             //Set the picture and the text for the closet Category
@@ -181,37 +182,37 @@ public class ClosetActivity extends BaseActivity {
                 categoryTextView.setText("Hat");
                 categoryPreferenceList = new PreferenceList(false, Clothing.HAT, null, null, null, null, null, null);
             }
-            else if (currentList.get(0).getCategory().equals(Clothing.ACCESSORY)){
+            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.ACCESSORY)){
                 //set image to accessory
                 categoryViewImage.setImageResource(R.drawable.accessory);
                 categoryTextView.setText("Accessory");
                 categoryPreferenceList = new PreferenceList(false, Clothing.ACCESSORY, null, null, null, null, null, null);
             }
-            else if (currentList.get(0).getCategory().equals(Clothing.BODY)){
+            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.BODY)){
                 //set image to body
                 categoryViewImage.setImageResource(R.drawable.dress);
                categoryTextView.setText("Body");
                 categoryPreferenceList = new PreferenceList(false, Clothing.BODY, null, null, null, null, null, null);
             }
-            else if (currentList.get(0).getCategory().equals(Clothing.BOTTOM)){
+            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.BOTTOM)){
                 //set image to bottom
                 categoryViewImage.setImageResource(R.drawable.bag_pants);
                 categoryTextView.setText("Bottom");
                 categoryPreferenceList = new PreferenceList(false, Clothing.BOTTOM, null, null, null, null, null, null);
             }
-            else if (currentList.get(0).getCategory().equals(Clothing.JACKET)){
+            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.JACKET)){
                 //set image to jacket
                 categoryViewImage.setImageResource(R.drawable.nylon_jacket);
                 categoryTextView.setText("Jacket");
                 categoryPreferenceList = new PreferenceList(false, Clothing.JACKET, null, null, null, null, null, null);
             }
-            else if (currentList.get(0).getCategory().equals(Clothing.SHOE)){
+            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.SHOE)){
                 //set image to shoes
                 categoryViewImage.setImageResource(R.drawable.sneaker);
                 categoryTextView.setText("Shoes");
                 categoryPreferenceList = new PreferenceList(false, Clothing.SHOE, null, null, null, null, null, null);
             }
-            else if(currentList.get(0).getCategory().equals(Clothing.TOP)){
+            else if(!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.TOP)){
                 //set image to top
                 categoryViewImage.setImageResource(R.drawable.top);
                 categoryTextView.setText("Top");
