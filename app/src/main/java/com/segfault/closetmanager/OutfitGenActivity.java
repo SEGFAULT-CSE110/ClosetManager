@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -16,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 /**
  * Created by Christopher Cabreros on 05-May-16.
@@ -37,6 +41,9 @@ public class OutfitGenActivity extends BaseActivity {
     private LinearLayout mAccessoriesLayout;
     private LinearLayout mTopLayout;
     private LinearLayout mBottomLayout;
+    private OutfitGenLinearAdapter mAccessoriesAdapter;
+    private OutfitGenLinearAdapter mTopAdapter;
+    private OutfitGenLinearAdapter mBottomAdapter;
 
     //Outfit and tracking variable to prevent duplicates
     private boolean mAddedOutfitAlready;
@@ -78,7 +85,10 @@ public class OutfitGenActivity extends BaseActivity {
         mAddedOutfitAlready = false;
         mOutfitGeneratedAlready = false;
 
-
+        //Set the adapters
+        mAccessoriesAdapter = new OutfitGenLinearAdapter(this, Clothing.ACCESSORY);
+        mTopAdapter = new OutfitGenLinearAdapter(this, Clothing.TOP);
+        mBottomAdapter = new OutfitGenLinearAdapter(this, Clothing.BOTTOM);
     }
 
 
@@ -88,7 +98,7 @@ public class OutfitGenActivity extends BaseActivity {
      * @param view - deprecated
      */
     public void outfitDone(View view) {
-        //Add the outfit only if it hasnt been added in already
+        //Add the outfit only if it hasn't been added in already
         if (!mAddedOutfitAlready && mOutfitGeneratedAlready) {
             mLookbook.addOutfit(mCurrentOutfit);
             Toast newToast = Toast.makeText(this, "Saving outfit to Lookbook.", Toast.LENGTH_SHORT);
@@ -98,7 +108,6 @@ public class OutfitGenActivity extends BaseActivity {
             Toast newToast = Toast.makeText(this, "You have already saved this outfit.", Toast.LENGTH_SHORT);
             newToast.show();
         } else {
-            //TODO: when user adds in a piece of clothing, set outfitGeneratedAlready to true.
             Toast newToast = Toast.makeText(this, "You have not yet created an outfit.", Toast.LENGTH_SHORT);
             newToast.show();
         }
@@ -111,28 +120,25 @@ public class OutfitGenActivity extends BaseActivity {
      * @param view - deprecated
      */
     public void generateOutfit(View view) {
-        //Clear all of the buttons
-        mAccessoriesButton.setImageResource(R.drawable.cap);
-        mTopButton.setImageResource(R.drawable.nylon_jacket);
-        mBottomButton.setImageResource(R.drawable.bag_pants);
-        mShoesButton.setImageResource(R.drawable.sneaker);
+        //Clear all of the views
+        clearLayouts();
 
         //create a random outfit
         mCurrentOutfit = mLookbook.generateRandomOutfit();
-        //TODO: generate outfit with a layout manager side by side
-
+        //Add components of outfits to layouts
         if (mCurrentOutfit.getHat() != null) {
-            mAccessoriesButton.setImageBitmap(mCurrentOutfit.getHat().getBitmap());
+            mAccessoriesAdapter.add(mCurrentOutfit.getHat());
         }
         if (mCurrentOutfit.getFirstTop() != null) {
-            mTopButton.setImageBitmap(mCurrentOutfit.getFirstTop().getBitmap());
+            mTopAdapter.addAll(mCurrentOutfit.getTops());
         }
         if (mCurrentOutfit.getFirstBottom() != null) {
-            mBottomButton.setImageBitmap(mCurrentOutfit.getFirstBottom().getBitmap());
+            mBottomAdapter.addAll(mCurrentOutfit.getBottoms());
         }
         if (mCurrentOutfit.getShoes() != null) {
             mShoesButton.setImageBitmap(mCurrentOutfit.getShoes().getBitmap());
         }
+        updateLayouts();
 
         mOutfitGeneratedAlready = true;
         mAddedOutfitAlready = false;
@@ -145,12 +151,8 @@ public class OutfitGenActivity extends BaseActivity {
 
         private PreferenceList mPreferenceList;
         
-        public OutfitGenLinearAdapter(Context context, List<Clothing> objects, String clothingType) {
-            super(context, R.layout.closet_category_clothing_image, objects);
-            
-            if (objects.size() == 0){
-                //handle case of nothing
-            }
+        public OutfitGenLinearAdapter(Context context, String clothingType) {
+            super(context, R.layout.closet_category_clothing_image, new ArrayList<Clothing>());
             
             //we can't get the category from objects because sometimes the list will be of size 0
             //Set the picture and the text for the closet Category
@@ -215,8 +217,62 @@ public class OutfitGenActivity extends BaseActivity {
             if (resultCode == Activity.RESULT_OK){
                 //get the intended
             } else if (resultCode == Activity.RESULT_CANCELED){
-
+                //nothing is done
+                System.out.println("Nothing was done");
             }
+        }
+    }
+
+
+    private void clearLayouts(){
+        mAccessoriesLayout.removeAllViews();
+        mTopLayout.removeAllViews();
+        mBottomLayout.removeAllViews();
+        mShoesButton.setImageResource(R.drawable.sneaker);
+    }
+
+    /**
+     * Helper method to update each layout
+     */
+    private void updateLayouts(){
+        //for each category, update the adapter, then update the layout
+        updateSpecificLayout(Clothing.ACCESSORY, mAccessoriesAdapter, mAccessoriesLayout);
+        updateSpecificLayout(Clothing.TOP, mTopAdapter, mTopLayout);
+        updateSpecificLayout(Clothing.BOTTOM, mBottomAdapter, mBottomLayout);
+    }
+
+
+    /**
+     * Updates the specific layout given with the items in the adapter
+     * @param adapter - adapter to receive views from
+     * @param layout - layout to place items into
+     */
+    private void updateSpecificLayout(String type, ArrayAdapter<?> adapter, LinearLayout layout){
+        adapter.notifyDataSetChanged();
+
+        //Add in an image only if the adapter has more than 0 objects
+        if (adapter.getCount() > 0) {
+            for (int index = 0; index < adapter.getCount(); index++) {
+                layout.addView(adapter.getView(index, null, layout));
+            }
+        }
+        else{
+            //Add in stock image based on what the category is
+            LayoutInflater inflater = LayoutInflater.from(this);
+            ImageView view = (ImageView) inflater.inflate(R.layout.outfit_gen_category_button, layout);
+            if (type.equals(Clothing.ACCESSORY)) {
+                view.setImageResource(R.drawable.accessory);
+            } else if (type.equals(Clothing.TOP)){
+                view.setImageResource(R.drawable.nylon_jacket);
+            } else if (type.equals(Clothing.BOTTOM)){
+                view.setImageResource(R.drawable.bag_pants);
+            }
+            else{
+                System.err.println("ERROR: TYPE " + type + " IS INVALID TYPE IN OUTFIT GEN ACTIVITY" );
+            }
+
+            //Add the view into the layout
+            layout.addView(view);
         }
     }
 
