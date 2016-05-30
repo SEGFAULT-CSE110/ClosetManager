@@ -46,7 +46,8 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textIsSelectable="false"
-                android:typeface="serif"/>
+                android:typeface="serif"
+                android:textSize="@dimen/abc_action_bar_content_inset_material" />
         </LinearLayout>
 
         <!--outfit generator icon set -->
@@ -73,7 +74,8 @@
                 android:text="@string/outfit_creator"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:typeface="serif"/>
+                android:typeface="serif"
+                android:textSize="@dimen/abc_action_bar_content_inset_material" />
 
         </LinearLayout>
 
@@ -101,7 +103,8 @@
                 android:text="@string/lookbook"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:typeface="serif"/>
+                android:typeface="serif"
+                android:textSize="@dimen/abc_action_bar_content_inset_material" />
 
         </LinearLayout>
 
@@ -131,7 +134,8 @@
                 android:text="@string/more"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:typeface="serif"/>
+                android:typeface="serif"
+                android:textSize="@dimen/abc_action_bar_content_inset_material" />
 
         </LinearLayout>
 
