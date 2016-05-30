@@ -213,7 +213,7 @@ public class OutfitGenActivity extends BaseActivity {
         //Handle adding, removing clothing
         if (requestCode == CHOOSE_CLOTHING_REQUEST){
             if (resultCode == Activity.RESULT_OK){
-
+                //get the intended
             } else if (resultCode == Activity.RESULT_CANCELED){
 
             }
