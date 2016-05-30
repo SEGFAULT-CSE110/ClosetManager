@@ -384,6 +384,7 @@ public class LoginActivity extends Activity {
 
         // Or via popular OAuth providers ("facebook", "github", "google", or "twitter")
         ref.authWithOAuthToken("<provider>", "<oauth-token>", authResultHandler);
+        Account.currentAccountInstance = new Account("kkk");
 
         Intent intent = new Intent(this, HomeActivity.class);
         this.finish();
