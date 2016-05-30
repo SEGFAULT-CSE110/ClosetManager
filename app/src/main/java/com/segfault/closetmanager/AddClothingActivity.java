@@ -1,9 +1,7 @@
 package com.segfault.closetmanager;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,8 +9,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import java.util.ArrayList;
 
 /**
  * Created by Christopher Cabreros on 05-May-16.
@@ -65,7 +61,7 @@ public class AddClothingActivity extends BaseActivity {
         initSpinner(color, R.id.Color, col_array);
 
         //get edit text notes and check boxes
-        notes = (EditText) findViewById(R.id.Notes);
+        //notes = (EditText) findViewById(R.id.Notes);
         worn = (CheckBox) findViewById(R.id.Worn);
         shared = (CheckBox) findViewById(R.id.Shared);
         lost = (CheckBox) findViewById(R.id.Lost);
@@ -75,7 +71,7 @@ public class AddClothingActivity extends BaseActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // get all selections
-                String selected_category = category.getSelectedItem().toString();
+         /*       String selected_category = category.getSelectedItem().toString();
                 String selected_weather = weather.getSelectedItem().toString();
                 String selected_occasion = occasion.getSelectedItem().toString();
                 String selected_color = color.getSelectedItem().toString();
@@ -94,6 +90,9 @@ public class AddClothingActivity extends BaseActivity {
                 //create new clothing object - set to currClothing
 
                 currClothing  = new Clothing(selected_category, selected_color, selected_weather, selected_occasion, input_notes, isWorn, isShared, isLost);
+                */
+                Intent intent = new Intent(getBaseContext(), ClosetActivity.class);
+                startActivity(intent);
             }
         });
 
