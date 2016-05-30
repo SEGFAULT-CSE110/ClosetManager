@@ -1,6 +1,7 @@
 package com.segfault.closetmanager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.google.gson.Gson;
 
 /**
  * Created by Christopher Cabreros on 05-May-16.
@@ -30,6 +33,11 @@ public class AddClothingActivity extends BaseActivity {
     private EditText notes;
 
     private Clothing currClothing;
+
+
+    SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+    SharedPreferences.Editor prefsEditor = mPrefs.edit();
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +79,7 @@ public class AddClothingActivity extends BaseActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // get all selections
-         /*       String selected_category = category.getSelectedItem().toString();
+                String selected_category = category.getSelectedItem().toString();
                 String selected_weather = weather.getSelectedItem().toString();
                 String selected_occasion = occasion.getSelectedItem().toString();
                 String selected_color = color.getSelectedItem().toString();
@@ -89,8 +97,16 @@ public class AddClothingActivity extends BaseActivity {
 
                 //create new clothing object - set to currClothing
 
-                currClothing  = new Clothing(selected_category, selected_color, selected_weather, selected_occasion, input_notes, isWorn, isShared, isLost);
-                */
+                currClothing.setCategory(selected_category);
+                currClothing.setWeather(selected_weather);
+                currClothing.setOccasion(selected_occasion);
+                currClothing.setColor(selected_color);
+                currClothing.setNotes(input_notes);
+
+                String json = gson.toJson(currClothing);
+                prefsEditor.putString(currClothing.getId(), json);
+                prefsEditor.commit();
+
                 Intent intent = new Intent(getBaseContext(), ClosetActivity.class);
                 startActivity(intent);
             }
@@ -109,6 +125,17 @@ public class AddClothingActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Intent intent = getIntent();
+        if (intent.hasExtra("Clothing")) {
+            currClothing = (Clothing)intent.getSerializableExtra("Clothing");
+
+        }
     }
 
     protected boolean validateClothingAttributes (String cat, String weath, String occ, String col) {

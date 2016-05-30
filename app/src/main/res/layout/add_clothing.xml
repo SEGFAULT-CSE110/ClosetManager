@@ -248,7 +248,7 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/Notes"
 
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

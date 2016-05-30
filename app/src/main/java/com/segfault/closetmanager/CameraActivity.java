@@ -26,6 +26,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     Camera.ShutterCallback shutterCallback;
     Camera.PictureCallback jpegCallback;
 
+    Closet mCurrentCloset = Account.currentAccountInstance.getCloset();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +44,21 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
                 FileOutputStream outStream = null;
+                Clothing currCloth;
                 try {
-                    outStream = new FileOutputStream(String.format("/sdcard/%d.png", System.currentTimeMillis()));
+                    String id = String.format("/sdcard/%d.png", System.currentTimeMillis());
+                    outStream = new FileOutputStream(id);
 
                     outStream.write(data);
                     outStream.close();
                     Toast.makeText(getApplicationContext(), "Picture Saved", Toast.LENGTH_LONG).show();
+
+                    currCloth = new Clothing();
+                    currCloth.setId(id);
+
+                    mCurrentCloset.getList().add(currCloth);
+
+                    mCurrentCloset.addId(id);
 
                 }
 
@@ -61,6 +72,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
                 finally {
                     Intent intent = new Intent(getBaseContext(), AddClothingActivity.class);
+                    int index = mCurrentCloset.getList().size()-1;
+                    intent.putExtra("Clothing",mCurrentCloset.getList().get(index));
                     startActivity(intent);
                 }
             }
