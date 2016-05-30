@@ -42,9 +42,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/category"
-                    android:padding="@dimen/abc_action_bar_overflow_padding_start_material" />
+                    android:src="@drawable/category"/>
 
                 <TextView
                     android:id="@+id/CategoryTitle"
@@ -65,11 +65,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.3"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"/>
         </LinearLayout>
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -91,9 +90,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/color_icon"
-                    android:padding="@dimen/abc_action_bar_overflow_padding_start_material" />
+                    android:src="@drawable/color_icon"/>
 
                 <TextView
                     android:id="@+id/ColorTitle"
@@ -114,7 +113,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.3"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -139,9 +139,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/weather_icon"
-                    android:padding="@dimen/abc_action_bar_overflow_padding_start_material" />
+                    android:src="@drawable/weather_icon"/>
 
                 <TextView
                     android:id="@+id/weatherTitle"
@@ -162,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.3"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"/>
         </LinearLayout>
 
         <LinearLayout
@@ -187,9 +187,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/formal"
-                    android:padding="@dimen/abc_action_bar_overflow_padding_start_material" />
+                    android:src="@drawable/formal"/>
 
                 <TextView
                     android:id="@+id/occasionTitle"
@@ -210,7 +210,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.3"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"/>
         </LinearLayout>
 
         <LinearLayout
@@ -235,9 +235,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/notes"
-                    android:padding="@dimen/abc_action_bar_overflow_padding_start_material" />
+                    android:src="@drawable/notes"/>
 
                 <TextView
                     android:id="@+id/notesTitle"
@@ -253,8 +253,7 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/editText2"
-
+                android:id="@+id/Notes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.48"/>
@@ -269,64 +268,64 @@
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".3">
+            android:layout_weight=".3"
+            android:orientation="horizontal">
 
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Worn"
                 android:id="@+id/Worn"
-                android:layout_weight="1"
-                android:checked="false"
-                android:layout_gravity="center_vertical" />
-
-            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Shared"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="Worn"/>
+
+            <CheckBox
                 android:id="@+id/Shared"
-                android:layout_weight="1"
-                android:checked="false"
-                android:layout_gravity="center_vertical" />
-
-            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lost"
-                android:id="@+id/Lost"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:checked="false"
-                android:layout_gravity="center_vertical" />
+                android:text="Shared"/>
+
+            <CheckBox
+                android:id="@+id/Lost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="Lost"/>
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/delete"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
+                android:layout_weight="1"
                 android:text="Delete"
-                android:typeface="serif"
-                android:layout_weight="1" />
+                android:typeface="serif"/>
 
             <Button
                 android:id="@+id/done"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
+                android:layout_weight="1"
                 android:text="Done"
-                android:typeface="serif"
-                android:layout_weight="1" />
+                android:typeface="serif"/>
+
         </LinearLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>

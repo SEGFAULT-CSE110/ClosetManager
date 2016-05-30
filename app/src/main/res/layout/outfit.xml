@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- This layout deifines the outfit in outfit_generator.xml -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -6,19 +7,27 @@
     android:orientation="vertical"
     android:visibility="visible">
 
-    <ImageButton
-        android:id="@+id/accessoriesButton"
+    <LinearLayout
+        android:id="@+id/outfit_gen_accessories_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.5"
-        android:background="@color/background_material_light_closet"
-        android:contentDescription="@string/top_image_description"
-        android:cropToPadding="false"
-        android:scaleType="fitCenter"
-        android:src="@drawable/cap"/>
+        android:layout_weight="0.5">
+
+        <ImageButton
+            android:id="@+id/accessoriesButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/background_material_light_closet"
+            android:contentDescription="@string/top_image_description"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/cap"/>
+
+    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/outfit_gen_top_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.9"
@@ -26,10 +35,9 @@
 
         <ImageButton
             android:id="@+id/topButton"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="0.9"
             android:background="#ffffff"
             android:contentDescription="@string/shirt_top_image_description"
             android:cropToPadding="false"
@@ -39,6 +47,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/outfit_gen_bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.9"
@@ -46,10 +55,9 @@
 
         <ImageButton
             android:id="@+id/bottomButton"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
             android:background="#ffffff"
             android:contentDescription="@string/pants_bottom_image_description"
             android:cropToPadding="false"
@@ -61,7 +69,7 @@
 
 
     <ImageButton
-        android:id="@+id/shoesButton"
+        android:id="@+id/outfit_gen_shoes_button"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
