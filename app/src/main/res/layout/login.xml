@@ -37,7 +37,7 @@
         android:typeface="monospace"
         android:textColor="@android:color/secondary_text_light"
         android:padding="@dimen/abc_action_bar_content_inset_material"
-        android:layout_gravity="center"
+        android:layout_gravity="bottom|center_horizontal"
         android:textIsSelectable="false" />
 
 
