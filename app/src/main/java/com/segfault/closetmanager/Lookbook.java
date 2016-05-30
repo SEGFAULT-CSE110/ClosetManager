@@ -207,7 +207,7 @@ public class Lookbook {
         String color = prefList.getColor();
         String secColor = prefList.getSecondaryColor();
         String size = prefList.getSize();
-        List<String> occasion = prefList.getOccasion();
+        String occasion = prefList.getOccasion();
         String style = prefList.getStyle();
         String weather = prefList.getWeather();
 
