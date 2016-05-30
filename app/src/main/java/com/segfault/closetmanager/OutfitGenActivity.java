@@ -71,6 +71,11 @@ public class OutfitGenActivity extends BaseActivity {
         mTopLayout = (LinearLayout) findViewById(R.id.outfit_gen_top_layout);
         mBottomLayout = (LinearLayout) findViewById(R.id.outfit_gen_bottom_layout);
 
+        //Set the adapters
+        mAccessoriesAdapter = new OutfitGenLinearAdapter(this, Clothing.ACCESSORY);
+        mTopAdapter = new OutfitGenLinearAdapter(this, Clothing.TOP);
+        mBottomAdapter = new OutfitGenLinearAdapter(this, Clothing.BOTTOM);
+
         //Recreate bottom bar here because the account has not been created
         View bottomBarView = findViewById(R.id.outfit_gen_bottom_bar);
         BottomBar mBottomBar = new BottomBar(bottomBarView, this);
@@ -79,15 +84,12 @@ public class OutfitGenActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        //set default variable values
         mAddedOutfitAlready = false;
         mOutfitGeneratedAlready = false;
 
-        //Set the adapters
-        mAccessoriesAdapter = new OutfitGenLinearAdapter(this, Clothing.ACCESSORY);
-        mTopAdapter = new OutfitGenLinearAdapter(this, Clothing.TOP);
-        mBottomAdapter = new OutfitGenLinearAdapter(this, Clothing.BOTTOM);
-
-        //Set the layout parameteres
+        //Set the layout parameters
         //Calculate in post because we need to get the actual height post creation
         //otherwise the height is 0dp
         mAccessoriesParameters = new LinearLayout.LayoutParams(
@@ -126,14 +128,19 @@ public class OutfitGenActivity extends BaseActivity {
         //Add the outfit only if it hasn't been added in already
         if (!mAddedOutfitAlready && mOutfitGeneratedAlready) {
             mLookbook.addOutfit(mCurrentOutfit);
-            Toast newToast = Toast.makeText(this, "Saving outfit to Lookbook.", Toast.LENGTH_SHORT);
+            Toast newToast = Toast.makeText(this, R.string.save_outfit_to_lookbook_toast_text,
+                    Toast.LENGTH_SHORT);
             newToast.show();
             mAddedOutfitAlready = true;
-        } else if (mOutfitGeneratedAlready) {
-            Toast newToast = Toast.makeText(this, "You have already saved this outfit.", Toast.LENGTH_SHORT);
+        }
+        else if (mOutfitGeneratedAlready) {
+            Toast newToast = Toast.makeText(this, R.string.already_saved_outfit_toast_text,
+                    Toast.LENGTH_SHORT);
             newToast.show();
-        } else {
-            Toast newToast = Toast.makeText(this, "You have not yet created an outfit.", Toast.LENGTH_SHORT);
+        }
+        else {
+            Toast newToast = Toast.makeText(this, R.string.not_created_outfit_toast_text,
+                    Toast.LENGTH_SHORT);
             newToast.show();
         }
     }
@@ -252,10 +259,22 @@ public class OutfitGenActivity extends BaseActivity {
     }
 
 
+    /**
+     * Clears the three linear layouts, plus the shoes button
+     */
     private void clearLayouts() {
+        mAccessoriesAdapter.clear();
+        mAccessoriesAdapter.notifyDataSetChanged();
         mAccessoriesLayout.removeAllViews();
+
+        mTopAdapter.clear();
+        mTopAdapter.notifyDataSetChanged();
         mTopLayout.removeAllViews();
+
+        mBottomAdapter.clear();
+        mBottomAdapter.notifyDataSetChanged();
         mBottomLayout.removeAllViews();
+
         mShoesButton.setImageResource(R.drawable.sneaker);
     }
 
@@ -286,11 +305,12 @@ public class OutfitGenActivity extends BaseActivity {
             }
         } else {
             //Add in stock image based on what the category is
-            LayoutInflater inflater = LayoutInflater.from(this);
-            LinearLayout linearLayoutParent = (LinearLayout) inflater.inflate(R.layout.outfit_gen_category_button, layout);
-            ImageView view = (ImageView) linearLayoutParent.findViewById(R.id.outfit_gen_category_button);
-            //remove the view from the parent
-            linearLayoutParent.removeView(view);
+            ImageView view = new ImageView(this);
+//            LayoutInflater inflater = LayoutInflater.from(this);
+//            LinearLayout linearLayoutParent = (LinearLayout) inflater.inflate(R.layout.outfit_gen_category_button, layout);
+//            ImageView view = (ImageView) linearLayoutParent.findViewById(R.id.outfit_gen_category_button);
+//            //remove the view from the parent
+//            linearLayoutParent.removeView(view);
             if (type.equals(Clothing.ACCESSORY)) {
                 view.setImageResource(R.drawable.accessory);
             } else if (type.equals(Clothing.TOP)) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- This layout deifines the outfit in outfit_generator.xml -->
+<!-- This layout defines the outfit in outfit_generator.xml -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -11,7 +11,8 @@
         android:id="@+id/outfit_gen_accessories_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5">
+        android:layout_weight="0.5"
+        android:gravity="center">
 
         <ImageButton
             android:id="@+id/accessoriesButton"
@@ -32,8 +33,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.9"
         android:orientation="horizontal"
-        android:gravity="center"
-        >
+        android:gravity="center">
 
         <ImageButton
             android:id="@+id/topButton"
