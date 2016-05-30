@@ -33,7 +33,7 @@ public class HomeActivity extends BaseActivity {
     private boolean backButtonPressed;
     private Toolbar mToolbar;
     private Closet mCurrentCloset;
-    SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+    SharedPreferences mPrefs;
     Gson gson = new Gson();
 
     @Override
@@ -41,6 +41,7 @@ public class HomeActivity extends BaseActivity {
         setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
+        mPrefs = getPreferences(MODE_PRIVATE);
 
         // Load closet
         mCurrentCloset = Account.currentAccountInstance.getCloset();

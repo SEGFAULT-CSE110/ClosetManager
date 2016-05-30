@@ -23,6 +23,8 @@ public class LoginActivity extends Activity {
     public void runLogin(View view) {
         //TODO: check login credentials. also remove finish if not needed
 
+        Account.currentAccountInstance = new Account("kkk");
+
         Intent intent = new Intent(this, HomeActivity.class);
         this.finish();
         startActivity(intent);

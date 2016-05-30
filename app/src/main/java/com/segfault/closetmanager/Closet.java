@@ -16,6 +16,7 @@ public class Closet {
 
     public Closet(){
         list_clothes = new ArrayList<>();
+        list_id = new ArrayList<>();
     }
 
     /**
