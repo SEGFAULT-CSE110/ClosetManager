@@ -26,6 +26,7 @@
             android:id="@+id/imageView"
             android:src="@drawable/icloset_icon"
             android:layout_gravity="center" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -114,24 +115,22 @@
                 android:onClick="runLogin"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold"
-                android:typeface="monospace" />
-
-            <Button
+                android:typeface="monospace"
+                android:layout_gravity="center_horizontal" />
+<!--
+            <com.facebook.login.widget.LoginButton
                 android:id="@+id/facebook_login_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="279dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.88"
                 android:padding="10dp"
-                android:text="Don&apos;t have an account? Sign it up!"
-                android:typeface="sans"
-                android:layout_gravity="center" />
                 android:layout_marginTop="16dp"
                 android:text="Sign in with Facebook account!"
                 android:textStyle="bold"
                 android:onClick="connectFacebooks"
                 android:clickable="true"
                 android:layout_gravity="center_horizontal" />
+                -->
 
             <Button
                 android:id="@+id/sign_up_button"
@@ -139,7 +138,7 @@
                 android:layout_width="283dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Sign Up Now!"
+                android:text="No account? Sign Up Now!"
                 android:textStyle="bold"
                 android:onClick="create"
                 android:clickable="true"
