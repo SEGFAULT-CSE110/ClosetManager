@@ -17,7 +17,7 @@
         android:id="@+id/overlay"
         android:alpha="0.4"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="fill_parent"/>
     <Button
         android:background="@drawable/icloset_icon"
         android:layout_width="75dip"
