@@ -50,7 +50,8 @@
         android:layout_height="match_parent"
         android:layout_weight="500"
         android:layout_gravity="center"
-        android:gravity="center">
+        android:gravity="center"
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/textView1"
@@ -73,7 +74,8 @@
             android:typeface="monospace"
             android:layout_gravity="center"
             android:text="Enter Here"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_weight="0.09"/>
 
     </LinearLayout>
 
