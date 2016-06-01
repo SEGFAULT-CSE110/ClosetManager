@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -32,7 +33,8 @@ public class AddClothingActivity extends BaseActivity {
 
     private EditText notes;
 
-    private Clothing currClothing;
+    private Clothing mCurrClothing;
+    private Closet mCurrCloset = Account.currentAccountInstance.getCloset();
 
 
     SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
@@ -44,6 +46,8 @@ public class AddClothingActivity extends BaseActivity {
         setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_clothing);
+
+
 
         // set pref_layout toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -85,6 +89,8 @@ public class AddClothingActivity extends BaseActivity {
                 String selected_color = color.getSelectedItem().toString();
                 String input_notes = notes.getText().toString();
 
+                boolean validSelections = validateClothingAttributes(selected_category,selected_weather,selected_occasion,selected_color);
+
                 boolean isWorn = false;
                 if(worn.isChecked())
                     isWorn=true;
@@ -95,31 +101,36 @@ public class AddClothingActivity extends BaseActivity {
                 if(lost.isChecked())
                     isLost=true;
 
-                //create new clothing object - set to currClothing
+                //create new clothing object - set to currClothing and add to closet
+                if(validSelections) {
+                    mCurrClothing = new Clothing(selected_category, selected_color, selected_weather, selected_occasion, input_notes,
+                            isWorn, isShared, isLost, "ID");
+                    mCurrCloset.addClothing(mCurrClothing);
+                    goBackToCloset();
+                }
 
-                currClothing.setCategory(selected_category);
-                currClothing.setWeather(selected_weather);
-                currClothing.setOccasion(selected_occasion);
-                currClothing.setColor(selected_color);
-                currClothing.setNotes(input_notes);
+                mCurrClothing.setCategory(selected_category);
+                mCurrClothing.setWeather(selected_weather);
+                mCurrClothing.setOccasion(selected_occasion);
+                mCurrClothing.setColor(selected_color);
+                mCurrClothing.setNotes(input_notes);
 
-                String json = gson.toJson(currClothing);
-                prefsEditor.putString(currClothing.getId(), json);
+                String json = gson.toJson(mCurrClothing);
+                prefsEditor.putString(mCurrClothing.getId(), json);
                 prefsEditor.commit();
 
                 Intent intent = new Intent(getBaseContext(), ClosetActivity.class);
                 startActivity(intent);
             }
         });
-
         //delete button
         deleteButton = (Button) findViewById(R.id.delete);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(currClothing == null) {
+                if(mCurrClothing == null) {
                     //pop up window to discard, clear all date fields
                 }
-                if(currClothing != null) {
+                if(mCurrClothing != null) {
                     //delete clothing in database
                     //set currClothing to null
                 }
@@ -133,15 +144,25 @@ public class AddClothingActivity extends BaseActivity {
 
         Intent intent = getIntent();
         if (intent.hasExtra("Clothing")) {
-            currClothing = (Clothing)intent.getSerializableExtra("Clothing");
+            mCurrClothing = (Clothing)intent.getSerializableExtra("Clothing");
 
         }
     }
 
     protected boolean validateClothingAttributes (String cat, String weath, String occ, String col) {
-        if(cat.equals("Select") || weath.equals("Select") || occ.equals("Select") || col.equals("Select") )
+        if(cat.equals("Select") || weath.equals("Select") || occ.equals("Select") || col.equals("Select") ) {
+            Toast newToast = Toast.makeText(this, "Invalid attriu", Toast.LENGTH_SHORT);
+            newToast.show();
             return false;
+        }
         return true;
+
+    }
+
+    protected void goBackToCloset() {
+        Intent intent = new Intent(this, ClosetActivity.class);
+        this.finish();
+        startActivity(intent);
     }
     //creates dropdowns given a string and spinner object
     protected void initSpinner (Spinner sp, int resource, String []arr){
@@ -171,5 +192,14 @@ public class AddClothingActivity extends BaseActivity {
     }
 
     public void addClothingNext(View view) {
+    }
+
+    public void retakePicture(View view) {
+        //TODO: remove picture, go to camera, retrieve bitmap from camera
+        //TODO: delete old picture if it was saved
+    }
+
+    public void addClothing(View view) {
+        //TODO: take the values from all the spinners and add the clothing to the closet
     }
 }

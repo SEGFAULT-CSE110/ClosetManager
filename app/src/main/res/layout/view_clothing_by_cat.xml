@@ -18,15 +18,15 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:columnWidth="125dp"
         android:horizontalSpacing="1dp"
-        android:numColumns="auto_fit"
+        android:numColumns="3"
         android:stretchMode="columnWidth"
         android:verticalSpacing="1dp">
     </GridView>
 
     <include
         layout="@layout/bottom_bar"
+        android:id="@+id/view_clothing_by_cat_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="@+dimen/bottom_bar_height"/>
 

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AppTheme.AppBarOverlay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_material_light_closet"
+    android:orientation="vertical"
+    tools:context="com.segfault.closetmanager.OutfitGenActivity"
+    android:id="@+id/outfit_gen_parent_layout"
+    android:fitsSystemWindows="true" >
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"/>
+    <!--laundry_top_bar icon set-->
+    <LinearLayout
+        android:id="@+id/laundry_top_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="85dp"
+        android:background="@color/yellow"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:padding="3dp">
+
+        <ImageView
+            android:layout_width="86dp"
+            android:layout_height="wrap_content"
+
+            android:scaleType="fitCenter"
+            android:src="@drawable/travel"
+            android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Enter a location:"
+            android:id="@+id/textViewLocation" />
+
+        <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText3"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/imageButtons"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_create_travel_plan"
+            android:text="Create travel plan"
+            />
+
+        <include
+            android:id="@+id/lookbook_bottom_bar"
+            layout="@layout/outfit"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"/>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/outfit_gen_bottom_bar"
+        layout="@layout/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@+dimen/bottom_bar_height"/>
+
+
+</LinearLayout>

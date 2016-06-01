@@ -81,11 +81,11 @@ public class ClosetActivity extends BaseActivity {
         mCurrentCloset = Account.currentAccountInstance.getCloset();
 
         //check if we have any clothing
-        if(mCurrentCloset.getList().isEmpty()){
+        if (mCurrentCloset.getList().isEmpty()) {
             //replace the linear layout with the no_elements_layout
             mClosetParentLayout.removeViewAt(mClosetListViewIndex);
             View noElementsLayout = getLayoutInflater().inflate(
-                    R.layout.no_elements_layout, mClosetParentLayout,   false);
+                    R.layout.no_elements_layout, mClosetParentLayout, false);
             mClosetParentLayout.addView(noElementsLayout, mClosetListViewIndex);
 
             //change the text of the no_elements_layout
@@ -93,10 +93,9 @@ public class ClosetActivity extends BaseActivity {
             if (noElementsTextView != null) {
                 noElementsTextView.setText(R.string.closet_no_elements_text);
             }
-        }
-        else{ //refresh the amount of clothing we have
+        } else { //refresh the amount of clothing we have
             //TODO: delegate this to closet.java
-            if (true){
+            if (true) {
                 //Clear the lists
                 topList.clear();
                 bottomList.clear();
@@ -141,7 +140,6 @@ public class ClosetActivity extends BaseActivity {
     }
 
 
-
     /**
      * ClosetCategoryAdapter that represents the large list views
      * Only does this for a specific view
@@ -150,7 +148,8 @@ public class ClosetActivity extends BaseActivity {
 
         /**
          * Constructor
-         * @param context - context of this activity
+         *
+         * @param context       - context of this activity
          * @param clothingLists - list of clothing lists
          */
         public ClosetCategoryAdapter(Context context, List<List<Clothing>> clothingLists) {
@@ -158,7 +157,7 @@ public class ClosetActivity extends BaseActivity {
         }
 
 
-        public View getView(int position, View convertView, ViewGroup parent){
+        public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
 
             //Get the view to inflate
@@ -169,50 +168,67 @@ public class ClosetActivity extends BaseActivity {
             //add stuff to the linearLayout
             final List<Clothing> currentList = getItem(position);
 
-            //Set the picture and the text for the closet Category
+            //Get each closet category
+            LinearLayout categoryLeftBox = (LinearLayout) categoryView.findViewById(R.id.closet_category_left_layout);
             ImageView categoryViewImage = (ImageView) categoryView.findViewById(R.id.closet_category_picture);
             TextView categoryTextView = (TextView) categoryView.findViewById(R.id.closet_category_text);
-            if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.HAT)){
+            PreferenceList categoryPreferenceList = null;
+
+            //Set the picture and the text for the closet Category
+            if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.HAT)) {
                 categoryViewImage.setImageResource(R.drawable.cap);
                 categoryTextView.setText("Hat");
-            }
-            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.ACCESSORY)){
+                categoryPreferenceList = new PreferenceList(false, Clothing.HAT, null, null, null, null, null, null);
+            } else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.ACCESSORY)) {
                 //set image to accessory
                 categoryViewImage.setImageResource(R.drawable.accessory);
                 categoryTextView.setText("Accessory");
-            }
-            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.BODY)){
+                categoryPreferenceList = new PreferenceList(false, Clothing.ACCESSORY, null, null, null, null, null, null);
+            } else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.BODY)) {
                 //set image to body
                 categoryViewImage.setImageResource(R.drawable.dress);
-               categoryTextView.setText("Body");
-            }
-            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.BOTTOM)){
+                categoryTextView.setText("Body");
+                categoryPreferenceList = new PreferenceList(false, Clothing.BODY, null, null, null, null, null, null);
+            } else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.BOTTOM)) {
                 //set image to bottom
                 categoryViewImage.setImageResource(R.drawable.bag_pants);
                 categoryTextView.setText("Bottom");
-            }
-            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.JACKET)){
+                categoryPreferenceList = new PreferenceList(false, Clothing.BOTTOM, null, null, null, null, null, null);
+            } else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.JACKET)) {
                 //set image to jacket
                 categoryViewImage.setImageResource(R.drawable.nylon_jacket);
                 categoryTextView.setText("Jacket");
-            }
-            else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.SHOE)){
+                categoryPreferenceList = new PreferenceList(false, Clothing.JACKET, null, null, null, null, null, null);
+            } else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.SHOE)) {
                 //set image to shoes
                 categoryViewImage.setImageResource(R.drawable.sneaker);
                 categoryTextView.setText("Shoes");
-            }
-            else if(!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.TOP)){
+                categoryPreferenceList = new PreferenceList(false, Clothing.SHOE, null, null, null, null, null, null);
+            } else if (!currentList.isEmpty() && currentList.get(0).getCategory().equals(Clothing.TOP)) {
                 //set image to top
                 categoryViewImage.setImageResource(R.drawable.top);
                 categoryTextView.setText("Top");
+                categoryPreferenceList = new PreferenceList(false, Clothing.TOP, null, null, null, null, null, null);
             }
+            final PreferenceList clickPreference = categoryPreferenceList;
 
-            for (int index = 0; index < currentList.size(); index++){
+            //Set the pictures to each have an on click listener
+            categoryLeftBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), ViewClothingByCatActivity.class);
+                    intent.putExtra(PreferenceList.EXTRA_STRING, clickPreference);
+                    intent.putExtra(ViewClothingByCatActivity.CAME_FROM_CLOSET_STRING, true);
+                    startActivity(intent);
+                }
+            });
+
+            for (int index = 0; index < currentList.size(); index++) {
                 //get clothing bitmap and the appropriate view
                 Bitmap currentBitmap = currentList.get(index).getBitmap();
 
                 //get the view and add a click listener to go to the correct view
-                View clothingFrame = inflater.inflate(R.layout.clothing_image_fragment, linearLayout, false);
+                View clothingFrame = inflater.inflate(R.layout.closet_category_clothing_image, linearLayout, false);
                 final int finalIndex = index; //required to be a final variable
                 clothingFrame.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -233,6 +249,7 @@ public class ClosetActivity extends BaseActivity {
 
             return categoryView;
         }
+
     }
 
 }//end class ClosetActivity
