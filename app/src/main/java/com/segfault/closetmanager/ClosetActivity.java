@@ -51,6 +51,7 @@ public class ClosetActivity extends BaseActivity {
         setContentView(R.layout.closet);
 
         mCurrentCloset = IClosetApplication.getAccount().getCloset();
+        //mCurrentCloset = Account.currentAccountInstance.getCloset();
 
         clothingList = mCurrentCloset.getList();
         topList = new ArrayList<Clothing>();
@@ -208,6 +209,8 @@ public class ClosetActivity extends BaseActivity {
                 hatList.clear();
                 shoeList.clear();
                 listOfLists.clear();
+
+                clothingList = mCurrentCloset.getList();
 
                 //Add all of the clothing into the lists
                 for (int index = 0; index < clothingList.size(); index++) {
