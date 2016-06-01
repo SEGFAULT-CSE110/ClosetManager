@@ -229,7 +229,7 @@ public class Lookbook {
         if(weather == null){
 
             //TODO: where to get the location name?
-            weather = checkWeather();
+            weather = checkWeather("san diego");
         }
 
         /* Filter for the perfect list */
