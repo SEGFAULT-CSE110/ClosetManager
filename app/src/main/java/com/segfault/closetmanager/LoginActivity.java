@@ -84,86 +84,82 @@ public class LoginActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
-        Firebase.setAndroidContext(this);//TODO create application class
-
-        FacebookSdk.sdkInitialize(this);
-
-        /* Load the view and display it */
+//        //Setup sdk
+//        Firebase.setAndroidContext(this);//TODO create application class
+//        FacebookSdk.sdkInitialize(this);
+//
+//        /* Load the view and display it */
         setContentView(R.layout.login);
+//
+//        /* *************************************
+//         *              FACEBOOK               *
+//         ***************************************/
+//        /* Load the Facebook login button and set up the tracker to monitor access token changes */
+//        mFacebookCallbackManager = CallbackManager.Factory.create();
+//        mFacebookLoginButton = (LoginButton) findViewById(R.id.facebook_login_button);
+//
+//        mFacebookAccessTokenTracker = new AccessTokenTracker() {
+//            @Override
+//            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+//                Log.i(TAG, "Facebook.AccessTokenTracker.OnCurrentAccessTokenChanged");
+//                LoginActivity.this.onFacebookAccessTokenChange(currentAccessToken);
+//            }
+//        };
+//
+//        /* *************************************
+//         *               PASSWORD              *
+//         ***************************************/
+//        mPasswordLoginButton = (Button) findViewById(R.id.email_sign_in_button);
+//        mPasswordLoginButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                loginWithPassword();
+//            }
+//        });
 
 
-        /* *************************************
-         *              FACEBOOK               *
-         ***************************************/
-        /* Load the Facebook login button and set up the tracker to monitor access token changes */
-        mFacebookCallbackManager = CallbackManager.Factory.create();
-        mFacebookLoginButton = (LoginButton) findViewById(R.id.facebook_login_button);
-
-
-        mFacebookAccessTokenTracker = new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                Log.i(TAG, "Facebook.AccessTokenTracker.OnCurrentAccessTokenChanged");
-                LoginActivity.this.onFacebookAccessTokenChange(currentAccessToken);
-            }
-        };
-
-        /* *************************************
-         *               PASSWORD              *
-         ***************************************/
-        mPasswordLoginButton = (Button) findViewById(R.id.email_sign_in_button);
-        mPasswordLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loginWithPassword();
-            }
-        });
-
-
-        /* *************************************
-         *               GENERAL               *
-         ***************************************/
-        //mLoggedInStatusTextView = (TextView) findViewById(R.id.login_status);
-
-        mLoggedInStatusTextView = (TextView) findViewById(R.id.textView2);
-        /* Create the Firebase ref that is used for all authentication with Firebase */
-        //mFirebaseRef = new Firebase(getResources().getString(R.string.firebase_url));
-        mFirebaseRef = new Firebase("https://popping-heat-5754.firebaseio.com");
-
-        /* Setup the progress dialog that is displayed later when authenticating with Firebase */
-        mAuthProgressDialog = new ProgressDialog(this);
-        mAuthProgressDialog.setTitle("Loading");
-        mAuthProgressDialog.setMessage("Authenticating with Firebase...");
-        mAuthProgressDialog.setCancelable(false);
-        mAuthProgressDialog.show();
-
-        mAuthStateListener = new Firebase.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(AuthData authData) {
-                mAuthProgressDialog.hide();
-                setAuthenticatedUser(authData);
-            }
-        };
-        /* Check if the user is authenticated with Firebase already. If this is the case we can set the authenticated
-         * user and hide hide any login buttons */
-        mFirebaseRef.addAuthStateListener(mAuthStateListener);
+//        /* *************************************
+//         *               GENERAL               *
+//         ***************************************/
+//        //mLoggedInStatusTextView = (TextView) findViewById(R.id.login_status);
+//
+//        mLoggedInStatusTextView = (TextView) findViewById(R.id.textView2);
+//        /* Create the Firebase ref that is used for all authentication with Firebase */
+//        //mFirebaseRef = new Firebase(getResources().getString(R.string.firebase_url));
+//        mFirebaseRef = new Firebase("https://popping-heat-5754.firebaseio.com");
+//
+//        /* Setup the progress dialog that is displayed later when authenticating with Firebase */
+//        mAuthProgressDialog = new ProgressDialog(this);
+//        mAuthProgressDialog.setTitle("Loading");
+//        mAuthProgressDialog.setMessage("Authenticating with Firebase...");
+//        mAuthProgressDialog.setCancelable(false);
+//        mAuthProgressDialog.show();
+//
+//        mAuthStateListener = new Firebase.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(AuthData authData) {
+//                mAuthProgressDialog.hide();
+//                setAuthenticatedUser(authData);
+//            }
+//        };
+//        /* Check if the user is authenticated with Firebase already. If this is the case we can set the authenticated
+//         * user and hide hide any login buttons */
+//        mFirebaseRef.addAuthStateListener(mAuthStateListener);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // if user logged in with Facebook, stop tracking their token
-        if (mFacebookAccessTokenTracker != null) {
-            mFacebookAccessTokenTracker.stopTracking();
-        }
-
-        // if changing configurations, stop tracking firebase session.
-        mFirebaseRef.removeAuthStateListener(mAuthStateListener);
+//        // if user logged in with Facebook, stop tracking their token
+//        if (mFacebookAccessTokenTracker != null) {
+//            mFacebookAccessTokenTracker.stopTracking();
+//        }
+//
+//        // if changing configurations, stop tracking firebase session.
+//        mFirebaseRef.removeAuthStateListener(mAuthStateListener);
     }
-
 
 
     /**
@@ -193,7 +189,7 @@ public class LoginActivity extends Activity {
         */
 
             /* Otherwise, it's probably the request by the Facebook login button, keep track of the session */
-            mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
+        mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
 
     }
 
@@ -253,7 +249,9 @@ public class LoginActivity extends Activity {
                 mFirebaseRef.authWithOAuthToken(provider, options.get("oauth_token"), new AuthResultHandler(provider));
             }
         }
-    }   /**
+    }
+
+    /**
      * Once a user is logged in, take the mAuthData provided from Firebase and "use" it.
      */
     private void setAuthenticatedUser(AuthData authData) {
@@ -353,37 +351,35 @@ public class LoginActivity extends Activity {
     }
 
 
-
-
     public void runLogin(View view) {
         //TODO: check login credentials. also remove finish if not needed
-
-        Firebase ref = new Firebase("https://<YOUR-FIREBASE-APP>.firebaseio.com");
-
-        // Create a handler to handle the result of the authentication
-        Firebase.AuthResultHandler authResultHandler = new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                // Authenticated successfully with payload authData
-            }
-
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-                // Authenticated failed with error firebaseError
-            }
-        };
-
-        // Authenticate users with a custom Firebase token
-        ref.authWithCustomToken("<token>", authResultHandler);
-
-        // Alternatively, authenticate users anonymously
-        ref.authAnonymously(authResultHandler);
-
-        // Or with an email/password combination
-        ref.authWithPassword("jenny@example.com", "correcthorsebatterystaple", authResultHandler);
-
-        // Or via popular OAuth providers ("facebook", "github", "google", or "twitter")
-        ref.authWithOAuthToken("<provider>", "<oauth-token>", authResultHandler);
+//
+//        Firebase ref = new Firebase("https://<YOUR-FIREBASE-APP>.firebaseio.com");
+//
+//        // Create a handler to handle the result of the authentication
+//        Firebase.AuthResultHandler authResultHandler = new Firebase.AuthResultHandler() {
+//            @Override
+//            public void onAuthenticated(AuthData authData) {
+//                // Authenticated successfully with payload authData
+//            }
+//
+//            @Override
+//            public void onAuthenticationError(FirebaseError firebaseError) {
+//                // Authenticated failed with error firebaseError
+//            }
+//        };
+//
+//        // Authenticate users with a custom Firebase token
+//        ref.authWithCustomToken("<token>", authResultHandler);
+//
+//        // Alternatively, authenticate users anonymously
+//        ref.authAnonymously(authResultHandler);
+//
+//        // Or with an email/password combination
+//        ref.authWithPassword("jenny@example.com", "correcthorsebatterystaple", authResultHandler);
+//
+//        // Or via popular OAuth providers ("facebook", "github", "google", or "twitter")
+//        ref.authWithOAuthToken("<provider>", "<oauth-token>", authResultHandler);
         Account.currentAccountInstance = new Account("kkk");
 
         Intent intent = new Intent(this, HomeActivity.class);

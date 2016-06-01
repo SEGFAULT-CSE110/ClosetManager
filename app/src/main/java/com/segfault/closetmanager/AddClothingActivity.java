@@ -103,19 +103,20 @@ public class AddClothingActivity extends BaseActivity {
 
                 //create new clothing object - set to currClothing and add to closet
                 if(validSelections) {
-                    mCurrClothing = new Clothing(selected_category, selected_color, selected_weather, selected_occasion, input_notes, isWorn, isShared, isLost);
+                    mCurrClothing = new Clothing(selected_category, selected_color, selected_weather, selected_occasion, input_notes,
+                            isWorn, isShared, isLost, "ID");
                     mCurrCloset.addClothing(mCurrClothing);
                     goBackToCloset();
                 }
 
-                currClothing.setCategory(selected_category);
-                currClothing.setWeather(selected_weather);
-                currClothing.setOccasion(selected_occasion);
-                currClothing.setColor(selected_color);
-                currClothing.setNotes(input_notes);
+                mCurrClothing.setCategory(selected_category);
+                mCurrClothing.setWeather(selected_weather);
+                mCurrClothing.setOccasion(selected_occasion);
+                mCurrClothing.setColor(selected_color);
+                mCurrClothing.setNotes(input_notes);
 
-                String json = gson.toJson(currClothing);
-                prefsEditor.putString(currClothing.getId(), json);
+                String json = gson.toJson(mCurrClothing);
+                prefsEditor.putString(mCurrClothing.getId(), json);
                 prefsEditor.commit();
 
                 Intent intent = new Intent(getBaseContext(), ClosetActivity.class);
@@ -143,7 +144,7 @@ public class AddClothingActivity extends BaseActivity {
 
         Intent intent = getIntent();
         if (intent.hasExtra("Clothing")) {
-            currClothing = (Clothing)intent.getSerializableExtra("Clothing");
+            mCurrClothing = (Clothing)intent.getSerializableExtra("Clothing");
 
         }
     }

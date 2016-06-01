@@ -78,6 +78,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                 }
             }
         };
+
     }
 
     public void captureImage(View v) throws IOException {
