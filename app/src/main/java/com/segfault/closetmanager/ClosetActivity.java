@@ -74,7 +74,7 @@ public class ClosetActivity extends BaseActivity {
                     add_clothing_dialog.setContentView(R.layout.add_clothing_type);
                     add_clothing_dialog.setTitle("Select Clothing Type");
 
-                    ImageButton addAccessoryButton = (ImageButton) findViewById(R.id.add_accessory_button);
+                    ImageButton addAccessoryButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_accessory_button);
                     if (addAccessoryButton != null) {
                         addAccessoryButton.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -85,7 +85,7 @@ public class ClosetActivity extends BaseActivity {
                             }
                         });
                     }
-                    ImageButton addShirtButton = (ImageButton) findViewById(R.id.add_shirt_button);
+                    ImageButton addShirtButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_shirt_button);
                     if (addShirtButton != null) {
                         addShirtButton.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -96,7 +96,7 @@ public class ClosetActivity extends BaseActivity {
                             }
                         });
                     }
-                    ImageButton addPantsButton = (ImageButton) findViewById(R.id.add_pants_button);
+                    ImageButton addPantsButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_pants_button);
                     if (addPantsButton != null) {
                         addPantsButton.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -107,7 +107,7 @@ public class ClosetActivity extends BaseActivity {
                             }
                         });
                     }
-                    ImageButton addShoeButton = (ImageButton) findViewById(R.id.add_shoe_button);
+                    ImageButton addShoeButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_shoe_button);
                     if (addShoeButton != null) {
                         addShoeButton.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -118,7 +118,7 @@ public class ClosetActivity extends BaseActivity {
                             }
                         });
                     }
-                    ImageButton addHatButton = (ImageButton) findViewById(R.id.add_hat_button);
+                    ImageButton addHatButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_hat_button);
                     if (addHatButton != null) {
                         addHatButton.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -126,10 +126,11 @@ public class ClosetActivity extends BaseActivity {
                                 Intent intent = new Intent(context, CameraActivity.class);
                                 intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.HAT);
                                 startActivity(intent);
+                                System.out.println("HIHIHI");
                             }
                         });
                     }
-                    ImageButton addDressButton = (ImageButton) findViewById(R.id.add_dress_button);
+                    ImageButton addDressButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_dress_button);
                     if (addDressButton != null) {
                         addDressButton.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -137,10 +138,11 @@ public class ClosetActivity extends BaseActivity {
                                 Intent intent = new Intent(context, CameraActivity.class);
                                 intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.BODY);
                                 startActivity(intent);
+                                System.out.println("THI");
                             }
                         });
                     }
-                    ImageButton addJacketButton = (ImageButton) findViewById(R.id.add_jacket_button);
+                    ImageButton addJacketButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_jacket_button);
                     if (addJacketButton != null) {
                         addJacketButton.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -148,12 +150,17 @@ public class ClosetActivity extends BaseActivity {
                                 Intent intent = new Intent(context, CameraActivity.class);
                                 intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.JACKET);
                                 startActivity(intent);
+                                System.out.println("HI");
                             }
                         });
                     }
 
 
+                    add_clothing_dialog.show();
                 }
+
+
+
             });
         }
 
