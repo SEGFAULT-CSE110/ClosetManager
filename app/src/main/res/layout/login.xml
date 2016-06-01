@@ -16,7 +16,7 @@
     <!-- Login progress -->
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="horizontal">
 
@@ -44,66 +44,37 @@
 
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/login_form"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:fillViewport="false"
-        android:layout_weight="3">
+        android:layout_height="match_parent"
+        android:layout_weight="500"
+        android:layout_gravity="center"
+        android:gravity="center">
 
-        <LinearLayout
-            android:id="@+id/email_login_form"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="1">
+            android:layout_gravity="center|bottom"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text= "@string/welcome_message"
+            android:gravity="center"
+            android:textSize="30dp" />
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text= "@string/about_iCloset"
-                />
+        <Button
+            android:id="@+id/email_sign_in_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="278dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:onClick="runLogin"
+            android:textStyle="bold"
+            android:typeface="monospace"
+            android:layout_gravity="center"
+            android:text="Enter Here"
+            android:textSize="20dp" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text= "@string/about_OutfitGen"
-                android:paddingTop="10dp" />
-
-            <Button
-                android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="278dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:onClick="runLogin"
-                android:textStyle="bold"
-                android:typeface="monospace"
-                android:layout_gravity="center_horizontal"
-                android:text="Enter Here" />
-<!--
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/facebook_login_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="279dp"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginTop="16dp"
-                android:text="Sign in with Facebook account!"
-                android:textStyle="bold"
-                android:onClick="connectFacebooks"
-                android:clickable="true"
-                android:layout_gravity="center_horizontal" />
-                -->
-
-        </LinearLayout>
-
-    </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>
