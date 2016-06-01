@@ -27,15 +27,15 @@ public class ClosetActivity extends BaseActivity {
     private ListView mClosetListView;
     private ViewGroup mClosetParentLayout;
     private int mClosetListViewIndex;
-    private Closet mCurrentCloset = Account.currentAccountInstance.getCloset();
+    private Closet mCurrentCloset;
 
     //Lists
-    private List<Clothing> clothingList = mCurrentCloset.getList();
-    private List<Clothing> topList = new ArrayList<Clothing>();
-    private List<Clothing> bottomList = new ArrayList<Clothing>();
-    private List<Clothing> hatList = new ArrayList<Clothing>();
-    private List<Clothing> shoeList = new ArrayList<Clothing>();
-    private List<List<Clothing>> listOfLists = new ArrayList<List<Clothing>>();
+    private List<Clothing> clothingList;
+    private List<Clothing> topList;
+    private List<Clothing> bottomList;
+    private List<Clothing> hatList;
+    private List<Clothing> shoeList;
+    private List<List<Clothing>> listOfLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,14 @@ public class ClosetActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet);
 
+        mCurrentCloset = Account.currentAccountInstance.getCloset();
+
+        clothingList = mCurrentCloset.getList();
+        topList = new ArrayList<Clothing>();
+        bottomList = new ArrayList<Clothing>();
+        hatList = new ArrayList<Clothing>();
+        shoeList = new ArrayList<Clothing>();
+        listOfLists = new ArrayList<List<Clothing>>();
         // set pref_layout toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);

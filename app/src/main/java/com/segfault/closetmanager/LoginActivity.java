@@ -1,7 +1,12 @@
 package com.segfault.closetmanager;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -35,10 +40,14 @@ import com.facebook.login.widget.LoginButton;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.google.gson.Gson;
 
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -80,6 +89,15 @@ public class LoginActivity extends Activity {
      *              PASSWORD               *
      ***************************************/
     private Button mPasswordLoginButton;
+
+
+    // Storage variables
+    SharedPreferences mPrefs;
+    Gson gson = new Gson();
+
+    private Closet mCurrentCloset;
+    private List<String> list_id;
+
 
 
     @Override
@@ -382,10 +400,69 @@ public class LoginActivity extends Activity {
 //        ref.authWithOAuthToken("<provider>", "<oauth-token>", authResultHandler);
         Account.currentAccountInstance = new Account("kkk");
 
+        mPrefs = getPreferences(MODE_PRIVATE);
+
+        // Load closet
+        mCurrentCloset = Account.currentAccountInstance.getCloset();
+
+        String ids = mPrefs.getString("id_list", "");
+
+        list_id = (List<String>) gson.fromJson(ids, List.class);
+
+        if(list_id == null)
+            list_id = new ArrayList<>();
+
+        mCurrentCloset.setIdList(list_id);
+
+        try {
+                loadPictures(getApplicationContext(), mCurrentCloset.getList(), mCurrentCloset.getIdList());
+                Account.currentAccountInstance.getLookbook().assignBelongingCloset(Account.currentAccountInstance.getCloset());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Intent intent = new Intent(this, HomeActivity.class);
         this.finish();
         startActivity(intent);
     }
+
+
+    public void loadPictures(Context context, List<Clothing> clothingList, List<String> id) throws IOException {
+        for (int i = 0; i < id.size(); i++) {
+            if (id.get(i).contains(".jpg") || id.get(i).contains(".png")) {
+                Bitmap firstBitmap = BitmapFactory.decodeFile(id.get(i));
+
+                //scale down first bitmap
+                final float densityMultiplier = context.getResources().getDisplayMetrics().density;
+                int h = (int) (50 * densityMultiplier); //TODO revise size
+                int w = (int) (h * firstBitmap.getWidth() / ((double) firstBitmap.getHeight()));
+                Bitmap secondBitmap = Bitmap.createScaledBitmap(firstBitmap, w, h, true);
+
+                //Recycle the bitmap to preserve memory
+                firstBitmap.recycle();
+
+                String json = mPrefs.getString(id.get(i), "");
+                Clothing currClothing = gson.fromJson(json, Clothing.class);
+
+                if (currClothing.getCategory() == "Hat") {
+                    currClothing.setBitmap(secondBitmap);
+                    clothingList.add(currClothing);
+                } else if (currClothing.getCategory() == "Bottom") {
+                    currClothing.setBitmap(secondBitmap);
+                    clothingList.add(currClothing);
+                } else if (currClothing.getCategory() == "Top") {
+                    currClothing.setBitmap(secondBitmap);
+                    clothingList.add(currClothing);
+                } else if (currClothing.getCategory() == "Shoe") {
+                    currClothing.setBitmap(secondBitmap);
+                    clothingList.add(currClothing);
+                }
+
+                System.out.println("Loaded");
+            }
+        }
+    }
+
+
 
     /*
     public void createAccount(View view) {

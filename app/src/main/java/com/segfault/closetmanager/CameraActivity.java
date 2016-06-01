@@ -26,7 +26,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     Camera.ShutterCallback shutterCallback;
     Camera.PictureCallback jpegCallback;
 
-    Closet mCurrentCloset = Account.currentAccountInstance.getCloset();
+    Closet mCurrentCloset;
+
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
+        mCurrentCloset = Account.currentAccountInstance.getCloset();
+
         jpegCallback = new PictureCallback() {
 
             @Override
@@ -46,19 +50,12 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                 FileOutputStream outStream = null;
                 Clothing currCloth;
                 try {
-                    String id = String.format("/sdcard/%d.png", System.currentTimeMillis());
+                    id = String.format("/sdcard/%d.png", System.currentTimeMillis());
                     outStream = new FileOutputStream(id);
 
                     outStream.write(data);
                     outStream.close();
                     Toast.makeText(getApplicationContext(), "Picture Saved", Toast.LENGTH_LONG).show();
-
-                    currCloth = new Clothing();
-                    currCloth.setId(id);
-
-                    mCurrentCloset.getList().add(currCloth);
-
-                    mCurrentCloset.addId(id);
 
                 }
 
@@ -72,8 +69,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
                 finally {
                     Intent intent = new Intent(getBaseContext(), AddClothingActivity.class);
-                    int index = mCurrentCloset.getList().size()-1;
-                    intent.putExtra("Clothing",mCurrentCloset.getList().get(index));
+                    intent.putExtra("photo_id",id);
                     startActivity(intent);
                 }
             }

@@ -1,7 +1,10 @@
 package com.segfault.closetmanager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -34,12 +37,11 @@ public class AddClothingActivity extends BaseActivity {
     private EditText notes;
 
     private Clothing mCurrClothing;
-    private Closet mCurrCloset = Account.currentAccountInstance.getCloset();
+    private Closet mCurrCloset;
 
-
-    SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-    SharedPreferences.Editor prefsEditor = mPrefs.edit();
-    Gson gson = new Gson();
+    SharedPreferences mPrefs;
+    SharedPreferences.Editor prefsEditor;
+    Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class AddClothingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_clothing);
 
-
+        mCurrCloset = Account.currentAccountInstance.getCloset();
 
         // set pref_layout toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -60,20 +62,20 @@ public class AddClothingActivity extends BaseActivity {
         }
 
         String [] cat_array = new String[]{"Select","Top", "Bottom", "Outerwear", "Shoes", "Accessory", "Hat", "Undergarment","Socks"};
-        initSpinner(category, R.id.Category, cat_array);
+        category = initSpinner(R.id.Category, cat_array);
 
         String [] weat_array = new String[]{"Select","Snow","Rain","Cold", "Cool","Warm","Hot","Select All"};
-        initSpinner(weather, R.id.Weather, weat_array);
+        weather = initSpinner(R.id.Weather, weat_array);
 
         String[] occ_array = new String[]{"Select","Casual", "Work", "Semi-formal","Formal", "Fitness","Party", "Business"};
-        initSpinner(occasion, R.id.Occasion, occ_array);
+        occasion = initSpinner(R.id.Occasion, occ_array);
 
         //eventually make this colored sqaures
         String[] col_array = new String[]{"Select","Red", "Orange", "Yellow", "Green", "Blue","Purple", "Pink","Brown", "Black","White","Gray"};
-        initSpinner(color, R.id.Color, col_array);
+        color = initSpinner(R.id.Color, col_array);
 
         //get edit text notes and check boxes
-        //notes = (EditText) findViewById(R.id.Notes);
+        notes = (EditText) findViewById(R.id.Notes);
         worn = (CheckBox) findViewById(R.id.Worn);
         shared = (CheckBox) findViewById(R.id.Shared);
         lost = (CheckBox) findViewById(R.id.Lost);
@@ -103,24 +105,45 @@ public class AddClothingActivity extends BaseActivity {
 
                 //create new clothing object - set to currClothing and add to closet
                 if(validSelections) {
+                    String id = (String) getIntent().getSerializableExtra("photo_id");
+
                     mCurrClothing = new Clothing(selected_category, selected_color, selected_weather, selected_occasion, input_notes,
-                            isWorn, isShared, isLost, "ID");
+                            isWorn, isShared, isLost, id);
+
                     mCurrCloset.addClothing(mCurrClothing);
+
+
+                    Bitmap firstBitmap = BitmapFactory.decodeFile(mCurrClothing.getId());
+
+                    //scale down first bitmap
+                    final float densityMultiplier = getBaseContext().getResources().getDisplayMetrics().density;
+                    int h = (int) (50 * densityMultiplier); //TODO revise size
+                    int w = (int) (h * firstBitmap.getWidth() / ((double) firstBitmap.getHeight()));
+                    Bitmap secondBitmap = Bitmap.createScaledBitmap(firstBitmap, w, h, true);
+
+                    //Recycle the bitmap to preserve memory
+                    firstBitmap.recycle();
+
+                    mCurrClothing.setBitmap(secondBitmap);
+
+                    // Store id and data
+                    mCurrCloset.addId(mCurrClothing.getId());
+
+                    mPrefs = getPreferences(MODE_PRIVATE);
+                    prefsEditor = mPrefs.edit();
+                    gson = new Gson();
+
+                    // Store clothing object
+                    String clothing = gson.toJson(mCurrClothing);
+                    prefsEditor.putString(mCurrClothing.getId(), clothing);
+
+                    // Store id list
+                    String id_list = gson.toJson(mCurrCloset.getIdList());
+                    prefsEditor.putString("id_list",id_list);
+
+                    prefsEditor.commit();
                     goBackToCloset();
                 }
-
-                mCurrClothing.setCategory(selected_category);
-                mCurrClothing.setWeather(selected_weather);
-                mCurrClothing.setOccasion(selected_occasion);
-                mCurrClothing.setColor(selected_color);
-                mCurrClothing.setNotes(input_notes);
-
-                String json = gson.toJson(mCurrClothing);
-                prefsEditor.putString(mCurrClothing.getId(), json);
-                prefsEditor.commit();
-
-                Intent intent = new Intent(getBaseContext(), ClosetActivity.class);
-                startActivity(intent);
             }
         });
         //delete button
@@ -165,8 +188,8 @@ public class AddClothingActivity extends BaseActivity {
         startActivity(intent);
     }
     //creates dropdowns given a string and spinner object
-    protected void initSpinner (Spinner sp, int resource, String []arr){
-        sp = (Spinner) findViewById(resource);
+    protected Spinner initSpinner (int resource, String []arr){
+        Spinner sp = (Spinner) findViewById(resource);
 
         // Create an ArrayAdapter using the string array and a default spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -178,6 +201,8 @@ public class AddClothingActivity extends BaseActivity {
 
         // Apply the adapter to the spinner
         sp.setAdapter(adapter);
+
+        return sp;
 
     }
 
