@@ -2,8 +2,10 @@ package com.segfault.closetmanager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -46,6 +49,11 @@ public class OutfitGenActivity extends BaseActivity {
     private boolean mAddedOutfitAlready;
     private boolean mOutfitGeneratedAlready;
     private Outfit mCurrentOutfit;
+
+    // spinners
+    private Spinner weather;
+    private Spinner occasion;
+    private Spinner color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +184,83 @@ public class OutfitGenActivity extends BaseActivity {
         mAddedOutfitAlready = false;
         Toast newToast = Toast.makeText(this, "Generated a random outfit", Toast.LENGTH_SHORT);
         newToast.show();
+    }
+
+    public void generateOutfit(PreferenceList pref) {
+        //Clear all of the views
+        clearLayouts();
+
+        if (pref == null) {
+            mCurrentOutfit = mLookbook.generateRandomOutfit();
+        }
+        else {
+            mCurrentOutfit = mLookbook.generateOutfit(pref);
+        }
+        //Add components of outfits to layouts
+        if (mCurrentOutfit.getHat() != null) {
+            mAccessoriesAdapter.add(mCurrentOutfit.getHat());
+        }
+        if (mCurrentOutfit.getFirstTop() != null) {
+            mTopAdapter.addAll(mCurrentOutfit.getTops());
+        }
+        if (mCurrentOutfit.getFirstBottom() != null) {
+            mBottomAdapter.addAll(mCurrentOutfit.getBottoms());
+        }
+        if (mCurrentOutfit.getShoes() != null) {
+            mShoesButton.setImageBitmap(mCurrentOutfit.getShoes().getBitmap());
+        }
+        updateLayouts();
+
+        mOutfitGeneratedAlready = true;
+        mAddedOutfitAlready = false;
+        Toast newToast = Toast.makeText(this, "Generated an outfit", Toast.LENGTH_SHORT);
+        newToast.show();
+    }
+
+    public void chooseAttributes(View view) {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.outfit_preferences, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(R.string.dialog_outfitgen);
+        alert.setView(alertLayout);
+
+        // find views by ids
+        Spinner wSp = (Spinner) alertLayout.findViewById(R.id.weatherSpinner);
+        Spinner oSp = (Spinner) alertLayout.findViewById(R.id.occasionSpinner);
+        Spinner cSp = (Spinner) alertLayout.findViewById(R.id.colorSpinner);
+
+
+        // spinners
+        String [] weat_array = new String[]{"Select","Snow","Rain","Cold", "Cool","Warm","Hot","Select All"};
+        initSpinner(alertLayout, weather, R.id.weatherSpinner, weat_array);
+
+        String[] occ_array = new String[]{"Select","Casual", "Work", "Semi-formal","Formal", "Fitness","Party", "Business"};
+        initSpinner(alertLayout, occasion, R.id.occasionSpinner, occ_array);
+
+        //eventually make this colored sqaures
+        String[] col_array = new String[]{"Select","Red", "Orange", "Yellow", "Green", "Blue","Purple", "Pink","Brown", "Black","White","Gray"};
+        initSpinner(alertLayout, color, R.id.colorSpinner, col_array);
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                PreferenceList pref = getAttributes();
+                generateOutfit(pref);
+            }
+        });
+
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
+    public PreferenceList getAttributes() {
+        return null;
     }
 
 
@@ -324,6 +409,23 @@ public class OutfitGenActivity extends BaseActivity {
             //Add the view into the layout
             layout.addView(view);
         }
+    }
+
+    //creates dropdowns given a string and spinner object
+    protected void initSpinner (View view, Spinner sp, int resource, String []arr){
+        sp = (Spinner) view.findViewById(resource);
+
+        // Create an ArrayAdapter using the string array and a default spinner
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, arr);
+
+        // Specify the layout to use when the list of choices appears
+        adapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        sp.setAdapter(adapter);
+
     }
 
 }//end class OutfitGenActivity
