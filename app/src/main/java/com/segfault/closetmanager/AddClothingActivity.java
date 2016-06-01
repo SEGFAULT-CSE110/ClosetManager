@@ -144,6 +144,7 @@ public class AddClothingActivity extends BaseActivity {
                     // Store clothing object
                     String clothing = gson.toJson(mCurrClothing);
                     prefsEditor.putString(mCurrClothing.getId(), clothing);
+                    prefsEditor.commit();
 
                     // Store id list
                     String id_list = gson.toJson(mCurrCloset.getIdList());
@@ -174,15 +175,11 @@ public class AddClothingActivity extends BaseActivity {
         super.onStart();
 
         Intent intent = getIntent();
-        if (intent.hasExtra("Clothing")) {
-            mCurrClothing = (Clothing) intent.getSerializableExtra("Clothing");
-
-        }
     }
 
     protected boolean validateClothingAttributes(String cat, String weath, String occ, String col) {
         if (cat.equals("Select") || weath.equals("Select") || occ.equals("Select") || col.equals("Select")) {
-            Toast newToast = Toast.makeText(this, "Invalid attriu", Toast.LENGTH_SHORT);
+            Toast newToast = Toast.makeText(this, "Invalid attributes", Toast.LENGTH_SHORT);
             newToast.show();
             return false;
         }

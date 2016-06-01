@@ -121,8 +121,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                     e.printStackTrace();
                 } finally {
                     Intent intent = new Intent(getBaseContext(), AddClothingActivity.class);
-//                    int index = mCurrentCloset.getList().size() - 1;
-//                    intent.putExtra("Clothing", mCurrentCloset.getList().get(index));
                     intent.putExtra("photo_id",id);
                     startActivity(intent);
                 }
