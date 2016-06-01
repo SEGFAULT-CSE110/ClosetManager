@@ -107,7 +107,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
                 FileOutputStream outStream = null;
-                Clothing currCloth;
                 try {
                     id = String.format("/sdcard/%d.png", System.currentTimeMillis());
                     outStream = new FileOutputStream(id);
@@ -115,11 +114,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                     outStream.write(data);
                     outStream.close();
                     Toast.makeText(getApplicationContext(), "Picture Saved", Toast.LENGTH_LONG).show();
-
-                    currCloth = new Clothing();
-                    currCloth.setId(id);
-
-                    mCurrentCloset.getList().add(currCloth);
 
                     mCurrentCloset.addId(id);
 

@@ -62,7 +62,7 @@ public class AddClothingActivity extends BaseActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        String[] cat_array = new String[]{"Select", "Top", "Bottom", "Outerwear", "Shoes", "Accessory", "Hat", "Undergarment", "Socks"};
+        String[] cat_array = new String[]{"Select", Clothing.ACCESSORY, Clothing.TOP, Clothing.BOTTOM, Clothing.SHOE, Clothing.BODY, Clothing.HAT, Clothing.JACKET};
         category = initSpinner(R.id.Category, cat_array);
 
         String[] weat_array = new String[]{"Select", "Snow", "Rain", "Cold", "Cool", "Warm", "Hot", "Select All"};
@@ -92,6 +92,8 @@ public class AddClothingActivity extends BaseActivity {
                 String selected_color = color.getSelectedItem().toString();
                 String input_notes = notes.getText().toString();
 
+                System.out.println("Selected category " + selected_category);
+
                 boolean validSelections = validateClothingAttributes(selected_category, selected_weather, selected_occasion, selected_color);
 
                 boolean isWorn = false;
@@ -103,6 +105,8 @@ public class AddClothingActivity extends BaseActivity {
                 boolean isLost = false;
                 if (lost.isChecked())
                     isLost = true;
+
+                System.out.println("Selected category " + selected_category);
 
                 //create new clothing object - set to currClothing and add to closet
                 if (validSelections) {
