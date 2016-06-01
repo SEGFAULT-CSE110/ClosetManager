@@ -8,18 +8,21 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.survivingwithandroid.weather.Config;
-import com.survivingwithandroid.weather.MainActivity;
-import com.survivingwithandroid.weather.model.CityResult;
-import com.survivingwithandroid.weather.model.Weather;
+//import com.android.volley.toolbox.Volley;
+//import com.survivingwithandroid.weather.Config;
+//import com.survivingwithandroid.weather.MainActivity;
+//import com.survivingwithandroid.weather.model.CityResult;
+//import com.survivingwithandroid.weather.model.Weather;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +58,10 @@ public class YahooClient {
      * @param String city -- name for the place to find a woeid for
      * @return String -- the woeid for input city
      */
-    private String getWOEID (String city){
+    private String getWOEID(String city) {
 
         /* A list of regularly used cities */
-        if(city.equalsIgnoreCase("san diego")){
+        if (city.equalsIgnoreCase("san diego")) {
             return "2487889";
         }
 
@@ -84,18 +87,18 @@ public class YahooClient {
             String tag = null;
 
             /* Parse the response */
-            while(event != XmlPullParser.END_DOCUMENT){
+            while (event != XmlPullParser.END_DOCUMENT) {
 
                 /* Get START TAG */
-                if(event == XmlPullParser.START_TAG){
+                if (event == XmlPullParser.START_TAG) {
 
                     tag = parser.getName();
                 }
                 /* Check for TEXT event */
-                else if(event == XmlPullParser.TEXT){
+                else if (event == XmlPullParser.TEXT) {
 
                     /* Find the WOEID */
-                    if(tag.equals("woeid")) {
+                    if (tag.equals("woeid")) {
 
                         /* Set the WOEID */
                         WOEID = parser.getText();
@@ -107,8 +110,13 @@ public class YahooClient {
             } /* End of parsing while loop */
         } /* End of try block */
 
-        /* Disconnect from the query */
-        finally{
+        /* Disconnect from the query */ catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
             woeidHC.disconnect();
         }
 
@@ -122,7 +130,7 @@ public class YahooClient {
      * @param String woeid -- the WOEID for the city
      * @return int -- temparature for the city
      */
-    private int getTemp(String woeid){
+    private int getTemp(String woeid) {
 
         /* Construct the request */
         String tempQuery = WEATHER_REQUEST + "?w=" + woeid;
@@ -139,25 +147,25 @@ public class YahooClient {
 
             /* Get the result ready to be parsed */
             XmlPullParser parser = XmlPullParserFactory.newInstance().newPullParser();
-            parser.setInput(new InputStreamReader(woeidHC.getInputStream()));
+            parser.setInput(new InputStreamReader(tempHC.getInputStream())); //changed from woeidHC.getInputStream()
             int event = parser.getEventType();
 
             /* String to store start tag */
             String tag = null;
 
             /* Parse the response */
-            while(event != XmlPullParser.END_DOCUMENT){
+            while (event != XmlPullParser.END_DOCUMENT) {
 
                 /* Get START TAG */
-                if(event == XmlPullParser.START_TAG){
+                if (event == XmlPullParser.START_TAG) {
 
                     tag = parser.getName();
                 }
                 /* Check for TEXT event */
-                else if(event == XmlPullParser.TEXT){
+                else if (event == XmlPullParser.TEXT) {
 
                     /* Find the condition element */
-                    if(tag.equals("yweather:condition")) {
+                    if (tag.equals("yweather:condition")) {
 
                         /* Get the temperature attribute */
                         temp = Integer.parseInt(parser.getAttributeValue(null, "temp"));
@@ -170,18 +178,25 @@ public class YahooClient {
             } /* End of parsing while loop */
         } /* End of try block */
 
-        /* Disconnect from the query */
-        finally{
+        /* Disconnect from the query */ catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
             tempHC.disconnect();
         }
 
+        int code = condition;
+
         /* If it's raining, return RAIN */
-        if(-1 < code < 12 || 36 < code < 41 || code == 45 || code == 47){
+        if ((-1 < code && code < 12) || (36 < code && code < 41) || code == 45 || code == 47) {
             return RAIN;
         }
 
         /* If it's snowing, return SNOW */
-        if(12 < code < 19 || code == 35 || 40 < code < 44 || code == 46){
+        if ((12 < code && code < 19) || code == 35 || (40 < code && code < 44) || code == 46) {
             return SNOW;
         }
 
@@ -195,37 +210,37 @@ public class YahooClient {
      * @param int temp -- temperature to convert from
      * @return String -- the descriptive String of the temperature
      */
-    private String tempToWeather(int temp){
+    private String tempToWeather(int temp) {
 
         String weather = null;
 
         /* Check if it's raining */
-        if(temp == RAIN){
+        if (temp == RAIN) {
             return "Rain";
         }
 
         /* Check if it's snowing */
-        if(temp == SNOW){
+        if (temp == SNOW) {
             return "Snow";
         }
 
         /* Cold */
-        if(temp < 25){
+        if (temp < 25) {
             weather = "Cold";
         }
 
         /* Cool */
-        else if(24 < temp < 65){
+        else if (temp < 65) {
             weather = "Cool";
         }
 
         /* Warm */
-        else if(64 < temp < 80){
+        else if (temp < 80) {
             weather = "Warm";
         }
 
         /* Hot */
-        else{
+        else {
             weather = "Hot";
         }
 
@@ -237,7 +252,7 @@ public class YahooClient {
      * @param String city -- the city name
      * @return String -- the weather for the city that day
      */
-    public String checkWeather(String city){
+    public String checkWeather(String city) {
 
         String weather = null;
 

@@ -39,9 +39,6 @@ public class AddClothingActivity extends BaseActivity {
     private Clothing mCurrClothing;
     private Closet mCurrCloset;
 
-
-    SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-    SharedPreferences.Editor prefsEditor = mPrefs.edit();
     ///Gson gson = new Gson();
     SharedPreferences mPrefs;
     SharedPreferences.Editor prefsEditor;
