@@ -52,5 +52,8 @@
     <string name="save_outfit_to_lookbook_toast_text">Saving outfit to Lookbook.</string>
     <string name="already_saved_outfit_toast_text">You have already saved this outfit.</string>
     <string name="not_created_outfit_toast_text">You have not yet created an outfit.</string>
+    <string name="do_laundry_text">Do Laundry!</string>
+    <string name="laundry_button_image_description">laundry_button_image</string>
+    <string name="accessory_button_description">accessory button_description</string>
 
 </resources>

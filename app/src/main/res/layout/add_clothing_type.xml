@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- THIS IS ACTUALLY IMPLEMENTED IN CLOSET ACTIVITY, not ADD_CLOTHING_ACTIVITY -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".ClosetActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <ImageButton
+            android:id="@+id/add_accessory_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/accessory_button_description"
+            android:onClick="addAccessory"
+            android:src="@drawable/accessory"
+            android:scaleType="fitCenter"
+            />
+
+
+        <ImageButton
+            android:id="@+id/add_shirt_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/shirt_button_description"
+            android:onClick="addShirt"
+            android:src="@drawable/top"
+            android:scaleType="fitCenter"
+            />
+
+
+        <ImageButton
+            android:id="@+id/add_pants_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/pants_button_description"
+            android:onClick="addPants"
+            android:src="@drawable/pants"
+            android:scaleType="fitCenter"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <ImageButton
+            android:id="@+id/add_shoe_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/shoe_button_description"
+            android:onClick="addShoe"
+            android:src="@drawable/sneaker"
+            android:scaleType="fitCenter"
+            />
+
+
+        <ImageButton
+            android:id="@+id/add_dress_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/dress_button_description"
+            android:onClick="addDress"
+            android:src="@drawable/dress"
+            android:scaleType="fitCenter"
+            />
+
+
+        <ImageButton
+            android:id="@+id/add_hat_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/hat_button_description"
+            android:onClick="addHat"
+            android:src="@drawable/cap"
+            android:scaleType="fitCenter"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <ImageButton
+            android:id="@+id/add_jacket_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/jacket_button_description"
+            android:onClick="addJacket"
+            android:src="@drawable/nylon_jacket"
+            android:scaleType="fitCenter"/>
+
+    </LinearLayout>
+
+</LinearLayout>

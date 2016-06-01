@@ -1,5 +1,6 @@
 package com.segfault.closetmanager;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -37,6 +40,9 @@ public class ClosetActivity extends BaseActivity {
     private List<Clothing> shoeList = new ArrayList<Clothing>();
     private List<List<Clothing>> listOfLists = new ArrayList<List<Clothing>>();
 
+    //Self
+    private final Context context = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setPrefTheme();
@@ -62,8 +68,91 @@ public class ClosetActivity extends BaseActivity {
         if (myFab != null) {
             myFab.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(getBaseContext(), CameraActivity.class);
-                    startActivity(intent);
+
+                    //Create a new dialog
+                    final Dialog add_clothing_dialog = new Dialog(context);
+                    add_clothing_dialog.setContentView(R.layout.add_clothing_type);
+                    add_clothing_dialog.setTitle("Select Clothing Type");
+
+                    ImageButton addAccessoryButton = (ImageButton) findViewById(R.id.add_accessory_button);
+                    if (addAccessoryButton != null) {
+                        addAccessoryButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.ACCESSORY);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    ImageButton addShirtButton = (ImageButton) findViewById(R.id.add_shirt_button);
+                    if (addShirtButton != null) {
+                        addShirtButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.TOP);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    ImageButton addPantsButton = (ImageButton) findViewById(R.id.add_pants_button);
+                    if (addPantsButton != null) {
+                        addPantsButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.BOTTOM);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    ImageButton addShoeButton = (ImageButton) findViewById(R.id.add_shoe_button);
+                    if (addShoeButton != null) {
+                        addShoeButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.SHOE);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    ImageButton addHatButton = (ImageButton) findViewById(R.id.add_hat_button);
+                    if (addHatButton != null) {
+                        addHatButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.HAT);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    ImageButton addDressButton = (ImageButton) findViewById(R.id.add_dress_button);
+                    if (addDressButton != null) {
+                        addDressButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.BODY);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    ImageButton addJacketButton = (ImageButton) findViewById(R.id.add_jacket_button);
+                    if (addJacketButton != null) {
+                        addJacketButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.JACKET);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+
+
                 }
             });
         }
@@ -138,6 +227,7 @@ public class ClosetActivity extends BaseActivity {
             mClosetParentLayout.addView(mClosetListView, mClosetListViewIndex);
         }
     }
+
 
 
     /**
