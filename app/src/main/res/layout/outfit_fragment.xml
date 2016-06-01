@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blue"
+        android:background="#15000000"
         android:orientation="vertical"
         android:padding="16dp">
 
@@ -21,7 +21,6 @@
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.5"
-            android:background="@color/background_material_light_closet"
             android:contentDescription="@string/top_image_description"
             android:cropToPadding="false"
             android:scaleType="fitCenter"
@@ -32,8 +31,8 @@
             android:layout_height="0dp"
             android:layout_weight="0.9">
 
-            <StackView
-                android:id="@+id/shirt_stack_view"
+            <com.segfault.closetmanager.ClothingStackLayout
+                android:id="@+id/shirt_clothing_stack_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/nylon_jacket"/>
@@ -45,8 +44,8 @@
             android:layout_height="0dp"
             android:layout_weight="0.9">
 
-            <StackView
-                android:id="@+id/pants_stack_view"
+            <com.segfault.closetmanager.ClothingStackLayout
+                android:id="@+id/pants_clothing_stack_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/nylon_jacket"/>
@@ -58,8 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="0.5"
-            android:background="#ffffff"
+            android:layout_weight="0.3"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/shoes_image_description"
             android:cropToPadding="false"
             android:scaleType="fitCenter"

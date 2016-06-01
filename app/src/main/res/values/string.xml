@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">iCloset</string>
 
+    <string name="facebook_app_id">1773229412963460</string>
+
     <string name="action_settings">Settings</string>
     <string name="category">Category:</string>
     <string name="style">Style:</string>
@@ -47,5 +49,8 @@
     <string name="pants_bottom_image_description">Pants/Bottom</string>
     <string name="shoes_image_description">Shoes Image</string>
     <string name="outfit_fragment_stack_object_image_description">outfit fragment stack object image</string>
+    <string name="save_outfit_to_lookbook_toast_text">Saving outfit to Lookbook.</string>
+    <string name="already_saved_outfit_toast_text">You have already saved this outfit.</string>
+    <string name="not_created_outfit_toast_text">You have not yet created an outfit.</string>
 
 </resources>

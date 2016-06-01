@@ -1,9 +1,8 @@
 package com.segfault.closetmanager;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.google.gson.Gson;
 
 /**
  * Created by Christopher Cabreros on 05-May-16.
@@ -36,6 +35,11 @@ public class AddClothingActivity extends BaseActivity {
 
     private Clothing mCurrClothing;
     private Closet mCurrCloset = Account.currentAccountInstance.getCloset();
+
+
+    SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+    SharedPreferences.Editor prefsEditor = mPrefs.edit();
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +73,7 @@ public class AddClothingActivity extends BaseActivity {
         initSpinner(color, R.id.Color, col_array);
 
         //get edit text notes and check boxes
-        notes = (EditText) findViewById(R.id.Notes);
+        //notes = (EditText) findViewById(R.id.Notes);
         worn = (CheckBox) findViewById(R.id.Worn);
         shared = (CheckBox) findViewById(R.id.Shared);
         lost = (CheckBox) findViewById(R.id.Lost);
@@ -99,11 +103,24 @@ public class AddClothingActivity extends BaseActivity {
 
                 //create new clothing object - set to currClothing and add to closet
                 if(validSelections) {
-                    mCurrClothing = new Clothing(selected_category, selected_color, selected_weather, selected_occasion, input_notes, isWorn, isShared, isLost);
+                    mCurrClothing = new Clothing(selected_category, selected_color, selected_weather, selected_occasion, input_notes,
+                            isWorn, isShared, isLost, "ID");
                     mCurrCloset.addClothing(mCurrClothing);
                     goBackToCloset();
                 }
 
+                mCurrClothing.setCategory(selected_category);
+                mCurrClothing.setWeather(selected_weather);
+                mCurrClothing.setOccasion(selected_occasion);
+                mCurrClothing.setColor(selected_color);
+                mCurrClothing.setNotes(input_notes);
+
+                String json = gson.toJson(mCurrClothing);
+                prefsEditor.putString(mCurrClothing.getId(), json);
+                prefsEditor.commit();
+
+                Intent intent = new Intent(getBaseContext(), ClosetActivity.class);
+                startActivity(intent);
             }
         });
         //delete button
@@ -119,6 +136,17 @@ public class AddClothingActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Intent intent = getIntent();
+        if (intent.hasExtra("Clothing")) {
+            mCurrClothing = (Clothing)intent.getSerializableExtra("Clothing");
+
+        }
     }
 
     protected boolean validateClothingAttributes (String cat, String weath, String occ, String col) {
@@ -164,5 +192,14 @@ public class AddClothingActivity extends BaseActivity {
     }
 
     public void addClothingNext(View view) {
+    }
+
+    public void retakePicture(View view) {
+        //TODO: remove picture, go to camera, retrieve bitmap from camera
+        //TODO: delete old picture if it was saved
+    }
+
+    public void addClothing(View view) {
+        //TODO: take the values from all the spinners and add the clothing to the closet
     }
 }

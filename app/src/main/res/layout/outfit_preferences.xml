@@ -42,11 +42,12 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:text="Color:"
+                    android:text="Color"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textIsSelectable="false"
-                    android:typeface="serif"/>
+                    android:typeface="monospace"
+                    android:textSize="@dimen/abc_action_bar_content_inset_material" />
             </LinearLayout>
 
             <Spinner
@@ -88,11 +89,12 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:text="Weather:"
+                    android:text="Weather"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textIsSelectable="false"
-                    android:typeface="serif"/>
+                    android:typeface="monospace"
+                    android:textSize="@dimen/abc_action_bar_content_inset_material" />
             </LinearLayout>
 
             <Spinner
@@ -134,11 +136,12 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:text="Occasion:"
+                    android:text="Occasion"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textIsSelectable="false"
-                    android:typeface="serif"/>
+                    android:typeface="monospace"
+                    android:textSize="@dimen/abc_action_bar_content_inset_material" />
             </LinearLayout>
 
             <Spinner

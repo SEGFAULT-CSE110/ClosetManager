@@ -1,11 +1,14 @@
 package com.segfault.closetmanager;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Christopher Cabreros on 05-May-16.
  */
-public class PreferenceList {
+public class PreferenceList implements Serializable{
+
+    public static final String EXTRA_STRING = "PreferenceList181881";
 
     private Boolean mWorn;
 
@@ -79,7 +82,7 @@ public class PreferenceList {
         this.mCategory = clothing.getCategory();
         this.mColor = clothing.getColor();
         this.mSize = clothing.getSize();
-        this.mOccasion = clothing.getOccasion();
+        this.mOccasion.add(clothing.getOccasion());
         this.mStyle = clothing.getStyle();
         this.mWeather = clothing.getWeather();
         this.mSecondaryColor = clothing.getSecondaryColor();

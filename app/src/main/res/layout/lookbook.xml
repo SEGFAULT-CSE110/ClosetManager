@@ -20,7 +20,16 @@
         android:layout_width="match_parent"
         android:layout_height="50sp"
         android:layout_weight="0"
-        android:queryHint="search outfit"/>
+        android:queryHint="search outfit"
+        android:background="#15000000"/>
+
+    <View
+        android:id="@+id/lookbook_dividing_black_bar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"/>
 
     <!-- The clothing is added in here -->
     <android.support.v7.widget.RecyclerView
@@ -29,7 +38,8 @@
         android:orientation="horizontal"
         android:layout_weight="1"
         android:id="@+id/lookbook_recycler_view"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/white"/>
 
     <include
         layout="@layout/bottom_bar"
