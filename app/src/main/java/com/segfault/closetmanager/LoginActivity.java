@@ -100,8 +100,8 @@ public class LoginActivity extends Activity {
          ***************************************/
         /* Load the Facebook login button and set up the tracker to monitor access token changes */
         mFacebookCallbackManager = CallbackManager.Factory.create();
-        mFacebookLoginButton = (LoginButton) findViewById(R.id.facebook_login_button);
 
+        mFacebookLoginButton = (LoginButton) findViewById(R.id.facebook_login_button);
 
         mFacebookAccessTokenTracker = new AccessTokenTracker() {
             @Override
@@ -166,37 +166,6 @@ public class LoginActivity extends Activity {
 
 
 
-    /**
-     * This method fires when any startActivityForResult finishes. The requestCode maps to
-     * the value passed into startActivityForResult.
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Map<String, String> options = new HashMap<String, String>();
-
-        /*if (requestCode == RC_GOOGLE_LOGIN) {
-
-            if (resultCode != RESULT_OK) {
-                mGoogleLoginClicked = false;
-            }
-            mGoogleIntentInProgress = false;
-            if (!mGoogleApiClient.isConnecting()) {
-                mGoogleApiClient.connect();
-            }
-        } else if (requestCode == RC_TWITTER_LOGIN) {
-            options.put("oauth_token", data.getStringExtra("oauth_token"));
-            options.put("oauth_token_secret", data.getStringExtra("oauth_token_secret"));
-            options.put("user_id", data.getStringExtra("user_id"));
-            authWithFirebase("twitter", options);
-        } else {
-        */
-
-            /* Otherwise, it's probably the request by the Facebook login button, keep track of the session */
-            mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
-
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         /* If a user is currently authenticated, display a logout menu */
@@ -207,6 +176,7 @@ public class LoginActivity extends Activity {
             return false;
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
