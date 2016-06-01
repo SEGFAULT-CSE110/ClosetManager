@@ -39,6 +39,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     String EXTRA_TYPE_STRING;
 
     Closet mCurrentCloset = Account.currentAccountInstance.getCloset();
+    Closet mCurrentCloset;
+
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +107,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         }
 
 
+        mCurrentCloset = Account.currentAccountInstance.getCloset();
 
         jpegCallback = new PictureCallback() {
 
@@ -112,7 +116,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                 FileOutputStream outStream = null;
                 Clothing currCloth;
                 try {
-                    String id = String.format("/sdcard/%d.png", System.currentTimeMillis());
+                    id = String.format("/sdcard/%d.png", System.currentTimeMillis());
                     outStream = new FileOutputStream(id);
 
                     outStream.write(data);
@@ -127,6 +131,13 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                     mCurrentCloset.addId(id);
 
                 } catch (IOException e) {
+                }
+
+                catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -134,6 +145,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                     Intent intent = new Intent(getBaseContext(), AddClothingActivity.class);
                     int index = mCurrentCloset.getList().size() - 1;
                     intent.putExtra("Clothing", mCurrentCloset.getList().get(index));
+                    intent.putExtra("photo_id",id);
                     startActivity(intent);
                 }
             }
