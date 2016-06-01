@@ -221,7 +221,7 @@ public class OutfitGenActivity extends BaseActivity {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.outfit_preferences, null);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(R.string.dialog_outfitgen);
+        alert.setTitle("Choose Attributes");
         alert.setView(alertLayout);
 
         // find views by ids
