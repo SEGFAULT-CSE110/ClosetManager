@@ -14,16 +14,18 @@ import java.util.List;
  */
 public class Clothing implements Parcelable{
 
+    public static final String ACCESSORY = "Accessory";
     public static final String TOP = "Top";
     public static final String BOTTOM = "Bottom";
-    public static final String ACCESSORY = "Accessory";
     public static final String SHOE = "Shoe";
     public static final String BODY = "Body";
     public static final String HAT = "Hat";
     public static final String JACKET = "Jacket";
+
     public static final String MINUS = "Minus";
 
     public static final String EXTRA_STRING = "clothing";
+    public static final String EXTRA_TYPE_STRING = "TYPE";
 
     private boolean mWorn;
     private boolean mShared;

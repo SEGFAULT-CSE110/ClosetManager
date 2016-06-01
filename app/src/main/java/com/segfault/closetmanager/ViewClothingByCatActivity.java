@@ -25,10 +25,12 @@ public class ViewClothingByCatActivity extends BaseActivity{
     public static final String CAME_FROM_CLOSET_STRING = "yes it did come from the closet";
 
     private List<Clothing> mClothingList;
-    private Account mCurrentAccount = Account.currentAccountInstance;
+    private Account mCurrentAccount = IClosetApplication.getAccount();
     private Closet mCurrentCloset = mCurrentAccount.getCloset();
     private boolean mCameFromCloset;
     private boolean mRemovedClothing;
+
+    private boolean mDoLaundry;
 
     private Clothing mRemoveClothingSymbol;
 

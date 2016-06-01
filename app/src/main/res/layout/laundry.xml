@@ -26,13 +26,14 @@
             android:src="@drawable/bleach_soap"
             android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
             android:layout_gravity="center_horizontal"
-            android:background="@color/button_material_light" />
+            android:background="@color/button_material_light"
+            android:contentDescription="@string/laundry_button_image_description"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Do Laundry!"
+            android:text="@string/do_laundry_text"
             android:id="@+id/button"
             android:textAlignment="center"
             android:textIsSelectable="false"
