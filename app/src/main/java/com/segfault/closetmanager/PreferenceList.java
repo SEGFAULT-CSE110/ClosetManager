@@ -1,11 +1,14 @@
 package com.segfault.closetmanager;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Christopher Cabreros on 05-May-16.
  */
-public class PreferenceList {
+public class PreferenceList implements Serializable{
+
+    public static final String EXTRA_STRING = "PreferenceList181881";
 
     private Boolean mWorn;
 

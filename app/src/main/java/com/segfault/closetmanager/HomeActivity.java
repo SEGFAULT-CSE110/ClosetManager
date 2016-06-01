@@ -68,8 +68,6 @@ public class HomeActivity extends BaseActivity {
             e.printStackTrace();
         }
 
-        TESTING_CLASS tester = new TESTING_CLASS();
-        tester.testMethod();
     }
 
     @Override
@@ -80,6 +78,7 @@ public class HomeActivity extends BaseActivity {
 
     /**
      * Button method to go to closet
+     *
      * @param view - view that called this?
      */
     public void goToCloset(View view) {
@@ -107,33 +106,32 @@ public class HomeActivity extends BaseActivity {
      */
     public void onBackPressed() {
         //leave app if backButton was pressed twice
-        if (!backButtonPressed){
+        if (!backButtonPressed) {
             backButtonPressed = true;
             Toast newToast = Toast.makeText(this, "Press the back button again to leave.",
                     Toast.LENGTH_SHORT);
             newToast.show();
-        }
-        else{
+        } else {
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(0);
         }
     }
 
-    public void loadPictures(Context context, List<Clothing> clothingList, List<String> id) throws IOException{
+    public void loadPictures(Context context, List<Clothing> clothingList, List<String> id) throws IOException {
         //Create an asset manager
         AssetManager assetManager = context.getAssets();
         //Create a list of all the file names in the folder 'images'
         String[] files = assetManager.list("images");
 
-        for (int i = 0; i < id.size()-1; i++) {
+        for (int i = 0; i < id.size() - 1; i++) {
             if (id.get(i).contains(".jpg") || id.get(i).contains(".png")) {
                 InputStream istr = assetManager.open(id.get(i));
                 Bitmap firstBitmap = BitmapFactory.decodeStream(istr);
 
                 //scale down first bitmap
                 final float densityMultiplier = context.getResources().getDisplayMetrics().density;
-                int h= (int) (50 * densityMultiplier); //TODO revise size
-                int w= (int) (h * firstBitmap.getWidth()/((double) firstBitmap.getHeight()));
+                int h = (int) (50 * densityMultiplier); //TODO revise size
+                int w = (int) (h * firstBitmap.getWidth() / ((double) firstBitmap.getHeight()));
                 Bitmap secondBitmap = Bitmap.createScaledBitmap(firstBitmap, w, h, true);
 
                 //Recycle the bitmap to preserve memory
@@ -142,8 +140,7 @@ public class HomeActivity extends BaseActivity {
                 String json = mPrefs.getString(id.get(i), "");
                 Clothing currClothing = gson.fromJson(json, Clothing.class);
 
-                //separate into types
-                if (currClothing.getCategory()== "Hat") {
+                if (currClothing.getCategory() == "Hat") {
                     currClothing.setBitmap(secondBitmap);
                     clothingList.add(currClothing);
                 } else if (currClothing.getCategory() == "Bottom") {
@@ -161,7 +158,6 @@ public class HomeActivity extends BaseActivity {
                 System.out.println("Loaded");
             }
         }
-        return;
     }
-
 }
+

@@ -10,6 +10,7 @@ import android.view.View;
 
 /**
  * Created by Christina on 5/12/2016.
+ * Defines all activities not the camera.
  */
 public abstract class BaseActivity extends AppCompatActivity {
     @Override

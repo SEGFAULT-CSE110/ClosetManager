@@ -35,7 +35,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
-                android:src="@drawable/closet"/>
+                android:src="@drawable/closet"
+                android:padding="3dp" />
 
             <TextView
                 android:id="@+id/closetTitle"
@@ -46,7 +47,8 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textIsSelectable="false"
-                android:typeface="serif"/>
+                android:typeface="serif"
+                android:textSize="@dimen/abc_action_bar_content_inset_material" />
         </LinearLayout>
 
         <!--outfit generator icon set -->
@@ -64,7 +66,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
-                android:src="@drawable/outfitgen"/>
+                android:src="@drawable/outfitgen"
+                android:padding="3dp" />
 
             <TextView
                 android:id="@+id/outfitgenTitle"
@@ -73,7 +76,8 @@
                 android:text="@string/outfit_creator"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:typeface="serif"/>
+                android:typeface="serif"
+                android:textSize="@dimen/abc_action_bar_content_inset_material" />
 
         </LinearLayout>
 
@@ -92,7 +96,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:scaleType="fitCenter"
-                android:src="@drawable/lookbook"/>
+                android:src="@drawable/lookbook"
+                android:padding="3dp" />
 
             <TextView
                 android:id="@+id/lookbookTitle"
@@ -101,7 +106,8 @@
                 android:text="@string/lookbook"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:typeface="serif"/>
+                android:typeface="serif"
+                android:textSize="@dimen/abc_action_bar_content_inset_material" />
 
         </LinearLayout>
 
@@ -122,7 +128,8 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                android:src="@drawable/more"/>
+                android:src="@drawable/more"
+                android:padding="3dp" />
 
             <TextView
                 android:id="@+id/moreTitle"
@@ -131,7 +138,8 @@
                 android:text="@string/more"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:typeface="serif"/>
+                android:typeface="serif"
+                android:textSize="@dimen/abc_action_bar_content_inset_material" />
 
         </LinearLayout>
 
