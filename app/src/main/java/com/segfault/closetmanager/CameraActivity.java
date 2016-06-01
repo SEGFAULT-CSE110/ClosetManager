@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
@@ -26,6 +28,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     Camera.ShutterCallback shutterCallback;
     Camera.PictureCallback jpegCallback;
 
+    ImageView overlay;
+    String EXTRA_TYPE_STRING = getIntent().getStringExtra(clothing.EXTRA_TYPE_STRING);
+
     Closet mCurrentCloset = Account.currentAccountInstance.getCloset();
 
     @Override
@@ -38,6 +43,31 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+        overlay = (ImageView)findViewById(R.id.overlay);
+        if(EXTRA_TYPE_STRING == "Top"){
+            overlay.setImageResource(R.drawable.top);
+        }
+        else if(EXTRA_TYPE_STRING == "Bottom"){
+            overlay.setImageResource(R.drawable.pants);
+        }
+        else if(EXTRA_TYPE_STRING == "Accesory"){
+            overlay.setImageResource(R.drawable.accessory);
+        }
+        else if(EXTRA_TYPE_STRING == "Shoe"){
+            overlay.setImageResource(R.drawable.sneaker);
+        }
+        else if(EXTRA_TYPE_STRING == "Body"){
+            overlay.setImageResource(R.drawable.dress);
+        }
+        else if(EXTRA_TYPE_STRING == "HAT"){
+            overlay.setImageResource(R.drawable.cap);
+        }
+        else if(EXTRA_TYPE_STRING == "JACKET"){
+            overlay.setImageResource(R.drawable.hooded_jacket);
+        }
+
+
 
         jpegCallback = new PictureCallback() {
 
