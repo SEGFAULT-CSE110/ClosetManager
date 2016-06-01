@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="outfitgenimagebutton">outfitGenImageButton</string>
+    <string name="shirt_button_description">shirt button description</string>
+    <string name="pants_button_description">pants button description</string>
+    <string name="shoe_button_description">shoe button description</string>
+    <string name="dress_button_description">dress button description</string>
+    <string name="jacket_button_description">jacket button description</string>
+    <string name="hat_button_description">hat button description</string>
+    <string name="select_clothing_type_string">Select Clothing Type</string>
 </resources>

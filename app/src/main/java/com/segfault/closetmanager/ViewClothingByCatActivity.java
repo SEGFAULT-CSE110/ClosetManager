@@ -30,6 +30,8 @@ public class ViewClothingByCatActivity extends BaseActivity{
     private boolean mCameFromCloset;
     private boolean mRemovedClothing;
 
+    private boolean mDoLaundry;
+
     private Clothing mRemoveClothingSymbol;
 
     @Override
