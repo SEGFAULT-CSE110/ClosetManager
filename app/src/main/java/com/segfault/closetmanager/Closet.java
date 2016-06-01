@@ -247,6 +247,10 @@ public class Closet {
 
     void addId(String id){ list_id.add(id);}
 
+    public List<String> getIdList() { return list_id; }
+
+    void setIdList(List<String> list) { list_id = list;}
+
     public List<Clothing> getList(){
         return list_clothes;
     }

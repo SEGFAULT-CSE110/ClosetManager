@@ -128,14 +128,14 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                android:src="@drawable/more"
+                android:src="@drawable/washing_machine"
                 android:padding="3dp" />
 
             <TextView
                 android:id="@+id/moreTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/more"
+                android:text="Laundry"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:typeface="serif"

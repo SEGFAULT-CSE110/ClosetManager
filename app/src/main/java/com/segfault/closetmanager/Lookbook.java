@@ -48,7 +48,7 @@ public class Lookbook {
 
         Outfit result = new Outfit();
 
-        // PrefList with top
+        /* PrefList with top */
         PreferenceList shirtPref = new PreferenceList(
                 preferenceList, cat, Clothing.TOP);
 
@@ -224,6 +224,13 @@ public class Lookbook {
 
         /* Create a new preference list with this color */
         PreferenceList first = new PreferenceList(prefList, attriColor, color);
+
+        /* Do we need to get current weather information */
+        if(weather == null){
+
+            //TODO: where to get the location name?
+            weather = checkWeather("san diego");
+        }
 
         /* Filter for the perfect list */
         match = mBelongingCloset.filter(first);
