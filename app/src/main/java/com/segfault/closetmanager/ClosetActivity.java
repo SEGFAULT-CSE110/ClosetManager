@@ -34,12 +34,16 @@ public class ClosetActivity extends BaseActivity {
     private Closet mCurrentCloset;
 
     //Lists
-    private List<Clothing> clothingList;
+    private List<List<Clothing>> listOfLists;
+
+    private List<Clothing> accessoryList;
     private List<Clothing> topList;
     private List<Clothing> bottomList;
-    private List<Clothing> hatList;
     private List<Clothing> shoeList;
-    private List<List<Clothing>> listOfLists;
+    private List<Clothing> bodyList;
+    private List<Clothing> hatList;
+    private List<Clothing> jacketList;
+
 
     //Self
     private final Context context = this;
@@ -51,14 +55,17 @@ public class ClosetActivity extends BaseActivity {
         setContentView(R.layout.closet);
 
         mCurrentCloset = IClosetApplication.getAccount().getCloset();
-        //mCurrentCloset = Account.currentAccountInstance.getCloset();
 
-        clothingList = mCurrentCloset.getList();
+        accessoryList = new ArrayList<Clothing>();
         topList = new ArrayList<Clothing>();
         bottomList = new ArrayList<Clothing>();
-        hatList = new ArrayList<Clothing>();
         shoeList = new ArrayList<Clothing>();
+        bodyList = new ArrayList<Clothing>();
+        hatList = new ArrayList<Clothing>();
+        jacketList = new ArrayList<Clothing>();
+
         listOfLists = new ArrayList<List<Clothing>>();
+
         // set pref_layout toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
@@ -171,7 +178,6 @@ public class ClosetActivity extends BaseActivity {
                 }
 
 
-
             });
         }
 
@@ -201,56 +207,64 @@ public class ClosetActivity extends BaseActivity {
                 noElementsTextView.setText(R.string.closet_no_elements_text);
             }
         } else { //refresh the amount of clothing we have
-            //TODO: delegate this to closet.java
-            if (true) {
-                //Clear the lists
-                topList.clear();
-                bottomList.clear();
-                hatList.clear();
-                shoeList.clear();
-                listOfLists.clear();
 
-                clothingList = mCurrentCloset.getList();
+            //Clear the lists and refill them
+            accessoryList.clear();
+            accessoryList = mCurrentCloset.filter(new PreferenceList(false, Clothing.ACCESSORY, null, null, null, null, null, null));
+            topList.clear();
+            topList = mCurrentCloset.filter(new PreferenceList(false, Clothing.TOP, null, null, null, null, null, null));
+            bottomList.clear();
+            bottomList = mCurrentCloset.filter(new PreferenceList(false, Clothing.BOTTOM, null, null, null, null, null, null));
+            shoeList.clear();
+            shoeList = mCurrentCloset.filter(new PreferenceList(false, Clothing.SHOE, null, null, null, null, null, null));
+            bodyList.clear();
+            bodyList = mCurrentCloset.filter(new PreferenceList(false, Clothing.BODY, null, null, null, null, null, null));
+            hatList.clear();
+            hatList = mCurrentCloset.filter(new PreferenceList(false, Clothing.HAT, null, null, null, null, null, null));
+            jacketList.clear();
+            jacketList = mCurrentCloset.filter(new PreferenceList(false, Clothing.JACKET, null, null, null, null, null, null));
 
-                //Add all of the clothing into the lists
-                for (int index = 0; index < clothingList.size(); index++) {
-                    if (clothingList.get(index) == null){
-                        System.err.println("NULL");
-                    }
-                    else if (clothingList.get(index).getCategory().equals(Clothing.TOP)) {
-                        topList.add(clothingList.get(index));
-                    } else if (clothingList.get(index).getCategory().equals(Clothing.BOTTOM)) {
-                        bottomList.add(clothingList.get(index));
-                    } else if (clothingList.get(index).getCategory().equals(Clothing.HAT)) {
-                        hatList.add(clothingList.get(index));
-                    } else if (clothingList.get(index).getCategory().equals(Clothing.SHOE)) {
-                        shoeList.add(clothingList.get(index));
-                    }
-                }
 
-                //Add all of these lists into a single list of lists
+            //Add all of these lists into a single list of lists, if it is a size large enough
+            listOfLists.clear();
+            if (!accessoryList.isEmpty()) {
+                listOfLists.add(accessoryList);
+            }
+            if (!topList.isEmpty()) {
                 listOfLists.add(topList);
+            }
+            if (!bottomList.isEmpty()) {
                 listOfLists.add(bottomList);
-                listOfLists.add(hatList);
+            }
+            if (!shoeList.isEmpty()) {
                 listOfLists.add(shoeList);
-
-                //add stuff to the closet list view
-                ClosetCategoryAdapter adapter = new ClosetCategoryAdapter(this, listOfLists);
-                ListView closetListView = (ListView) findViewById(R.id.closet_list_view);
-                if (closetListView != null) {
-                    closetListView.setAdapter(adapter);
-                }
-
-                //once done updating, set updated to false
-                mCurrentCloset.setUpdated(false);
+            }
+            if (!bodyList.isEmpty()) {
+                listOfLists.add(bodyList);
+            }
+            if (!hatList.isEmpty()) {
+                listOfLists.add(hatList);
+            }
+            if (!jacketList.isEmpty()) {
+                listOfLists.add(jacketList);
             }
 
-            //add the linear layout back in
-            mClosetParentLayout.removeViewAt(mClosetListViewIndex);
-            mClosetParentLayout.addView(mClosetListView, mClosetListViewIndex);
-        }
-    }
+            //add stuff to the closet list view
+            ClosetCategoryAdapter adapter = new ClosetCategoryAdapter(this, listOfLists);
+            ListView closetListView = (ListView) findViewById(R.id.closet_list_view);
+            if (closetListView != null) {
+                closetListView.setAdapter(adapter);
+            }
 
+            //once done updating, set updated to false
+            mCurrentCloset.setUpdated(false);
+        }
+
+        //add the linear layout back in
+        mClosetParentLayout.removeViewAt(mClosetListViewIndex);
+        mClosetParentLayout.addView(mClosetListView, mClosetListViewIndex);
+
+    }
 
 
     /**
