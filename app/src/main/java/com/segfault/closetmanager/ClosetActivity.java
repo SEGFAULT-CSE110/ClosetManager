@@ -50,7 +50,7 @@ public class ClosetActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet);
 
-        mCurrentCloset = Account.currentAccountInstance.getCloset();
+        mCurrentCloset = IClosetApplication.getAccount().getCloset();
 
         clothingList = mCurrentCloset.getList();
         topList = new ArrayList<Clothing>();
@@ -184,7 +184,7 @@ public class ClosetActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         //update closet
-        mCurrentCloset = Account.currentAccountInstance.getCloset();
+        mCurrentCloset = IClosetApplication.getAccount().getCloset();
 
         //check if we have any clothing
         if (mCurrentCloset.getList().isEmpty()) {
@@ -211,7 +211,10 @@ public class ClosetActivity extends BaseActivity {
 
                 //Add all of the clothing into the lists
                 for (int index = 0; index < clothingList.size(); index++) {
-                    if (clothingList.get(index).getCategory().equals(Clothing.TOP)) {
+                    if (clothingList.get(index) == null){
+                        System.err.println("NULL");
+                    }
+                    else if (clothingList.get(index).getCategory().equals(Clothing.TOP)) {
                         topList.add(clothingList.get(index));
                     } else if (clothingList.get(index).getCategory().equals(Clothing.BOTTOM)) {
                         bottomList.add(clothingList.get(index));

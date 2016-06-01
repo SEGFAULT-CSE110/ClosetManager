@@ -30,6 +30,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     SurfaceHolder surfaceHolder;
 
     private static final int REQUEST_CAMERA_PERMISSION = 38237;
+    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION = 415203652;
+    private static final int REQUEST_INTERNET_PERMISSION = 33;
 
     Camera.PictureCallback rawCallback;
     Camera.ShutterCallback shutterCallback;
@@ -50,9 +52,18 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
-
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
                         REQUEST_CAMERA_PERMISSION);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_EXTERNAL_STORAGE_PERMISSION);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET},
+                    REQUEST_INTERNET_PERMISSION);
         }
 
         EXTRA_TYPE_STRING = getIntent().getStringExtra(Clothing.EXTRA_TYPE_STRING);
@@ -89,7 +100,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         }
 
 
-        mCurrentCloset = Account.currentAccountInstance.getCloset();
+        mCurrentCloset = IClosetApplication.getAccount().getCloset();
 
         jpegCallback = new PictureCallback() {
 
@@ -221,6 +232,22 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
                 } else {
                     System.err.println("Oh no! You can't use the camera!");
+                }
+            }
+            case REQUEST_EXTERNAL_STORAGE_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the contacts-related task you need to do.
+                } else {
+                    System.err.println("Oh no! You can't use the SD card!");
+                }
+            }
+            case REQUEST_INTERNET_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the contacts-related task you need to do.
+                } else {
+                    System.err.println("Oh no! You can't use the internet!");
                 }
             }
 

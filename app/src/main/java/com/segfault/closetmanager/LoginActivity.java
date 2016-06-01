@@ -99,7 +99,6 @@ public class LoginActivity extends Activity {
     private List<String> list_id;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -398,25 +397,25 @@ public class LoginActivity extends Activity {
 //
 //        // Or via popular OAuth providers ("facebook", "github", "google", or "twitter")
 //        ref.authWithOAuthToken("<provider>", "<oauth-token>", authResultHandler);
-        Account.currentAccountInstance = new Account("kkk");
+        Account currentAccount = IClosetApplication.getAccount();
 
         mPrefs = getPreferences(MODE_PRIVATE);
 
         // Load closet
-        mCurrentCloset = Account.currentAccountInstance.getCloset();
+        mCurrentCloset = currentAccount.getCloset();
 
         String ids = mPrefs.getString("id_list", "");
 
         list_id = (List<String>) gson.fromJson(ids, List.class);
 
-        if(list_id == null)
+        if (list_id == null)
             list_id = new ArrayList<>();
 
         mCurrentCloset.setIdList(list_id);
 
         try {
-                loadPictures(getApplicationContext(), mCurrentCloset.getList(), mCurrentCloset.getIdList());
-                Account.currentAccountInstance.getLookbook().assignBelongingCloset(Account.currentAccountInstance.getCloset());
+            loadPictures(getApplicationContext(), mCurrentCloset.getList(), mCurrentCloset.getIdList());
+            currentAccount.getLookbook().assignBelongingCloset(currentAccount.getCloset());
         } catch (IOException e) {
             e.printStackTrace();
         }
