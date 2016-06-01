@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -74,6 +75,7 @@ public class ClosetActivity extends BaseActivity {
                     add_clothing_dialog.setContentView(R.layout.add_clothing_type);
                     add_clothing_dialog.setTitle("Select Clothing Type");
 
+                    //Add in action listeners for all the buttons
                     ImageButton addAccessoryButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_accessory_button);
                     if (addAccessoryButton != null) {
                         addAccessoryButton.setOnClickListener(new View.OnClickListener() {

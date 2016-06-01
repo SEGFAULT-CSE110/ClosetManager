@@ -39,7 +39,7 @@ public class AddClothingActivity extends BaseActivity {
 
     SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
     SharedPreferences.Editor prefsEditor = mPrefs.edit();
-    Gson gson = new Gson();
+    ///Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,9 +115,9 @@ public class AddClothingActivity extends BaseActivity {
                 mCurrClothing.setColor(selected_color);
                 mCurrClothing.setNotes(input_notes);
 
-                String json = gson.toJson(mCurrClothing);
-                prefsEditor.putString(mCurrClothing.getId(), json);
-                prefsEditor.commit();
+                //String json = gson.toJson(mCurrClothing);
+                //prefsEditor.putString(mCurrClothing.getId(), json);
+                //prefsEditor.commit();
 
                 Intent intent = new Intent(getBaseContext(), ClosetActivity.class);
                 startActivity(intent);
