@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".LaundryActivity">
     <include
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar"
@@ -18,16 +19,16 @@
         android:visibility="visible"
         android:padding="3dp">
 
-        <ImageView
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:scaleType="fitCenter"
             android:src="@drawable/bleach_soap"
             android:padding="@dimen/abc_action_bar_overflow_padding_start_material"
             android:layout_gravity="center_horizontal"
             android:background="@color/button_material_light"
-            android:contentDescription="@string/laundry_button_image_description"/>
+            android:contentDescription="@string/laundry_button_image_description"
+            android:onClick="doLaundry"/>
 
         <TextView
             android:layout_width="0dp"
