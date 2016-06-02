@@ -346,17 +346,19 @@ public class ClosetActivity extends BaseActivity {
             });
 
             for (int index = 0; index < currentList.size(); index++) {
+                //Get the correct clothing
+                final Clothing currentClothing = currentList.get(index);
+
                 //get clothing bitmap and the appropriate view
-                Bitmap currentBitmap = currentList.get(index).getBitmap();
+                Bitmap currentBitmap = currentClothing.getBitmap();
 
                 //get the view and add a click listener to go to the correct view
                 View clothingFrame = inflater.inflate(R.layout.closet_category_clothing_image, linearLayout, false);
-                final int finalIndex = index; //required to be a final variable
                 clothingFrame.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getContext(), ViewClothingActivity.class);
-                        intent.putExtra("Clothing", currentList.get(finalIndex));
+                        intent.putExtra("Clothing", currentClothing);
                         getContext().startActivity(intent);
                     }
                 });

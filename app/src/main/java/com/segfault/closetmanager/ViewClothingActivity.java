@@ -38,7 +38,9 @@ public class ViewClothingActivity extends BaseActivity {
 
         //get the picture from the view, and set the picture
         ImageView clothingView = (ImageView) findViewById(R.id.view_clothing_picture);
-        clothingView.setImageBitmap(currentClothing.getBitmap());
+        if (clothingView != null) {
+            clothingView.setImageBitmap(currentClothing.getBitmap());
+        }
 
         //change the appropriate text views
         TextView categoryTextView = (TextView) findViewById(R.id.closet_item_category);

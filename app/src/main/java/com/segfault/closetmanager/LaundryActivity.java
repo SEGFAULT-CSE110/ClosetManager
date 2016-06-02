@@ -32,7 +32,7 @@ public class LaundryActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setPrefTheme();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_clothing_by_cat);
+        setContentView(R.layout.laundry);
 
         // set pref_layout toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
