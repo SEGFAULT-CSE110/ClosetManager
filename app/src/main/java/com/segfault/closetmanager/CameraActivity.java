@@ -24,12 +24,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 
+/**
+ * Defines the camera class
+ */
 public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     Camera camera;
     SurfaceView surfaceView;
     SurfaceHolder surfaceHolder;
 
     private static final int REQUEST_CAMERA_PERMISSION = 38237;
+    private static final int REQUEST_EXTERNAL_STORAGE_PERMISSION = 415203652;
+    private static final int REQUEST_INTERNET_PERMISSION = 33;
 
     Camera.PictureCallback rawCallback;
     Camera.ShutterCallback shutterCallback;
@@ -38,7 +43,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     ImageView overlay;
     String EXTRA_TYPE_STRING;
 
-    Closet mCurrentCloset = Account.currentAccountInstance.getCloset();
     Closet mCurrentCloset;
 
     String id;
@@ -47,32 +51,23 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_camera);
+        mCurrentCloset = IClosetApplication.getAccount().getCloset();
 
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA)
+        //Ask for permissions
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.CAMERA)) {
-
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CAMERA},
-                        REQUEST_CAMERA_PERMISSION); //TODO: have an actual thing for this
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                        REQUEST_CAMERA_PERMISSION);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_EXTERNAL_STORAGE_PERMISSION);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET},
+                    REQUEST_INTERNET_PERMISSION);
         }
 
         EXTRA_TYPE_STRING = getIntent().getStringExtra(Clothing.EXTRA_TYPE_STRING);
@@ -83,38 +78,39 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
+        //Set the overlay image
         overlay = (ImageView)findViewById(R.id.overlay);
-        if(EXTRA_TYPE_STRING.equals(Clothing.TOP)){
-            overlay.setImageResource(R.drawable.top);
-        }
-        else if(EXTRA_TYPE_STRING.equals(Clothing.BOTTOM)){
-            overlay.setImageResource(R.drawable.pants);
-        }
-        else if(EXTRA_TYPE_STRING.equals(Clothing.ACCESSORY)){
-            overlay.setImageResource(R.drawable.accessory);
-        }
-        else if(EXTRA_TYPE_STRING.equals(Clothing.SHOE)){
-            overlay.setImageResource(R.drawable.sneaker);
-        }
-        else if(EXTRA_TYPE_STRING.equals(Clothing.BODY)){
-            overlay.setImageResource(R.drawable.dress);
-        }
-        else if(EXTRA_TYPE_STRING.equals(Clothing.HAT)){
-            overlay.setImageResource(R.drawable.cap);
-        }
-        else if(EXTRA_TYPE_STRING.equals(Clothing.JACKET)){
-            overlay.setImageResource(R.drawable.hooded_jacket);
+        switch (EXTRA_TYPE_STRING) {
+            case Clothing.TOP:
+                overlay.setImageResource(R.drawable.top);
+                break;
+            case Clothing.BOTTOM:
+                overlay.setImageResource(R.drawable.pants);
+                break;
+            case Clothing.ACCESSORY:
+                overlay.setImageResource(R.drawable.accessory);
+                break;
+            case Clothing.SHOE:
+                overlay.setImageResource(R.drawable.sneaker);
+                break;
+            case Clothing.BODY:
+                overlay.setImageResource(R.drawable.dress);
+                break;
+            case Clothing.HAT:
+                overlay.setImageResource(R.drawable.cap);
+                break;
+            case Clothing.JACKET:
+                overlay.setImageResource(R.drawable.hooded_jacket);
+                break;
         }
 
 
-        mCurrentCloset = Account.currentAccountInstance.getCloset();
 
         jpegCallback = new PictureCallback() {
 
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
                 FileOutputStream outStream = null;
-                Clothing currCloth;
                 try {
                     id = String.format("/sdcard/%d.png", System.currentTimeMillis());
                     outStream = new FileOutputStream(id);
@@ -123,29 +119,14 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                     outStream.close();
                     Toast.makeText(getApplicationContext(), "Picture Saved", Toast.LENGTH_LONG).show();
 
-                    currCloth = new Clothing();
-                    currCloth.setId(id);
-
-                    mCurrentCloset.getList().add(currCloth);
-
                     mCurrentCloset.addId(id);
 
                 } catch (IOException e) {
-                }
-
-                catch (FileNotFoundException e) {
                     e.printStackTrace();
-                }
-
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                finally {
+                } finally {
                     Intent intent = new Intent(getBaseContext(), AddClothingActivity.class);
-                    int index = mCurrentCloset.getList().size() - 1;
-                    intent.putExtra("Clothing", mCurrentCloset.getList().get(index));
                     intent.putExtra("photo_id",id);
+                    intent.putExtra("Category",EXTRA_TYPE_STRING);
                     startActivity(intent);
                 }
             }
@@ -164,16 +145,10 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
         try {
             camera.stopPreview();
-        }
-
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
             camera.setPreviewDisplay(surfaceHolder);
             camera.startPreview();
         }
+
         catch (Exception e) {
             e.printStackTrace();
         }
@@ -210,24 +185,15 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         try {
             camera = Camera.open();
-        }
+            Camera.Parameters param = camera.getParameters();
+            param.setPreviewSize(720, 1280);
+            camera.setDisplayOrientation(90);
+            camera.setParameters(param);
 
-        catch (RuntimeException e) {
-            e.printStackTrace();
-        }
-
-        Camera.Parameters param;
-        param = camera.getParameters();
-        param.setPreviewSize(352, 288);
-        camera.setDisplayOrientation(90);
-        camera.setParameters(param);
-
-        try {
             camera.setPreviewDisplay(surfaceHolder);
             camera.startPreview();
-        }
 
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -247,23 +213,32 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     @Override
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+
         switch (requestCode) {
             case REQUEST_CAMERA_PERMISSION: {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    try {
-                        camera = Camera.open();
-                    }
-
-                    catch (RuntimeException e) {
-                        e.printStackTrace();
-                    }
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the contacts-related task you need to do.
+                    surfaceCreated(surfaceHolder);
 
                 } else {
                     System.err.println("Oh no! You can't use the camera!");
+                }
+            }
+            case REQUEST_EXTERNAL_STORAGE_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the contacts-related task you need to do.
+                } else {
+                    System.err.println("Oh no! You can't use the SD card!");
+                }
+            }
+            case REQUEST_INTERNET_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the contacts-related task you need to do.
+                } else {
+                    System.err.println("Oh no! You can't use the internet!");
                 }
             }
 

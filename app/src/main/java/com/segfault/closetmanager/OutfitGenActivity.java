@@ -28,7 +28,7 @@ public class OutfitGenActivity extends BaseActivity {
     public static final String OUTFIT_GEN_REMOVED_CLOTHING_EXTRA = "REMOVED CLOTHING";
     private static final int CHOOSE_CLOTHING_REQUEST = 1;
 
-    private Account mAccount = Account.currentAccountInstance;
+    private Account mAccount = IClosetApplication.getAccount();
     private Lookbook mLookbook = mAccount.getLookbook();
 
     private ImageButton mAccessoriesButton;
@@ -221,7 +221,7 @@ public class OutfitGenActivity extends BaseActivity {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.outfit_preferences, null);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(R.string.dialog_outfitgen);
+        alert.setTitle("Choose Attributes");
         alert.setView(alertLayout);
 
         // find views by ids

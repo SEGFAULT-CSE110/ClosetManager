@@ -10,7 +10,9 @@ public class Account{
     private String mAuthToken;
     private Closet mCloset;
     private Lookbook mLookbook;
-    public static Account currentAccountInstance;
+
+    //Looking for Account.currentAccountInstance? The declaration has been changed to
+    //IClosetApplication.getAccount()
 
     public Account(String authToken) {
         mAuthToken = authToken;

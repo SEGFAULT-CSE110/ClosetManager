@@ -55,7 +55,7 @@ public class LookbookActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         //Update lookbook
-        mCurrentLookbook = Account.currentAccountInstance.getLookbook();
+        mCurrentLookbook = IClosetApplication.getAccount().getLookbook();
 
         //check if we have any clothing
         if(mCurrentLookbook.getOutfitList().isEmpty()){

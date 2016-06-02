@@ -36,6 +36,10 @@
     <string name="action_sign_in_short">sign in</string>
     <string name="action_sign_in">Sign In</string>
 
+    <!-- welcome message -->
+    <string name="about_iCloset">iCloset app allows you to input clothing items from your physical closet into a virtual iCloset. Your virtual iCloset allows you to keep track of clothing items by category and manipulate them based on their current states (dirty, shared, lost). </string>
+    <string name="about_OutfitGen">The Outfit Generator allows you to randomly or manually generate outfits based on current preferences for weather and occasion.</string>
+
     <string name="pref_default_display_name">92092</string>
 
     <string name="clothing_image_fragment_text">clothing image</string>
@@ -55,5 +59,5 @@
     <string name="do_laundry_text">Do Laundry!</string>
     <string name="laundry_button_image_description">laundry_button_image</string>
     <string name="accessory_button_description">accessory button_description</string>
-
+    <string name="welcome_message">Keep track of your clothing items and generate outfits with our virtual iCloset!</string>
 </resources>

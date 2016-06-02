@@ -32,7 +32,6 @@ public class Clothing implements Parcelable{
     private boolean mLost;
 
     private String mCategory;
-
     private String mColor;
     private String mSize;
     private String mOccasion;
@@ -58,12 +57,16 @@ public class Clothing implements Parcelable{
         mOccasion = occ ;
         mWeather = weat;
         mNotes = not;
+
         mId=id;
+
 
     }
 
     protected Clothing(Parcel in) {
         mWorn = in.readByte() != 0;
+        mShared = in.readByte() != 0;
+        mLost = in.readByte() != 0;
         mCategory = in.readString();
         mColor = in.readString();
         mSize = in.readString();

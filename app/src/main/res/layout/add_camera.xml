@@ -11,13 +11,15 @@
         android:id="@+id/surfaceView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:layout_above="@+id/button2" />
     
     <ImageView
         android:id="@+id/overlay"
         android:alpha="0.4"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/button2" />
     <Button
         android:background="@drawable/icloset_icon"
         android:layout_width="75dip"
@@ -26,6 +28,7 @@
         android:gravity="center"
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button2" />
 
 </RelativeLayout>

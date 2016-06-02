@@ -15,19 +15,19 @@ public class Lookbook {
     private List<Outfit> mOutfitList;
     private Closet mBelongingCloset;
 
-    public Lookbook(){
+    public Lookbook() {
         mOutfitList = new ArrayList<>();
     }
 
-    public void assignBelongingCloset(Closet closet){
+    public void assignBelongingCloset(Closet closet) {
         mBelongingCloset = closet;
     }
 
-    public boolean writeToDatabase(){
+    public boolean writeToDatabase() {
         return false; //returns true if written successfully.
     }
 
-    public boolean readFromDatabase(){
+    public boolean readFromDatabase() {
         return false;//return true if read successfully
     }
 
@@ -36,7 +36,7 @@ public class Lookbook {
      * @param preferenceList
      * @return Outfit
      */
-    public Outfit generateOutfit(PreferenceList preferenceList){
+    public Outfit generateOutfit(PreferenceList preferenceList) {
 
         Clothing shirt = null;
         Clothing pants = null;
@@ -70,13 +70,13 @@ public class Lookbook {
 		/* 20% chance there will be an hat */
         Random randHat = new Random();
         int iHat = randHat.nextInt(20);
-        if(iHat == 0){
+        if (iHat == 0) {
             PreferenceList hatPref = new PreferenceList(shirt);
             hatPref = new PreferenceList(hatPref, cat, Clothing.HAT);
             hat = pickOne(hatPref);
         }
 
-        if( result.getFirstTop() == null || result.getFirstBottom() == null || result.getShoes( ) == null) {
+        if (result.getFirstTop() == null || result.getFirstBottom() == null || result.getShoes() == null) {
             return generateRandomOutfit();
         }
 
@@ -89,11 +89,11 @@ public class Lookbook {
         return result;
     }
 
-    private String colorMatches (String color){
+    private String colorMatches(String color) {
 
         List<String> colorL = new ArrayList<>();
 
-        switch (color){
+        switch (color) {
             case "red":
                 colorL.add("Blue");
                 colorL.add("Black");
@@ -197,7 +197,7 @@ public class Lookbook {
      * @param PreferenceList
      * @return Clothing
      */
-    private Clothing pickOne(PreferenceList prefList){
+    private Clothing pickOne(PreferenceList prefList) {
 
         List<Clothing> match = null;
 
@@ -218,7 +218,7 @@ public class Lookbook {
         String attriOcca = "occasion";
 
         /* Do we need to pick color or use the one passed in */
-        if(category.equals(attriTop) && color != null){
+        if (category.equals(attriTop) && color != null) {
             color = colorMatches(color);
         }
 
@@ -226,18 +226,20 @@ public class Lookbook {
         PreferenceList first = new PreferenceList(prefList, attriColor, color);
 
         /* Do we need to get current weather information */
-        if(weather == null){
+        if (weather == null) {
+
+            YahooClient client = new YahooClient();
 
             //TODO: where to get the location name?
-            weather = checkWeather("san diego");
+            weather = client.checkWeather("san diego");
         }
 
         /* Filter for the perfect list */
         match = mBelongingCloset.filter(first);
 
 		/* Next filter */
-        if(match == null){
-			/* If color is set, then consider color first */
+        if (match == null) {
+            /* If color is set, then consider color first */
             PreferenceList third = new PreferenceList(first,
                     attriWeather, null);
             /* Delete lowest priority weather field */
@@ -245,21 +247,21 @@ public class Lookbook {
 
 
             /* Delete occasion field */
-            PreferenceList fifth = new PreferenceList(third,attriOcca,null);
-            if( match == null ){
+            PreferenceList fifth = new PreferenceList(third, attriOcca, null);
+            if (match == null) {
                 match = mBelongingCloset.filter(fifth);
             }
 
 			/* If color is not set, occasion is primary and weather follows */
-            PreferenceList seventh = new PreferenceList(fifth,attriColor,null);
-            if( match == null ){
+            PreferenceList seventh = new PreferenceList(fifth, attriColor, null);
+            if (match == null) {
                 match = mBelongingCloset.filter(seventh);
             }
 
         }
 		
 		/* If still nothing is found, then pick fails */
-        if(match == null){
+        if (match == null) {
             return null;
 
         }
@@ -275,7 +277,7 @@ public class Lookbook {
      * Randomly pick a clothing from each category.
      * @return Outfit
      */
-    public Outfit generateRandomOutfit(){
+    public Outfit generateRandomOutfit() {
 
         Random random = new Random();
 
@@ -288,11 +290,11 @@ public class Lookbook {
         Outfit result = new Outfit();
 
         //accessories
-        if(random.nextInt(4)==0){
+        if (random.nextInt(4) == 0) {
             PreferenceList accessoryPref = new PreferenceList
                     (false, Clothing.ACCESSORY, null, null, null, null, null, null);
             List<Clothing> accessoryList = mBelongingCloset.filter(accessoryPref);
-            if(!accessoryList.isEmpty()) { //nullptr check
+            if (!accessoryList.isEmpty()) { //nullptr check
                 accessory = accessoryList.get(random.nextInt(accessoryList.size()));
                 result.addAccessory(accessory);
             }
@@ -309,7 +311,8 @@ public class Lookbook {
 
         //bottom
         PreferenceList pantsPref = new PreferenceList
-                (false, Clothing.BOTTOM, null, null, null, null, null, null);;
+                (false, Clothing.BOTTOM, null, null, null, null, null, null);
+        ;
         List<Clothing> bottomList = mBelongingCloset.filter(pantsPref);
         if (!bottomList.isEmpty()) {
             pants = bottomList.get(random.nextInt(bottomList.size()));
@@ -318,7 +321,8 @@ public class Lookbook {
 
         //shoes
         PreferenceList shoesPref = new PreferenceList
-                (false, Clothing.SHOE, null, null, null, null, null, null);;
+                (false, Clothing.SHOE, null, null, null, null, null, null);
+        ;
         List<Clothing> shoesList = mBelongingCloset.filter(shoesPref);
         if (!shoesList.isEmpty()) {
             shoes = shoesList.get(random.nextInt(shoesList.size()));
@@ -326,11 +330,12 @@ public class Lookbook {
         }
 
         //hat
-        if(random.nextInt(4)==0){
+        if (random.nextInt(4) == 0) {
             PreferenceList hatPref = new PreferenceList
-                    (false, Clothing.HAT, null, null, null, null, null, null);;
+                    (false, Clothing.HAT, null, null, null, null, null, null);
+            ;
             List<Clothing> hatList = mBelongingCloset.filter(hatPref);
-            if (!hatList.isEmpty()){
+            if (!hatList.isEmpty()) {
                 hat = hatList.get(random.nextInt(hatList.size()));
                 result.setHat(hat);
             }
@@ -347,11 +352,11 @@ public class Lookbook {
         return mOutfitList;
     }
 
-    public void addOutfit(Outfit out){
+    public void addOutfit(Outfit out) {
         mOutfitList.add(out);
     }
 
-    public void removeOutfit(Outfit out){
+    public void removeOutfit(Outfit out) {
         mOutfitList.remove(out);
     }
 }
