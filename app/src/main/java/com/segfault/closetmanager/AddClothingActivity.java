@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -118,21 +119,24 @@ public class AddClothingActivity extends BaseActivity {
                     mCurrCloset.addClothing(mCurrClothing);
 
 
-                    //String json = gson.toJson(mCurrClothing);
-                    //prefsEditor.putString(mCurrClothing.getId(), json);
-                    //prefsEditor.commit();
                     Bitmap firstBitmap = BitmapFactory.decodeFile(mCurrClothing.getId());
 
                     //scale down first bitmap
                     final float densityMultiplier = getBaseContext().getResources().getDisplayMetrics().density;
                     int h = (int) (50 * densityMultiplier); //TODO revise size
-                    int w = (int) (h * firstBitmap.getWidth() / ((double) firstBitmap.getHeight()));
-                    Bitmap secondBitmap = Bitmap.createScaledBitmap(firstBitmap, w, h, true);
+                    //int w = (int) (h * firstBitmap.getWidth() / ((double) firstBitmap.getHeight()));
+                    int w = h;
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(firstBitmap, w, h, true);
 
-                    //Recycle the bitmap to preserve memory
+                    Matrix matrix = new Matrix();
+
+                    matrix.postRotate(90);
+
+                    Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap , 0, 0, scaledBitmap .getWidth(), scaledBitmap .getHeight(), matrix, true);    //Recycle the bitmap to preserve memory
+
                     firstBitmap.recycle();
 
-                    mCurrClothing.setBitmap(secondBitmap);
+                    mCurrClothing.setBitmap(rotatedBitmap);
 
                     // Store id and data
                     mCurrCloset.addId(mCurrClothing.getId());
