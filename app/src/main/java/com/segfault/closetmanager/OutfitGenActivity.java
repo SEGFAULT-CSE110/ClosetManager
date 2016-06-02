@@ -59,6 +59,7 @@ public class OutfitGenActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.outfit_gen);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         //Get the required views
         mAccessoriesButton = (ImageButton) findViewById(R.id.accessoriesButton);

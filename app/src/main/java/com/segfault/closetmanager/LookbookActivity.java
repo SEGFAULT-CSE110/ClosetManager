@@ -30,6 +30,7 @@ public class LookbookActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lookbook);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         //Find all the views
         mLookbookParentLayout = (ViewGroup) findViewById(R.id.lookbook_parent_layout);

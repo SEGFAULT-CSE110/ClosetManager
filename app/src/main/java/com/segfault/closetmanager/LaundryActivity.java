@@ -32,9 +32,10 @@ public class LaundryActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.laundry);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         //Recreate bottom bar and listener
-        View bottomBarView = findViewById(R.id.view_clothing_by_cat_bottom_bar);
+        View bottomBarView = findViewById(R.id.laundry_bottom_bar);
         BottomBar mBottomBar = new BottomBar(bottomBarView, this);
     }
 

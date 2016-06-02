@@ -39,6 +39,7 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         //assign buttons
         mClosetButton = (LinearLayout) findViewById(R.id.closet_layout);

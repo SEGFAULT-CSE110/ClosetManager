@@ -52,6 +52,7 @@ public class ClosetActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         mCurrentCloset = IClosetApplication.getAccount().getCloset();
 
@@ -233,7 +234,8 @@ public class ClosetActivity extends BaseActivity {
             if (noElementsTextView != null) {
                 noElementsTextView.setText(R.string.closet_no_elements_text);
             }
-        } else { //refresh the amount of clothing we have
+        }
+        else { //refresh the amount of clothing we have
             //add stuff to the closet list view
             ClosetCategoryAdapter adapter = new ClosetCategoryAdapter(this, listOfLists);
             ListView closetListView = (ListView) findViewById(R.id.closet_list_view);
@@ -243,11 +245,12 @@ public class ClosetActivity extends BaseActivity {
 
             //once done updating, set updated to false
             mCurrentCloset.setUpdated(false);
+
+            //add the linear layout back in
+            mClosetParentLayout.removeViewAt(mClosetListViewIndex);
+            mClosetParentLayout.addView(mClosetListView, mClosetListViewIndex);
         }
 
-        //add the linear layout back in
-        mClosetParentLayout.removeViewAt(mClosetListViewIndex);
-        mClosetParentLayout.addView(mClosetListView, mClosetListViewIndex);
 
     }
 

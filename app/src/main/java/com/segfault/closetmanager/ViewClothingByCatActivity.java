@@ -38,6 +38,7 @@ public class ViewClothingByCatActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_clothing_by_cat);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         //Recreate bottom bar and listener
         View bottomBarView = findViewById(R.id.view_clothing_by_cat_bottom_bar);

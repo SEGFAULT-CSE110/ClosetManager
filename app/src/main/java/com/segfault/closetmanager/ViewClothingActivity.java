@@ -12,6 +12,7 @@ public class ViewClothingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_clothing);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         //Recreate bottom bar here because the account has not been created
         View bottomBarView = findViewById(R.id.view_clothing_bottom_bar);

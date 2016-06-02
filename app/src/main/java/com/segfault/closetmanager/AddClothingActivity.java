@@ -49,6 +49,7 @@ public class AddClothingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_clothing);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         //Setup spinners
         String[] cat_array = new String[]{"Select", Clothing.ACCESSORY, Clothing.TOP, Clothing.BOTTOM, Clothing.SHOE, Clothing.BODY, Clothing.HAT, Clothing.JACKET};

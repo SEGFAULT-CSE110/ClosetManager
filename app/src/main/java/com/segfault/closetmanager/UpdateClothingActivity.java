@@ -41,6 +41,7 @@ public class UpdateClothingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.update_clothing);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         String [] cat_array = new String[]{"Select","Top", "Bottom", "Outerwear", "Shoes", "Accessory", "Hat", "Undergarment","Socks"};
         initSpinner(category,R.id.Category,cat_array);
