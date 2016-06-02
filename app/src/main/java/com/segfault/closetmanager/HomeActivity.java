@@ -37,23 +37,13 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
-
-        // set pref_layout toolbar
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
 
         //assign buttons
         mClosetButton = (LinearLayout) findViewById(R.id.closet_layout);
         mOutfitCreatorButton = (LinearLayout) findViewById(R.id.outfitgen_layout);
         mLookbookButton = (LinearLayout) findViewById(R.id.lookbook_layout);
-
-        //load items
-        //TODO: why does it run onCreate every time we start the activity? is this an android thing?
-
-
     }
 
     @Override
@@ -82,8 +72,9 @@ public class HomeActivity extends BaseActivity {
         startActivity(intent);
     }
 
-
     public void onMorePressed(View view) {
+        Intent intent = new Intent(this, LaundryActivity.class);
+        startActivity(intent);
     }
 
     @Override

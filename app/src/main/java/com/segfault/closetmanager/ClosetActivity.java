@@ -50,7 +50,6 @@ public class ClosetActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet);
 
@@ -65,15 +64,6 @@ public class ClosetActivity extends BaseActivity {
         jacketList = new ArrayList<Clothing>();
 
         listOfLists = new ArrayList<List<Clothing>>();
-
-        // set pref_layout toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
 
         //Find all the views
         mClosetParentLayout = (ViewGroup) findViewById(R.id.closet_vertical_linear_layout);
@@ -188,6 +178,7 @@ public class ClosetActivity extends BaseActivity {
         super.onStart();
         //update closet
         mCurrentCloset = IClosetApplication.getAccount().getCloset();
+        System.out.println("CLOSET SIZE: " + mCurrentCloset.getList().size());
 
         //Clear the lists and refill them
         accessoryList.clear();
@@ -204,7 +195,6 @@ public class ClosetActivity extends BaseActivity {
         hatList = mCurrentCloset.filter(new PreferenceList(false, Clothing.HAT, null, null, null, null, null, null));
         jacketList.clear();
         jacketList = mCurrentCloset.filter(new PreferenceList(false, Clothing.JACKET, null, null, null, null, null, null));
-
 
         //Add all of these lists into a single list of lists, if it is a size large enough
         listOfLists.clear();
