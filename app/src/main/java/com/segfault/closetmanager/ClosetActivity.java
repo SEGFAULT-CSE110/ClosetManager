@@ -144,7 +144,6 @@ public class ClosetActivity extends BaseActivity {
                                 Intent intent = new Intent(context, CameraActivity.class);
                                 intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.HAT);
                                 startActivity(intent);
-                                System.out.println("HIHIHI");
                             }
                         });
                     }
@@ -156,7 +155,6 @@ public class ClosetActivity extends BaseActivity {
                                 Intent intent = new Intent(context, CameraActivity.class);
                                 intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.BODY);
                                 startActivity(intent);
-                                System.out.println("THI");
                             }
                         });
                     }
@@ -168,11 +166,9 @@ public class ClosetActivity extends BaseActivity {
                                 Intent intent = new Intent(context, CameraActivity.class);
                                 intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.JACKET);
                                 startActivity(intent);
-                                System.out.println("HI");
                             }
                         });
                     }
-
 
                     add_clothing_dialog.show();
                 }
@@ -193,8 +189,49 @@ public class ClosetActivity extends BaseActivity {
         //update closet
         mCurrentCloset = IClosetApplication.getAccount().getCloset();
 
+        //Clear the lists and refill them
+        accessoryList.clear();
+        accessoryList = mCurrentCloset.filter(new PreferenceList(false, Clothing.ACCESSORY, null, null, null, null, null, null));
+        topList.clear();
+        topList = mCurrentCloset.filter(new PreferenceList(false, Clothing.TOP, null, null, null, null, null, null));
+        bottomList.clear();
+        bottomList = mCurrentCloset.filter(new PreferenceList(false, Clothing.BOTTOM, null, null, null, null, null, null));
+        shoeList.clear();
+        shoeList = mCurrentCloset.filter(new PreferenceList(false, Clothing.SHOE, null, null, null, null, null, null));
+        bodyList.clear();
+        bodyList = mCurrentCloset.filter(new PreferenceList(false, Clothing.BODY, null, null, null, null, null, null));
+        hatList.clear();
+        hatList = mCurrentCloset.filter(new PreferenceList(false, Clothing.HAT, null, null, null, null, null, null));
+        jacketList.clear();
+        jacketList = mCurrentCloset.filter(new PreferenceList(false, Clothing.JACKET, null, null, null, null, null, null));
+
+
+        //Add all of these lists into a single list of lists, if it is a size large enough
+        listOfLists.clear();
+        if (!accessoryList.isEmpty()) {
+            listOfLists.add(accessoryList);
+        }
+        if (!topList.isEmpty()) {
+            listOfLists.add(topList);
+        }
+        if (!bottomList.isEmpty()) {
+            listOfLists.add(bottomList);
+        }
+        if (!shoeList.isEmpty()) {
+            listOfLists.add(shoeList);
+        }
+        if (!bodyList.isEmpty()) {
+            listOfLists.add(bodyList);
+        }
+        if (!hatList.isEmpty()) {
+            listOfLists.add(hatList);
+        }
+        if (!jacketList.isEmpty()) {
+            listOfLists.add(jacketList);
+        }
+
         //check if we have any clothing
-        if (mCurrentCloset.getList().isEmpty()) {
+        if (mCurrentCloset.getList().isEmpty() || listOfLists.isEmpty()) {
             //replace the linear layout with the no_elements_layout
             mClosetParentLayout.removeViewAt(mClosetListViewIndex);
             View noElementsLayout = getLayoutInflater().inflate(
@@ -207,48 +244,6 @@ public class ClosetActivity extends BaseActivity {
                 noElementsTextView.setText(R.string.closet_no_elements_text);
             }
         } else { //refresh the amount of clothing we have
-
-            //Clear the lists and refill them
-            accessoryList.clear();
-            accessoryList = mCurrentCloset.filter(new PreferenceList(false, Clothing.ACCESSORY, null, null, null, null, null, null));
-            topList.clear();
-            topList = mCurrentCloset.filter(new PreferenceList(false, Clothing.TOP, null, null, null, null, null, null));
-            bottomList.clear();
-            bottomList = mCurrentCloset.filter(new PreferenceList(false, Clothing.BOTTOM, null, null, null, null, null, null));
-            shoeList.clear();
-            shoeList = mCurrentCloset.filter(new PreferenceList(false, Clothing.SHOE, null, null, null, null, null, null));
-            bodyList.clear();
-            bodyList = mCurrentCloset.filter(new PreferenceList(false, Clothing.BODY, null, null, null, null, null, null));
-            hatList.clear();
-            hatList = mCurrentCloset.filter(new PreferenceList(false, Clothing.HAT, null, null, null, null, null, null));
-            jacketList.clear();
-            jacketList = mCurrentCloset.filter(new PreferenceList(false, Clothing.JACKET, null, null, null, null, null, null));
-
-
-            //Add all of these lists into a single list of lists, if it is a size large enough
-            listOfLists.clear();
-            if (!accessoryList.isEmpty()) {
-                listOfLists.add(accessoryList);
-            }
-            if (!topList.isEmpty()) {
-                listOfLists.add(topList);
-            }
-            if (!bottomList.isEmpty()) {
-                listOfLists.add(bottomList);
-            }
-            if (!shoeList.isEmpty()) {
-                listOfLists.add(shoeList);
-            }
-            if (!bodyList.isEmpty()) {
-                listOfLists.add(bodyList);
-            }
-            if (!hatList.isEmpty()) {
-                listOfLists.add(hatList);
-            }
-            if (!jacketList.isEmpty()) {
-                listOfLists.add(jacketList);
-            }
-
             //add stuff to the closet list view
             ClosetCategoryAdapter adapter = new ClosetCategoryAdapter(this, listOfLists);
             ListView closetListView = (ListView) findViewById(R.id.closet_list_view);

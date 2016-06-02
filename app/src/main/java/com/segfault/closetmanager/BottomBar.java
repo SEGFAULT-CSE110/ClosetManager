@@ -64,13 +64,12 @@ public final class BottomBar {
             }
         });
 
-        LinearLayout nextButton = (LinearLayout) bottomBar.findViewById(R.id.bottom_bar_more_layout);
-        nextButton.setOnClickListener(new View.OnClickListener() {
+        LinearLayout laundryButton = (LinearLayout) bottomBar.findViewById(R.id.bottom_bar_more_layout);
+        laundryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: more button temporarily set to settings
                 if (callingActivity.getClass() != PreferencesActivity.class) {
-                    Intent intent = new Intent(callingActivity, PreferencesActivity.class);
+                    Intent intent = new Intent(callingActivity, LaundryActivity.class);
                     callingActivity.startActivity(intent);
                 }
             }

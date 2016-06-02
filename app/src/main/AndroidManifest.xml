@@ -102,6 +102,15 @@
                 android:value=".ClosetActivity"/>
         </activity>
 
+        <activity
+            android:name=".LaundryActivity"
+            android:label="Do Laundry"
+            android:parentActivityName=".HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity"/>
+        </activity>
+
     </application>
 
 </manifest>

@@ -24,6 +24,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 
+/**
+ * Defines the camera class
+ */
 public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     Camera camera;
     SurfaceView surfaceView;
@@ -48,8 +51,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_camera);
+        mCurrentCloset = IClosetApplication.getAccount().getCloset();
 
-        // Here, thisActivity is the current activity
+        //Ask for permissions
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
@@ -74,6 +78,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
+        //Set the overlay image
         overlay = (ImageView)findViewById(R.id.overlay);
         switch (EXTRA_TYPE_STRING) {
             case Clothing.TOP:
@@ -100,7 +105,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         }
 
 
-        mCurrentCloset = IClosetApplication.getAccount().getCloset();
 
         jpegCallback = new PictureCallback() {
 
@@ -140,16 +144,10 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
         try {
             camera.stopPreview();
-        }
-
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
             camera.setPreviewDisplay(surfaceHolder);
             camera.startPreview();
         }
+
         catch (Exception e) {
             e.printStackTrace();
         }
