@@ -8,4 +8,9 @@
     <string name="jacket_button_description">jacket button description</string>
     <string name="hat_button_description">hat button description</string>
     <string name="select_clothing_type_string">Select Clothing Type</string>
+    <string name="save_outfit_text">Save Outfit</string>
+    <string name="generate_outfit_text">Generate</string>
+    <string name="im_feeling_lucky_text">I\'m Feeling Lucky</string>
+    <string name="default_outfit_nam">Outfit Name</string>
+    <string name="wear_outfit_button_text">Wear Outfit</string>
 </resources>

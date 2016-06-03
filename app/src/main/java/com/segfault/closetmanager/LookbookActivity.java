@@ -9,9 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.StackView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -103,6 +104,8 @@ public class LookbookActivity extends BaseActivity {
             private ClothingStackLayout mShirtView;
             private ClothingStackLayout mPantsView;
             private ImageView mShoesView;
+            private TextView mTextView;
+            private Button mWearButton;
 
             /**
              * Constructor
@@ -116,6 +119,8 @@ public class LookbookActivity extends BaseActivity {
                 mShirtView = (ClothingStackLayout) itemView.findViewById(R.id.shirt_clothing_stack_layout);
                 mPantsView = (ClothingStackLayout) itemView.findViewById(R.id.pants_clothing_stack_layout);
                 mShoesView = (ImageView) itemView.findViewById(R.id.outfit_fragment_shoes_view);
+                mTextView = (TextView) itemView.findViewById(R.id.outfit_fragment_outfit_name);
+                mWearButton = (Button) itemView.findViewById(R.id.wear_outfit_button);
             }
 
             public ImageView getHatView() {
@@ -132,6 +137,12 @@ public class LookbookActivity extends BaseActivity {
 
             public ImageView getShoesView() {
                 return mShoesView;
+            }
+
+            public TextView getTextView() { return mTextView; }
+
+            public Button getWearButton() {
+                return mWearButton;
             }
         }
 
@@ -196,7 +207,21 @@ public class LookbookActivity extends BaseActivity {
          */
         public void onBindViewHolder(OutfitListingAdapter.ViewHolder holder, int position) {
             //Get the data model based on position
-            Outfit currentOutfit = mOutfitList.get(position);
+            final Outfit currentOutfit = mOutfitList.get(position);
+
+            //Get the text view
+            TextView textView = holder.getTextView();
+            textView.setText(currentOutfit.getName());
+
+            //Set the availability of the button
+            Button wearButton = holder.getWearButton();
+            wearButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentOutfit.wearOutfit();
+                    showWearOutfitToast();
+                }
+            });
 
             //Set item views based on the data model
             //Add image bitmap for hat
@@ -231,6 +256,10 @@ public class LookbookActivity extends BaseActivity {
         }
     }
 
+    private void showWearOutfitToast(){
+        Toast newToast = Toast.makeText(this, "Generated an outfit with preferences.", Toast.LENGTH_SHORT);
+        newToast.show();
+    }
 
 
 

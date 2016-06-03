@@ -1,6 +1,7 @@
 package com.segfault.closetmanager;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -80,6 +82,7 @@ public class OutfitGenActivity extends BaseActivity {
         BottomBar mBottomBar = new BottomBar(bottomBarView, this);
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -123,14 +126,36 @@ public class OutfitGenActivity extends BaseActivity {
      *
      * @param view - deprecated
      */
-    public void outfitDone(View view) {
+    public void pressSaveOutfit(View view) {
         //Add the outfit only if it hasn't been added in already
         if (!mAddedOutfitAlready && mOutfitGeneratedAlready) {
-            mLookbook.addOutfit(mCurrentOutfit);
-            Toast newToast = Toast.makeText(this, R.string.save_outfit_to_lookbook_toast_text,
-                    Toast.LENGTH_SHORT);
-            newToast.show();
-            mAddedOutfitAlready = true;
+
+            //Prompt for name with an AlertDialog
+            LayoutInflater inflater = getLayoutInflater();
+            AlertDialog.Builder nameDialog = new AlertDialog.Builder(this);
+            View nameDialogView = inflater.inflate(R.layout.outfit_gen, null);
+            nameDialog.setView(nameDialogView);
+
+            //Receive edit text
+            final EditText nameText = (EditText) nameDialogView.findViewById(R.id.outfit_name_edit_text);
+
+            //Set cancel and okay buttons
+            nameDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            nameDialog.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    saveOutfit(nameText.getText().toString());
+                }
+            });
+
+            //Create the dialog with the alert builder object
+            AlertDialog dialog = nameDialog.create();
+            dialog.show();
+
         }
         else if (mOutfitGeneratedAlready) {
             Toast newToast = Toast.makeText(this, R.string.already_saved_outfit_toast_text,
@@ -143,6 +168,27 @@ public class OutfitGenActivity extends BaseActivity {
             newToast.show();
         }
     }
+
+
+    /**
+     * Helper method to save outfit
+     * Toast declaration must be made here, because it cannot be made inside an AlertDialogBuilder
+     */
+    private void saveOutfit(String name){
+        if (name == null || name.length() == 0){
+            name = "No Name";
+        }
+
+        //Set the name and add the outfit to the lookbook
+        mCurrentOutfit.setName(name);
+        mLookbook.addOutfit(mCurrentOutfit);
+
+        //Create the toast text
+        Toast newToast = Toast.makeText(this, "Saved outfit to lookbook", Toast.LENGTH_SHORT);
+        newToast.show();
+        mAddedOutfitAlready = true;
+    }
+
 
 
     /**
@@ -182,12 +228,18 @@ public class OutfitGenActivity extends BaseActivity {
         //Clear all of the views
         clearLayouts();
 
+        //Generate a random outfit with a null preference
         if (pref == null) {
             mCurrentOutfit = mLookbook.generateRandomOutfit();
+            Toast newToast = Toast.makeText(this, "Generated an outfit", Toast.LENGTH_SHORT);
+            newToast.show();
         }
         else {
             mCurrentOutfit = mLookbook.generateOutfit(pref);
+            Toast newToast = Toast.makeText(this, "Generated an outfit with preferences.", Toast.LENGTH_SHORT);
+            newToast.show();
         }
+
         //Add components of outfits to layouts
         if (mCurrentOutfit.getHat() != null) {
             mAccessoriesAdapter.add(mCurrentOutfit.getHat());
@@ -205,8 +257,7 @@ public class OutfitGenActivity extends BaseActivity {
 
         mOutfitGeneratedAlready = true;
         mAddedOutfitAlready = false;
-        Toast newToast = Toast.makeText(this, "Generated an outfit", Toast.LENGTH_SHORT);
-        newToast.show();
+
     }
 
     /* Handles the dialog box for the user to choose outfit parameters */
@@ -229,7 +280,7 @@ public class OutfitGenActivity extends BaseActivity {
         String[] occ_array = new String[]{"Select","Casual", "Work", "Semi-formal","Formal", "Fitness","Party", "Business"};
         initSpinner(alertLayout, occasion, R.id.occasionSpinner, occ_array);
 
-        //eventually make this colored sqaures
+        //eventually make this colored squares
         String[] col_array = new String[]{"Select","Red", "Orange", "Yellow", "Green", "Blue","Purple", "Pink","Brown", "Black","White","Gray"};
         initSpinner(alertLayout, color, R.id.colorSpinner, col_array);
 

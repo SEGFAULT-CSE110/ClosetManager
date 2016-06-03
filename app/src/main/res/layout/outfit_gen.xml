@@ -33,19 +33,6 @@
             android:visibility="visible">
 
             <Button
-                android:id="@+id/doneButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_weight="1"
-                android:background="@color/blue"
-                android:onClick="outfitDone"
-                android:text="Save Outfit"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
-
-            <Button
                 android:id="@+id/generation"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
@@ -53,7 +40,7 @@
                 android:layout_weight="1"
                 android:background="@color/pink"
                 android:onClick="chooseAttributes"
-                android:text="Generate"
+                android:text="@string/generate_outfit_text"
                 android:textColor="#000000"
                 android:textStyle="bold"/>
 
@@ -65,7 +52,20 @@
                 android:layout_weight="1"
                 android:background="@color/pink"
                 android:onClick="generateOutfit"
-                android:text="I'm Feeling Lucky"
+                android:text="@string/im_feeling_lucky_text"
+                android:textColor="#000000"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/doneButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:background="@color/blue"
+                android:onClick="pressSaveOutfit"
+                android:text="@string/save_outfit_text"
                 android:textColor="#000000"
                 android:textStyle="bold"/>
 
