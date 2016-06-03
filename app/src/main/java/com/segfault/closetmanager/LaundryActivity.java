@@ -30,21 +30,12 @@ public class LaundryActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setPrefTheme();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_clothing_by_cat);
-
-        // set pref_layout toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        setContentView(R.layout.laundry);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         //Recreate bottom bar and listener
-        View bottomBarView = findViewById(R.id.view_clothing_by_cat_bottom_bar);
+        View bottomBarView = findViewById(R.id.laundry_bottom_bar);
         BottomBar mBottomBar = new BottomBar(bottomBarView, this);
     }
 
