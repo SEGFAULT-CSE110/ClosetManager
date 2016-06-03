@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class UpdateClothingActivity extends AppCompatActivity {
+public class UpdateClothingActivity extends BaseActivity {
 
     private Spinner category;
     private Spinner weather;
@@ -41,8 +41,7 @@ public class UpdateClothingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.update_clothing);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         String [] cat_array = new String[]{"Select","Top", "Bottom", "Outerwear", "Shoes", "Accessory", "Hat", "Undergarment","Socks"};
         initSpinner(category,R.id.Category,cat_array);
