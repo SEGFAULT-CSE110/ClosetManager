@@ -177,7 +177,8 @@ public class OutfitGenActivity extends BaseActivity {
         newToast.show();
     }
 
-    public void generateOutfit(PreferenceList pref) {
+    /* Generate an outfit with PreferenceList */
+    public void generateOutfitPref(PreferenceList pref) {
         //Clear all of the views
         clearLayouts();
 
@@ -208,6 +209,7 @@ public class OutfitGenActivity extends BaseActivity {
         newToast.show();
     }
 
+    /* Handles the dialog box for the user to choose outfit parameters */
     public void chooseAttributes(View view) {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.outfit_preferences, null);
@@ -216,10 +218,9 @@ public class OutfitGenActivity extends BaseActivity {
         alert.setView(alertLayout);
 
         // find views by ids
-        Spinner wSp = (Spinner) alertLayout.findViewById(R.id.weatherSpinner);
-        Spinner oSp = (Spinner) alertLayout.findViewById(R.id.occasionSpinner);
-        Spinner cSp = (Spinner) alertLayout.findViewById(R.id.colorSpinner);
-
+        final Spinner wSp = (Spinner) alertLayout.findViewById(R.id.weatherSpinner);
+        final Spinner oSp = (Spinner) alertLayout.findViewById(R.id.occasionSpinner);
+        final Spinner cSp = (Spinner) alertLayout.findViewById(R.id.colorSpinner);
 
         // spinners
         String [] weat_array = new String[]{"Select","Snow","Rain","Cold", "Cool","Warm","Hot","Select All"};
@@ -241,8 +242,8 @@ public class OutfitGenActivity extends BaseActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                PreferenceList pref = getAttributes();
-                generateOutfit(pref);
+                PreferenceList pref = getAttributes(wSp, oSp, cSp);
+                generateOutfitPref(pref);
             }
         });
 
@@ -250,10 +251,19 @@ public class OutfitGenActivity extends BaseActivity {
         dialog.show();
     }
 
-    public PreferenceList getAttributes() {
-        return null;
-    }
+    /* Create a PreferenceList from user input */
+    public PreferenceList getAttributes(Spinner spWeather, Spinner spOccasion, Spinner spColor) {
+        String weatherPref = spWeather.getSelectedItem().toString();
+        String occasionPref = spOccasion.getSelectedItem().toString();
+        String colorPref = spColor.getSelectedItem().toString();
 
+        ArrayList<String> occasionPrefArray = new ArrayList<String>();
+        occasionPrefArray.add(occasionPref);
+
+        //Boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather, String mSecondaryColor
+        //return new PreferenceList(colorPref, occasionPref, weatherPref);
+        return new PreferenceList(Boolean.FALSE, null, colorPref, null, occasionPrefArray, null, weatherPref, null);
+    }
 
     private class OutfitGenLinearAdapter extends ArrayAdapter<Clothing> {
 

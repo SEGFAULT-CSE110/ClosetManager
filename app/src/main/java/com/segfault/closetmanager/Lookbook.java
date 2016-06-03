@@ -182,7 +182,7 @@ public class Lookbook {
         Random random = new Random();
 
         String result = null;
-        if (colorL != null) {
+        if (colorL != null && colorL.size() > 0) {
             result = colorL.get(random.nextInt(colorL.size()));
         }
         return result;
@@ -190,7 +190,7 @@ public class Lookbook {
     }
 
     /*
-     * Pick one clothing article given a preference list by calling filter 
+     * Pick one clothing article given a preference list by calling filter
 	 * multiple times.
 	 * Current fields used in filter: Color, SecondaryColor, Occasion, Weather,
 	 * Worn.
@@ -202,12 +202,15 @@ public class Lookbook {
         List<Clothing> match = null;
 
 		/* Local for all fields in prefList*/
-        boolean worn = prefList.isWorn();
+        Boolean worn = prefList.isWorn();
         String category = prefList.getCategory();
         String color = prefList.getColor();
         String secColor = prefList.getSecondaryColor();
         String size = prefList.getSize();
-        String occasion = prefList.getOccasion().get(0);
+        String occasion;
+        if (prefList.getOccasion() != null && prefList.getOccasion().size() >= 1) {
+            occasion = prefList.getOccasion().get(0);
+        }
         String style = prefList.getStyle();
         String weather = prefList.getWeather();
 
@@ -231,7 +234,9 @@ public class Lookbook {
             YahooClient client = new YahooClient();
 
             //TODO: where to get the location name?
-            weather = client.checkWeather("san diego");
+            //TODO: temporarily weather is always warm until client works
+            //weather = client.checkWeather("san diego");
+            weather = "warm";
         }
 
         /* Filter for the perfect list */
@@ -259,16 +264,17 @@ public class Lookbook {
             }
 
         }
-		
+
 		/* If still nothing is found, then pick fails */
-        if (match == null) {
+        if (match == null || match.isEmpty()) {
             return null;
 
         }
 
         /* Randomly choose one from the list */
         Random random = new Random();
-        int index = random.nextInt(match.size());
+        int index = 0;
+        index = random.nextInt(match.size());
 
         return match.get(index);
     }

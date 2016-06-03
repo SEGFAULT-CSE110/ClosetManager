@@ -99,7 +99,7 @@ public class Clothing implements Parcelable{
         mCategory = category;
     }
 
-    public boolean isWorn() {
+    public Boolean isWorn() {
         return mWorn;
     }
 
