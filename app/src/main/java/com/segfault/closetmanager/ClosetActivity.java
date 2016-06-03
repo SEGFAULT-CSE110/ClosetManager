@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -346,7 +347,9 @@ public class ClosetActivity extends BaseActivity {
                 Bitmap currentBitmap = currentClothing.getBitmap();
 
                 //get the view and add a click listener to go to the correct view
-                View clothingFrame = inflater.inflate(R.layout.closet_category_clothing_image, linearLayout, false);
+                ClickableFrameLayout clothingFrame = (ClickableFrameLayout) inflater.inflate
+                        (R.layout.closet_category_clothing_image, linearLayout, false);
+                clothingFrame.setClickable(true);
                 clothingFrame.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -46,7 +46,7 @@ public class OutfitGenActivity extends BaseActivity {
     //Outfit and tracking variable to prevent duplicates
     private boolean mAddedOutfitAlready;
     private boolean mOutfitGeneratedAlready;
-    private Outfit mCurrentOutfit;
+    private Outfit mCurrentOutfit = new Outfit();
 
     // spinners
     private Spinner weather;
@@ -79,11 +79,6 @@ public class OutfitGenActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        //set default variable values
-        mAddedOutfitAlready = false;
-        mOutfitGeneratedAlready = false;
-        mCurrentOutfit = new Outfit();
 
         //Set the layout parameters
         //Calculate in post because we need to get the actual height post creation
@@ -532,7 +527,7 @@ public class OutfitGenActivity extends BaseActivity {
      * @param adapter - adapter to receive views from
      * @param layout  - layout to place items into
      */
-    private void updateSpecificLayout(String type, ArrayAdapter<?> adapter, LinearLayout layout, LinearLayout.LayoutParams params) {
+    private void updateSpecificLayout(String type, final ArrayAdapter<Clothing> adapter, LinearLayout layout, LinearLayout.LayoutParams params) {
         //prepare layout
         adapter.notifyDataSetChanged();
         layout.removeAllViews();
@@ -540,7 +535,17 @@ public class OutfitGenActivity extends BaseActivity {
         //Add in an image only if the adapter has more than 0 objects
         if (adapter.getCount() > 0) {
             for (int index = 0; index < adapter.getCount(); index++) {
-                layout.addView(adapter.getView(index, null, layout), params);
+                View viewToAdd = adapter.getView(index, null, layout);
+                layout.addView(viewToAdd, params);
+
+                //Set the click function for this view
+                final int finalIndex = index;
+                viewToAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setManualChoosingIntent(adapter.getItem(finalIndex).getCategory());
+                    }
+                });
             }
         } else {
             //Add in stock image based on what the category is
@@ -603,7 +608,6 @@ public class OutfitGenActivity extends BaseActivity {
      */
     private void setManualChoosingIntent(String clothingType){
         PreferenceList preference = new PreferenceList(false, clothingType, null, null, null, null, null, null);
-        System.err.println("help this ran");
 
         //Create intent and pass to it
         Intent intent = new Intent(this, ViewClothingByCatActivity.class);

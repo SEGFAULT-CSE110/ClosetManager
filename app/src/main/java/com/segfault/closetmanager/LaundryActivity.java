@@ -13,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,10 +25,13 @@ import java.util.List;
  */
 public class LaundryActivity extends BaseActivity {
 
+    private ViewGroup mLaundryParentLayout;
+    private GridView mLaundyGridView;
+    private int mLaundryGridViewIndex;
+
     private List<Clothing> mLaundryList;
     private Account mCurrentAccount = IClosetApplication.getAccount();
     private Closet mCurrentCloset = mCurrentAccount.getCloset();
-    private GridImageAdapter theAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +42,30 @@ public class LaundryActivity extends BaseActivity {
         //Recreate bottom bar and listener
         View bottomBarView = findViewById(R.id.laundry_bottom_bar);
         BottomBar mBottomBar = new BottomBar(bottomBarView, this);
+
+        //Find all the views
+        mLaundryParentLayout = (ViewGroup) findViewById(R.id.laundry_parent_layout);
+        mLaundyGridView = (GridView) findViewById(R.id.laundry_grid_view);
+        mLaundryGridViewIndex = mLaundryParentLayout.indexOfChild(mLaundyGridView);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        updateGridLayout();
+    }
+
+    private void updateGridLayout(){
         //Create essential references. this is needed for onItemClick
         final Activity currentActivity = this;
 
         //Get the correct list
         mLaundryList = mCurrentCloset.filter(new PreferenceList(true, null, null, null, null, null, null, null));
-        theAdapter = new GridImageAdapter(this, mLaundryList);
-        GridView theListView = (GridView) findViewById(R.id.gridView);
-        if (theListView != null) { //requires nullptr check
+        GridImageAdapter theAdapter = new GridImageAdapter(this, mLaundryList);
+        GridView theListView = (GridView) findViewById(R.id.laundry_grid_view);
+
+        if (theListView != null && !mLaundryList.isEmpty()) {//requires nullptr check
             theListView.setAdapter(theAdapter);
             //catch any clicks
             theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -64,8 +79,19 @@ public class LaundryActivity extends BaseActivity {
                 }
             });
         }
+        else{ //null or is empty
+            //replace the linear layout with the no_elements_layout
+            mLaundryParentLayout.removeViewAt(mLaundryGridViewIndex);
+            View noElementsLayout = getLayoutInflater().inflate(
+                    R.layout.no_elements_layout, mLaundryParentLayout, false);
+            mLaundryParentLayout.addView(noElementsLayout, mLaundryGridViewIndex);
 
-        //TODO: if list size is 0, then add in another view to show that we have no laundry
+            //change the text of the no_elements_layout
+            TextView noElementsTextView = (TextView) findViewById(R.id.no_elements_default_text);
+            if (noElementsTextView != null) {
+                noElementsTextView.setText(R.string.no_laundry_text);
+            }
+        }
     }
 
     /**
@@ -79,14 +105,14 @@ public class LaundryActivity extends BaseActivity {
             Toast newToast = Toast.makeText(this, "There is no laundry to clean.",
                     Toast.LENGTH_SHORT);
             newToast.show();
-        } else{
+        }
+        else{
             for (int index = 0; index < mLaundryList.size(); index++){
                 mLaundryList.get(index).setWorn(false);
-                mLaundryList = mCurrentCloset.filter(new PreferenceList(true, null, null, null, null, null, null, null));
             }
 
-            //notify
-            theAdapter.notifyDataSetChanged();
+            //notify and clear by running onStart()
+            updateGridLayout();
 
             //signify to user that we have done laundry
             Toast newToast = Toast.makeText(this, "Marked all clothing as clean (not worn).",
@@ -130,8 +156,6 @@ public class LaundryActivity extends BaseActivity {
 
             return view;
         }
-
-
     }
 
 }//end class viewByCategoryActivity

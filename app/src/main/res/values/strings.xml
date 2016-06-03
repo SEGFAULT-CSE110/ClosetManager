@@ -13,4 +13,5 @@
     <string name="im_feeling_lucky_text">I\'m Feeling Lucky</string>
     <string name="default_outfit_nam">Outfit Name</string>
     <string name="wear_outfit_button_text">Wear Outfit</string>
+    <string name="no_laundry_text">There seems to be no laundry here.</string>
 </resources>
