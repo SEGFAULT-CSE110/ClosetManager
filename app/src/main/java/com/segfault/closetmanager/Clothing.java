@@ -179,6 +179,8 @@ public class Clothing implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeByte((byte) (mWorn ? 1 : 0));
+        dest.writeByte((byte) (mShared ? 1 : 0));
+        dest.writeByte((byte) (mLost ? 1 : 0));
         dest.writeString(mCategory);
         dest.writeString(mColor);
         dest.writeString(mSize);
