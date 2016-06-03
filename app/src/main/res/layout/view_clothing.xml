@@ -8,11 +8,19 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true" >
 
-    <include
-        android:id="@+id/tool_bar"
-        layout="@layout/tool_bar"
-        android:layout_height="61dp"
-        android:layout_width="match_parent"/>
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            android:background="?attr/colorPrimary" />
+
+    </android.support.design.widget.AppBarLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -35,18 +43,25 @@
 
                 <TableLayout
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" >
+                    android:layout_width="match_parent"
+                    android:shrinkColumns="2" >
 
                     <TableRow
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
+
+                        <ImageView
+                            android:layout_width="@dimen/attribute_icon_size"
+                            android:layout_height="@dimen/attribute_icon_size"
+                            android:padding="3dp"
+                            android:src="@drawable/category"/>
 
                         <TextView
                             android:id="@+id/closet_item_category"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/category"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="?colorAccent"
                             android:textSize="@dimen/attributes_text"
                             android:padding="3dp"/>
 
@@ -63,12 +78,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
 
+                        <ImageView
+                            android:layout_width="@dimen/attribute_icon_size"
+                            android:layout_height="@dimen/attribute_icon_size"
+                            android:padding="3dp"
+                            android:src="@drawable/color_icon"/>
+
                         <TextView
                             android:id="@+id/closet_item_color"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/color"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="?colorAccent"
                             android:textSize="@dimen/attributes_text"
                             android:padding="3dp"/>
 
@@ -85,12 +106,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
 
+                        <ImageView
+                            android:layout_width="@dimen/attribute_icon_size"
+                            android:layout_height="@dimen/attribute_icon_size"
+                            android:padding="3dp"
+                            android:src="@drawable/weather_icon"/>
+
                         <TextView
                             android:id="@+id/closet_item_weather"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/weather"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="?colorAccent"
                             android:textSize="@dimen/attributes_text"
                             android:padding="3dp"/>
 
@@ -107,12 +134,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
 
+                        <ImageView
+                            android:layout_width="@dimen/attribute_icon_size"
+                            android:layout_height="@dimen/attribute_icon_size"
+                            android:padding="3dp"
+                            android:src="@drawable/formal"/>
+
                         <TextView
                             android:id="@+id/closet_item_occasion"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/occasion"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="?colorAccent"
                             android:textSize="@dimen/attributes_text"
                             android:padding="3dp"/>
 
@@ -129,12 +162,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
 
+                        <ImageView
+                            android:layout_width="@dimen/attribute_icon_size"
+                            android:layout_height="@dimen/attribute_icon_size"
+                            android:padding="3dp"
+                            android:src="@drawable/notes"/>
+
                         <TextView
                             android:id="@+id/closet_item_notes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/notes"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="?colorAccent"
                             android:textSize="@dimen/attributes_text"
                             android:padding="3dp"/>
 
@@ -143,7 +182,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/attributes_text"
-                            android:padding="3dp"/>
+                            android:padding="3dp"
+                            android:layout_marginBottom="20dp" />
 
                     </TableRow>
 
@@ -152,7 +192,6 @@
             </LinearLayout>
 
         </ScrollView>
-
 
     <include
         layout="@layout/bottom_bar"
