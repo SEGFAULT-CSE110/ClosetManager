@@ -257,7 +257,7 @@ public class LookbookActivity extends BaseActivity {
     }
 
     private void showWearOutfitToast(){
-        Toast newToast = Toast.makeText(this, "Generated an outfit with preferences.", Toast.LENGTH_SHORT);
+        Toast newToast = Toast.makeText(this, "Wearing outfit.", Toast.LENGTH_SHORT);
         newToast.show();
     }
 

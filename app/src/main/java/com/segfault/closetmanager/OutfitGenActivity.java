@@ -133,8 +133,11 @@ public class OutfitGenActivity extends BaseActivity {
             //Prompt for name with an AlertDialog
             LayoutInflater inflater = getLayoutInflater();
             AlertDialog.Builder nameDialog = new AlertDialog.Builder(this);
-            View nameDialogView = inflater.inflate(R.layout.outfit_gen, null);
+            View nameDialogView = inflater.inflate(R.layout.outfit_name_dialog, null);
             nameDialog.setView(nameDialogView);
+
+            //Set title
+            nameDialog.setTitle("Name your outfit");
 
             //Receive edit text
             final EditText nameText = (EditText) nameDialogView.findViewById(R.id.outfit_name_edit_text);

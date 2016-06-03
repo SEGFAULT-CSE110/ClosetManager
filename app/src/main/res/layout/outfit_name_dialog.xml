@@ -11,5 +11,5 @@
         android:id="@+id/outfit_name_edit_text"
         android:layout_gravity="center"
         android:inputType="text"
-        android:padding="3dp"/>
+        android:padding="10dp"/>
 </FrameLayout>
