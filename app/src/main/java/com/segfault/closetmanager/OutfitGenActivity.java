@@ -319,6 +319,10 @@ public class OutfitGenActivity extends BaseActivity {
         return new PreferenceList(Boolean.FALSE, null, colorPref, null, occasionPrefArray, null, weatherPref, null);
     }
 
+
+    /**
+     * Defines the linear layout in the
+     */
     private class OutfitGenLinearAdapter extends ArrayAdapter<Clothing> {
 
         private PreferenceList mPreferenceList;
@@ -446,13 +450,17 @@ public class OutfitGenActivity extends BaseActivity {
         } else {
             //Add in stock image based on what the category is
             ImageView view = new ImageView(this);
-//            LayoutInflater inflater = LayoutInflater.from(this);
-//            LinearLayout linearLayoutParent = (LinearLayout) inflater.inflate(R.layout.outfit_gen_category_button, layout);
-//            ImageView view = (ImageView) linearLayoutParent.findViewById(R.id.outfit_gen_category_button);
-//            //remove the view from the parent
-//            linearLayoutParent.removeView(view);
+
             if (type.equals(Clothing.ACCESSORY)) {
                 view.setImageResource(R.drawable.accessory);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+
+                    }
+                });
             } else if (type.equals(Clothing.TOP)) {
                 view.setImageResource(R.drawable.nylon_jacket);
             } else if (type.equals(Clothing.BOTTOM)) {
@@ -475,12 +483,29 @@ public class OutfitGenActivity extends BaseActivity {
                 android.R.layout.simple_spinner_item, arr);
 
         // Specify the layout to use when the list of choices appears
-        adapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Apply the adapter to the spinner
         sp.setAdapter(adapter);
 
     }
+
+
+    /**
+     * Sets the choosing intent with the clothing type given
+     * @param clothingType - type of clothing to give
+     */
+    private void setManualChoosingIntent(String clothingType){
+        PreferenceList preference = new PreferenceList(false, clothingType, null, null, null, null, null, null);
+
+        //Create intent and pass to it
+        Intent intent = new Intent(this, ViewClothingByCatActivity.class);
+        intent.putExtra(ViewClothingByCatActivity.CAME_FROM_CLOSET_STRING, false);
+        intent.putExtra(PreferenceList.EXTRA_STRING, preference);
+        startActivityForResult(intent, 12);
+    }
+
+
+
 
 }//end class OutfitGenActivity
