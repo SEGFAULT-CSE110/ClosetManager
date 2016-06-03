@@ -57,18 +57,9 @@ public class OutfitGenActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.outfit_gen);
-
-        // set pref_layout toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         //Get the required views
         mAccessoriesButton = (ImageButton) findViewById(R.id.accessoriesButton);

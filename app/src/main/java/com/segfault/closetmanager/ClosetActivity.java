@@ -50,9 +50,9 @@ public class ClosetActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         mCurrentCloset = IClosetApplication.getAccount().getCloset();
 
@@ -65,15 +65,6 @@ public class ClosetActivity extends BaseActivity {
         jacketList = new ArrayList<Clothing>();
 
         listOfLists = new ArrayList<List<Clothing>>();
-
-        // set pref_layout toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
 
         //Find all the views
         mClosetParentLayout = (ViewGroup) findViewById(R.id.closet_vertical_linear_layout);
@@ -188,6 +179,7 @@ public class ClosetActivity extends BaseActivity {
         super.onStart();
         //update closet
         mCurrentCloset = IClosetApplication.getAccount().getCloset();
+        System.out.println("CLOSET SIZE: " + mCurrentCloset.getList().size());
 
         //Clear the lists and refill them
         accessoryList.clear();
@@ -204,7 +196,6 @@ public class ClosetActivity extends BaseActivity {
         hatList = mCurrentCloset.filter(new PreferenceList(false, Clothing.HAT, null, null, null, null, null, null));
         jacketList.clear();
         jacketList = mCurrentCloset.filter(new PreferenceList(false, Clothing.JACKET, null, null, null, null, null, null));
-
 
         //Add all of these lists into a single list of lists, if it is a size large enough
         listOfLists.clear();
@@ -243,7 +234,8 @@ public class ClosetActivity extends BaseActivity {
             if (noElementsTextView != null) {
                 noElementsTextView.setText(R.string.closet_no_elements_text);
             }
-        } else { //refresh the amount of clothing we have
+        }
+        else { //refresh the amount of clothing we have
             //add stuff to the closet list view
             ClosetCategoryAdapter adapter = new ClosetCategoryAdapter(this, listOfLists);
             ListView closetListView = (ListView) findViewById(R.id.closet_list_view);
@@ -253,11 +245,12 @@ public class ClosetActivity extends BaseActivity {
 
             //once done updating, set updated to false
             mCurrentCloset.setUpdated(false);
+
+            //add the linear layout back in
+            mClosetParentLayout.removeViewAt(mClosetListViewIndex);
+            mClosetParentLayout.addView(mClosetListView, mClosetListViewIndex);
         }
 
-        //add the linear layout back in
-        mClosetParentLayout.removeViewAt(mClosetListViewIndex);
-        mClosetParentLayout.addView(mClosetListView, mClosetListViewIndex);
 
     }
 
@@ -346,17 +339,19 @@ public class ClosetActivity extends BaseActivity {
             });
 
             for (int index = 0; index < currentList.size(); index++) {
+                //Get the correct clothing
+                final Clothing currentClothing = currentList.get(index);
+
                 //get clothing bitmap and the appropriate view
-                Bitmap currentBitmap = currentList.get(index).getBitmap();
+                Bitmap currentBitmap = currentClothing.getBitmap();
 
                 //get the view and add a click listener to go to the correct view
                 View clothingFrame = inflater.inflate(R.layout.closet_category_clothing_image, linearLayout, false);
-                final int finalIndex = index; //required to be a final variable
                 clothingFrame.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getContext(), ViewClothingActivity.class);
-                        intent.putExtra("Clothing", currentList.get(finalIndex));
+                        intent.putExtra("Clothing", currentClothing);
                         getContext().startActivity(intent);
                     }
                 });
