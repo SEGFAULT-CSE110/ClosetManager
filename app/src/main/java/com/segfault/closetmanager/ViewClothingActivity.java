@@ -10,19 +10,9 @@ public class ViewClothingActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_clothing);
-
-        // set pref_layout toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         //Recreate bottom bar here because the account has not been created
         View bottomBarView = findViewById(R.id.view_clothing_bottom_bar);
@@ -38,11 +28,22 @@ public class ViewClothingActivity extends BaseActivity {
 
         //get the picture from the view, and set the picture
         ImageView clothingView = (ImageView) findViewById(R.id.view_clothing_picture);
-        clothingView.setImageBitmap(currentClothing.getBitmap());
+        if (clothingView != null) {
+            clothingView.setImageBitmap(currentClothing.getBitmap());
+        }
 
-        //change the appropriate text views
-        TextView categoryTextView = (TextView) findViewById(R.id.closet_item_category);
-        categoryTextView.setText(new StringBuilder().append(R.string.category).append(
-                " ").append(currentClothing.getCategory()).toString());
+        // get the appropriate text views
+        TextView categoryTextView = (TextView) findViewById(R.id.closet_item_category_entry);
+        TextView colorTextView = (TextView) findViewById(R.id.closet_item_color_entry);
+        TextView weatherTextView = (TextView) findViewById(R.id.closet_item_weather_entry);
+        TextView occasionTextView = (TextView) findViewById(R.id.closet_item_occasion_entry);
+        TextView notesTextView = (TextView) findViewById(R.id.closet_item_notes_entry);
+
+        // set the appropriate text views
+        categoryTextView.setText(currentClothing.getCategory());
+        colorTextView.setText(currentClothing.getColor());
+        weatherTextView.setText(currentClothing.getWeather());
+        occasionTextView.setText(currentClothing.getOccasion());
+        notesTextView.setText(currentClothing.getNotes());
     }
 }

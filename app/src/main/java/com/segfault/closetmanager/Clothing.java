@@ -14,23 +14,24 @@ import java.util.List;
  */
 public class Clothing implements Parcelable{
 
+    public static final String ACCESSORY = "Accessory";
     public static final String TOP = "Top";
     public static final String BOTTOM = "Bottom";
-    public static final String ACCESSORY = "Accessory";
     public static final String SHOE = "Shoe";
     public static final String BODY = "Body";
     public static final String HAT = "Hat";
     public static final String JACKET = "Jacket";
+
     public static final String MINUS = "Minus";
 
     public static final String EXTRA_STRING = "clothing";
+    public static final String EXTRA_TYPE_STRING = "TYPE";
 
     private boolean mWorn;
     private boolean mShared;
     private boolean mLost;
 
     private String mCategory;
-
     private String mColor;
     private String mSize;
     private String mOccasion;
@@ -56,12 +57,16 @@ public class Clothing implements Parcelable{
         mOccasion = occ ;
         mWeather = weat;
         mNotes = not;
+
         mId=id;
+
 
     }
 
     protected Clothing(Parcel in) {
         mWorn = in.readByte() != 0;
+        mShared = in.readByte() != 0;
+        mLost = in.readByte() != 0;
         mCategory = in.readString();
         mColor = in.readString();
         mSize = in.readString();
@@ -94,7 +99,7 @@ public class Clothing implements Parcelable{
         mCategory = category;
     }
 
-    public boolean isWorn() {
+    public Boolean isWorn() {
         return mWorn;
     }
 
@@ -174,6 +179,8 @@ public class Clothing implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeByte((byte) (mWorn ? 1 : 0));
+        dest.writeByte((byte) (mShared ? 1 : 0));
+        dest.writeByte((byte) (mLost ? 1 : 0));
         dest.writeString(mCategory);
         dest.writeString(mColor);
         dest.writeString(mSize);

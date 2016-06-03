@@ -32,42 +32,19 @@ public class HomeActivity extends BaseActivity {
     private static boolean mLoaded = false;
     private boolean backButtonPressed;
     private Toolbar mToolbar;
-    private Closet mCurrentCloset;
-    SharedPreferences mPrefs;
-    Gson gson = new Gson();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
-        mPrefs = getPreferences(MODE_PRIVATE);
-
-        // Load closet
-        mCurrentCloset = Account.currentAccountInstance.getCloset();
-
-        // set pref_layout toolbar
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         //assign buttons
         mClosetButton = (LinearLayout) findViewById(R.id.closet_layout);
         mOutfitCreatorButton = (LinearLayout) findViewById(R.id.outfitgen_layout);
         mLookbookButton = (LinearLayout) findViewById(R.id.lookbook_layout);
-
-        //load items
-        //TODO: why does it run onCreate every time we start the activity? is this an android thing?
-        try {
-            if (!mLoaded) {
-                Account.currentAccountInstance = new Account("AUTH TOKEN");
-                loadPictures(getApplicationContext(), mCurrentCloset.getList(), mCurrentCloset.getId());
-                Account.currentAccountInstance.getLookbook().assignBelongingCloset(Account.currentAccountInstance.getCloset());
-                mLoaded = true;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     @Override
@@ -96,8 +73,9 @@ public class HomeActivity extends BaseActivity {
         startActivity(intent);
     }
 
-
     public void onMorePressed(View view) {
+        Intent intent = new Intent(this, LaundryActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -117,47 +95,6 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    public void loadPictures(Context context, List<Clothing> clothingList, List<String> id) throws IOException {
-        //Create an asset manager
-        AssetManager assetManager = context.getAssets();
-        //Create a list of all the file names in the folder 'images'
-        String[] files = assetManager.list("images");
 
-        for (int i = 0; i < id.size() - 1; i++) {
-            if (id.get(i).contains(".jpg") || id.get(i).contains(".png")) {
-                InputStream istr = assetManager.open(id.get(i));
-                Bitmap firstBitmap = BitmapFactory.decodeStream(istr);
-
-                //scale down first bitmap
-                final float densityMultiplier = context.getResources().getDisplayMetrics().density;
-                int h = (int) (50 * densityMultiplier); //TODO revise size
-                int w = (int) (h * firstBitmap.getWidth() / ((double) firstBitmap.getHeight()));
-                Bitmap secondBitmap = Bitmap.createScaledBitmap(firstBitmap, w, h, true);
-
-                //Recycle the bitmap to preserve memory
-                firstBitmap.recycle();
-
-                String json = mPrefs.getString(id.get(i), "");
-                Clothing currClothing = gson.fromJson(json, Clothing.class);
-
-                if (currClothing.getCategory() == "Hat") {
-                    currClothing.setBitmap(secondBitmap);
-                    clothingList.add(currClothing);
-                } else if (currClothing.getCategory() == "Bottom") {
-                    currClothing.setBitmap(secondBitmap);
-                    clothingList.add(currClothing);
-                } else if (currClothing.getCategory() == "Top") {
-                    currClothing.setBitmap(secondBitmap);
-                    clothingList.add(currClothing);
-                } else if (currClothing.getCategory() == "Shoe") {
-                    currClothing.setBitmap(secondBitmap);
-                    clothingList.add(currClothing);
-                }
-
-                istr.close();
-                System.out.println("Loaded");
-            }
-        }
-    }
 }
 

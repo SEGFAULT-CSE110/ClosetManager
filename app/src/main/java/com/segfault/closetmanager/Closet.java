@@ -220,6 +220,23 @@ public class Closet {
         }
     }
 
+    public Clothing findClothingByHash(int hashCode){
+        if (hashCode == 0){
+            System.err.println("Hash code is 0 in findClothingByHash in Closet.java");
+            return null;
+        }
+
+        System.err.println("Finding clothing by hash in list of size " + list_clothes.size());
+
+        for (int index = 0; index < list_clothes.size(); index++){
+            if (list_clothes.get(index).hashCode() == hashCode){
+                System.err.println("Successfully found the clothing");
+                return list_clothes.get(index);
+            }
+        }
+        System.err.println("Could not find clothing by hash");
+        return null;
+    }
 
     public boolean writeToDatabase(){
         return false; //returns true if written successfully.
@@ -246,6 +263,10 @@ public class Closet {
     public List<String> getId() {return list_id;}
 
     void addId(String id){ list_id.add(id);}
+
+    public List<String> getIdList() { return list_id; }
+
+    void setIdList(List<String> list) { list_id = list;}
 
     public List<Clothing> getList(){
         return list_clothes;

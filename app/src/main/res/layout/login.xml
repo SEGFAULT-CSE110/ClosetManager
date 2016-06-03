@@ -16,7 +16,7 @@
     <!-- Login progress -->
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="horizontal">
 
@@ -44,108 +44,39 @@
 
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone"/>
-
-    <ScrollView
-        android:id="@+id/login_form"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:fillViewport="false"
-        android:layout_weight="3">
+        android:layout_height="match_parent"
+        android:layout_weight="500"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:weightSum="1">
 
-        <LinearLayout
-            android:id="@+id/email_login_form"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="1">
+            android:layout_gravity="center|bottom"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text= "@string/welcome_message"
+            android:gravity="center"
+            android:textSize="30dp" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceLarge"/>
+        <Button
+            android:id="@+id/email_sign_in_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="278dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:onClick="runLogin"
+            android:textStyle="bold"
+            android:typeface="monospace"
+            android:layout_gravity="center"
+            android:text="Enter Here"
+            android:textSize="20dp"
+            android:layout_weight="0.09"/>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <AutoCompleteTextView
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="278dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:onClick="runLogin"
-                android:text="@string/action_sign_in"
-                android:textStyle="bold"
-                android:typeface="monospace"
-                android:layout_gravity="center_horizontal" />
-<!--
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/facebook_login_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="279dp"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginTop="16dp"
-                android:text="Sign in with Facebook account!"
-                android:textStyle="bold"
-                android:onClick="connectFacebooks"
-                android:clickable="true"
-                android:layout_gravity="center_horizontal" />
-                -->
-
-            <Button
-                android:id="@+id/sign_up_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="283dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="No account? Sign Up Now!"
-                android:textStyle="bold"
-                android:onClick="create"
-                android:clickable="true"
-                android:layout_gravity="center_horizontal" />
-
-        </LinearLayout>
-
-    </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>

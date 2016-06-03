@@ -1,5 +1,6 @@
 package com.segfault.closetmanager;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,7 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -27,30 +32,40 @@ public class ClosetActivity extends BaseActivity {
     private ListView mClosetListView;
     private ViewGroup mClosetParentLayout;
     private int mClosetListViewIndex;
-    private Closet mCurrentCloset = Account.currentAccountInstance.getCloset();
+    private Closet mCurrentCloset;
 
     //Lists
-    private List<Clothing> clothingList = mCurrentCloset.getList();
-    private List<Clothing> topList = new ArrayList<Clothing>();
-    private List<Clothing> bottomList = new ArrayList<Clothing>();
-    private List<Clothing> hatList = new ArrayList<Clothing>();
-    private List<Clothing> shoeList = new ArrayList<Clothing>();
-    private List<List<Clothing>> listOfLists = new ArrayList<List<Clothing>>();
+    private List<List<Clothing>> listOfLists;
+
+    private List<Clothing> accessoryList;
+    private List<Clothing> topList;
+    private List<Clothing> bottomList;
+    private List<Clothing> shoeList;
+    private List<Clothing> bodyList;
+    private List<Clothing> hatList;
+    private List<Clothing> jacketList;
+
+
+    //Self
+    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
-        // set pref_layout toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        mCurrentCloset = IClosetApplication.getAccount().getCloset();
+
+        accessoryList = new ArrayList<Clothing>();
+        topList = new ArrayList<Clothing>();
+        bottomList = new ArrayList<Clothing>();
+        shoeList = new ArrayList<Clothing>();
+        bodyList = new ArrayList<Clothing>();
+        hatList = new ArrayList<Clothing>();
+        jacketList = new ArrayList<Clothing>();
+
+        listOfLists = new ArrayList<List<Clothing>>();
 
         //Find all the views
         mClosetParentLayout = (ViewGroup) findViewById(R.id.closet_vertical_linear_layout);
@@ -62,9 +77,95 @@ public class ClosetActivity extends BaseActivity {
         if (myFab != null) {
             myFab.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(getBaseContext(), CameraActivity.class);
-                    startActivity(intent);
+
+                    //Create a new dialog
+                    final Dialog add_clothing_dialog = new Dialog(context);
+                    add_clothing_dialog.setContentView(R.layout.add_clothing_type);
+                    add_clothing_dialog.setTitle("Select Clothing Type");
+
+                    //Add in action listeners for all the buttons
+                    ImageButton addAccessoryButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_accessory_button);
+                    if (addAccessoryButton != null) {
+                        addAccessoryButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.ACCESSORY);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    ImageButton addShirtButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_shirt_button);
+                    if (addShirtButton != null) {
+                        addShirtButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.TOP);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    ImageButton addPantsButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_pants_button);
+                    if (addPantsButton != null) {
+                        addPantsButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.BOTTOM);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    ImageButton addShoeButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_shoe_button);
+                    if (addShoeButton != null) {
+                        addShoeButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.SHOE);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    ImageButton addHatButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_hat_button);
+                    if (addHatButton != null) {
+                        addHatButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.HAT);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    ImageButton addDressButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_dress_button);
+                    if (addDressButton != null) {
+                        addDressButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.BODY);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    ImageButton addJacketButton = (ImageButton) add_clothing_dialog.findViewById(R.id.add_jacket_button);
+                    if (addJacketButton != null) {
+                        addJacketButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, CameraActivity.class);
+                                intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.JACKET);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+
+                    add_clothing_dialog.show();
                 }
+
+
             });
         }
 
@@ -78,10 +179,51 @@ public class ClosetActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         //update closet
-        mCurrentCloset = Account.currentAccountInstance.getCloset();
+        mCurrentCloset = IClosetApplication.getAccount().getCloset();
+        System.out.println("CLOSET SIZE: " + mCurrentCloset.getList().size());
+
+        //Clear the lists and refill them
+        accessoryList.clear();
+        accessoryList = mCurrentCloset.filter(new PreferenceList(false, Clothing.ACCESSORY, null, null, null, null, null, null));
+        topList.clear();
+        topList = mCurrentCloset.filter(new PreferenceList(false, Clothing.TOP, null, null, null, null, null, null));
+        bottomList.clear();
+        bottomList = mCurrentCloset.filter(new PreferenceList(false, Clothing.BOTTOM, null, null, null, null, null, null));
+        shoeList.clear();
+        shoeList = mCurrentCloset.filter(new PreferenceList(false, Clothing.SHOE, null, null, null, null, null, null));
+        bodyList.clear();
+        bodyList = mCurrentCloset.filter(new PreferenceList(false, Clothing.BODY, null, null, null, null, null, null));
+        hatList.clear();
+        hatList = mCurrentCloset.filter(new PreferenceList(false, Clothing.HAT, null, null, null, null, null, null));
+        jacketList.clear();
+        jacketList = mCurrentCloset.filter(new PreferenceList(false, Clothing.JACKET, null, null, null, null, null, null));
+
+        //Add all of these lists into a single list of lists, if it is a size large enough
+        listOfLists.clear();
+        if (!accessoryList.isEmpty()) {
+            listOfLists.add(accessoryList);
+        }
+        if (!topList.isEmpty()) {
+            listOfLists.add(topList);
+        }
+        if (!bottomList.isEmpty()) {
+            listOfLists.add(bottomList);
+        }
+        if (!shoeList.isEmpty()) {
+            listOfLists.add(shoeList);
+        }
+        if (!bodyList.isEmpty()) {
+            listOfLists.add(bodyList);
+        }
+        if (!hatList.isEmpty()) {
+            listOfLists.add(hatList);
+        }
+        if (!jacketList.isEmpty()) {
+            listOfLists.add(jacketList);
+        }
 
         //check if we have any clothing
-        if (mCurrentCloset.getList().isEmpty()) {
+        if (mCurrentCloset.getList().isEmpty() || listOfLists.isEmpty()) {
             //replace the linear layout with the no_elements_layout
             mClosetParentLayout.removeViewAt(mClosetListViewIndex);
             View noElementsLayout = getLayoutInflater().inflate(
@@ -93,50 +235,24 @@ public class ClosetActivity extends BaseActivity {
             if (noElementsTextView != null) {
                 noElementsTextView.setText(R.string.closet_no_elements_text);
             }
-        } else { //refresh the amount of clothing we have
-            //TODO: delegate this to closet.java
-            if (true) {
-                //Clear the lists
-                topList.clear();
-                bottomList.clear();
-                hatList.clear();
-                shoeList.clear();
-                listOfLists.clear();
-
-                //Add all of the clothing into the lists
-                for (int index = 0; index < clothingList.size(); index++) {
-                    if (clothingList.get(index).getCategory().equals(Clothing.TOP)) {
-                        topList.add(clothingList.get(index));
-                    } else if (clothingList.get(index).getCategory().equals(Clothing.BOTTOM)) {
-                        bottomList.add(clothingList.get(index));
-                    } else if (clothingList.get(index).getCategory().equals(Clothing.HAT)) {
-                        hatList.add(clothingList.get(index));
-                    } else if (clothingList.get(index).getCategory().equals(Clothing.SHOE)) {
-                        shoeList.add(clothingList.get(index));
-                    }
-                }
-
-                //Add all of these lists into a single list of lists
-                listOfLists.add(topList);
-                listOfLists.add(bottomList);
-                listOfLists.add(hatList);
-                listOfLists.add(shoeList);
-
-                //add stuff to the closet list view
-                ClosetCategoryAdapter adapter = new ClosetCategoryAdapter(this, listOfLists);
-                ListView closetListView = (ListView) findViewById(R.id.closet_list_view);
-                if (closetListView != null) {
-                    closetListView.setAdapter(adapter);
-                }
-
-                //once done updating, set updated to false
-                mCurrentCloset.setUpdated(false);
+        }
+        else { //refresh the amount of clothing we have
+            //add stuff to the closet list view
+            ClosetCategoryAdapter adapter = new ClosetCategoryAdapter(this, listOfLists);
+            ListView closetListView = (ListView) findViewById(R.id.closet_list_view);
+            if (closetListView != null) {
+                closetListView.setAdapter(adapter);
             }
+
+            //once done updating, set updated to false
+            mCurrentCloset.setUpdated(false);
 
             //add the linear layout back in
             mClosetParentLayout.removeViewAt(mClosetListViewIndex);
             mClosetParentLayout.addView(mClosetListView, mClosetListViewIndex);
         }
+
+
     }
 
 
@@ -224,17 +340,21 @@ public class ClosetActivity extends BaseActivity {
             });
 
             for (int index = 0; index < currentList.size(); index++) {
+                //Get the correct clothing
+                final Clothing currentClothing = currentList.get(index);
+
                 //get clothing bitmap and the appropriate view
-                Bitmap currentBitmap = currentList.get(index).getBitmap();
+                Bitmap currentBitmap = currentClothing.getBitmap();
 
                 //get the view and add a click listener to go to the correct view
-                View clothingFrame = inflater.inflate(R.layout.closet_category_clothing_image, linearLayout, false);
-                final int finalIndex = index; //required to be a final variable
+                ClickableFrameLayout clothingFrame = (ClickableFrameLayout) inflater.inflate
+                        (R.layout.closet_category_clothing_image, linearLayout, false);
+                clothingFrame.setClickable(true);
                 clothingFrame.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getContext(), ViewClothingActivity.class);
-                        intent.putExtra("Clothing", currentList.get(finalIndex));
+                        intent.putExtra("Clothing", currentClothing);
                         getContext().startActivity(intent);
                     }
                 });

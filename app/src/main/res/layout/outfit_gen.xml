@@ -2,14 +2,14 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/outfit_gen_parent_layout"
     style="@style/AppTheme.AppBarOverlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_material_light_closet"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="com.segfault.closetmanager.OutfitGenActivity"
-    android:id="@+id/outfit_gen_parent_layout"
-    android:fitsSystemWindows="true" >
+    tools:context="com.segfault.closetmanager.OutfitGenActivity">
 
     <include
         android:id="@+id/tool_bar"
@@ -23,7 +23,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:clickable="true">
 
         <LinearLayout
             style="?android:attr/buttonBarStyle"
@@ -33,15 +34,14 @@
             android:visibility="visible">
 
             <Button
-                android:id="@+id/doneButton"
+                android:id="@+id/generation"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/blue"
-                android:onClick="outfitDone"
-                android:text="Save Outfit"
+                android:background="@color/pink"
+                android:onClick="chooseAttributes"
+                android:text="@string/generate_outfit_text"
                 android:textColor="#000000"
                 android:textStyle="bold"/>
 
@@ -49,21 +49,122 @@
                 android:id="@+id/lastButton"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/pink"
                 android:onClick="generateOutfit"
-                android:text="I'm Feeling Lucky"
+                android:text="@string/im_feeling_lucky_text"
+                android:textColor="#000000"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/doneButton"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:background="@color/blue"
+                android:onClick="pressSaveOutfit"
+                android:text="@string/save_outfit_text"
                 android:textColor="#000000"
                 android:textStyle="bold"/>
 
         </LinearLayout>
 
-        <include
-            android:id="@+id/lookbook_bottom_bar"
-            layout="@layout/outfit"
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:clickable="true">
+
+            <LinearLayout
+                android:id="@+id/outfit_gen_accessories_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:clickable="true">
+
+                <ImageButton
+                    android:id="@+id/accessoriesButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/background_material_light_closet"
+                    android:contentDescription="@string/top_image_description"
+                    android:cropToPadding="false"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/cap"
+                    android:clickable="true"
+                    android:onClick="setAccessory"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/outfit_gen_top_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.9"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:clickable="true">
+
+                <ImageButton
+                    android:id="@+id/topButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:background="#ffffff"
+                    android:contentDescription="@string/shirt_top_image_description"
+                    android:cropToPadding="false"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/nylon_jacket"
+                    android:clickable="true"
+                    android:onClick="setTop"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/outfit_gen_bottom_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.9"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:clickable="true">
+
+                <ImageButton
+                    android:id="@+id/bottomButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:background="#ffffff"
+                    android:contentDescription="@string/pants_bottom_image_description"
+                    android:cropToPadding="false"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/bag_pants"
+                    android:visibility="visible"
+                    android:onClick="setBottom"/>
+
+            </LinearLayout>
+
+
+            <ImageButton
+                android:id="@+id/outfit_gen_shoes_button"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.5"
+                android:background="#ffffff"
+                android:contentDescription="@string/shoes_image_description"
+                android:cropToPadding="false"
+                android:scaleType="fitCenter"
+                android:src="@drawable/sneaker"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

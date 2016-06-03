@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.IntentCompat;
 
 import java.util.Arrays;
@@ -29,11 +30,26 @@ public class PreferencesFragment extends PreferenceFragment
         mListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                if (!Arrays.asList(themesList).contains(key))
+                if (key.equals("theme"))
                 {
+                    System.out.println("theme changed");
                     getActivity().recreate();
+
+                    // recreate the task stack
+                    TaskStackBuilder.create(getActivity())
+                            //ComponentName prev = this.getCallingActivity();
+                            .addNextIntent(new Intent(getActivity(), HomeActivity.class))
+                            .addNextIntent(getActivity().getIntent())
+                            .startActivities();
+
                     return;
                 }
+                if (key.equals("categories"))
+                {
+                    System.out.println("cat changed");
+                    //SharedPreferences.Editor editor = settings.edit();
+                }
+
 
                 getActivity().finish();
                 final Intent intent = getActivity().getIntent();

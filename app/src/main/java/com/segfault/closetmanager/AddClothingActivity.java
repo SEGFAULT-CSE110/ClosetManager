@@ -1,7 +1,11 @@
 package com.segfault.closetmanager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -16,6 +20,7 @@ import com.google.gson.Gson;
 
 /**
  * Created by Christopher Cabreros on 05-May-16.
+ * Adds the clothing into the database
  */
 public class AddClothingActivity extends BaseActivity {
 
@@ -34,46 +39,33 @@ public class AddClothingActivity extends BaseActivity {
     private EditText notes;
 
     private Clothing mCurrClothing;
-    private Closet mCurrCloset = Account.currentAccountInstance.getCloset();
+    private Closet mCurrCloset = IClosetApplication.getAccount().getCloset();;
 
-
-    SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-    SharedPreferences.Editor prefsEditor = mPrefs.edit();
-    Gson gson = new Gson();
+    ///Gson gson = new Gson();
+    SharedPreferences mPrefs;
+    SharedPreferences.Editor prefsEditor;
+    Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_clothing);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
+        //Setup spinners
+        String[] cat_array = new String[]{"Select", Clothing.ACCESSORY, Clothing.TOP, Clothing.BOTTOM, Clothing.SHOE, Clothing.BODY, Clothing.HAT, Clothing.JACKET};
+        category = initSpinner(R.id.Category, cat_array);
+        String[] weat_array = new String[]{"Select", "Snow", "Rain", "Cold", "Cool", "Warm", "Hot", "Select All"};
+        weather = initSpinner(R.id.Weather, weat_array);
+        String[] occ_array = new String[]{"Select", "Casual", "Work", "Semi-formal", "Formal", "Fitness", "Party", "Business"};
+        occasion = initSpinner(R.id.Occasion, occ_array);
 
-
-        // set pref_layout toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-
-        String [] cat_array = new String[]{"Select","Top", "Bottom", "Outerwear", "Shoes", "Accessory", "Hat", "Undergarment","Socks"};
-        initSpinner(category, R.id.Category, cat_array);
-
-        String [] weat_array = new String[]{"Select","Snow","Rain","Cold", "Cool","Warm","Hot","Select All"};
-        initSpinner(weather, R.id.Weather, weat_array);
-
-        String[] occ_array = new String[]{"Select","Casual", "Work", "Semi-formal","Formal", "Fitness","Party", "Business"};
-        initSpinner(occasion, R.id.Occasion, occ_array);
-
-        //eventually make this colored sqaures
-        String[] col_array = new String[]{"Select","Red", "Orange", "Yellow", "Green", "Blue","Purple", "Pink","Brown", "Black","White","Gray"};
-        initSpinner(color, R.id.Color, col_array);
+        //eventually make this colored squares
+        String[] col_array = new String[]{"Select", "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Brown", "Black", "White", "Gray"};
+        color = initSpinner(R.id.Color, col_array);
 
         //get edit text notes and check boxes
-        //notes = (EditText) findViewById(R.id.Notes);
+        notes = (EditText) findViewById(R.id.Notes);
         worn = (CheckBox) findViewById(R.id.Worn);
         shared = (CheckBox) findViewById(R.id.Shared);
         lost = (CheckBox) findViewById(R.id.Lost);
@@ -82,55 +74,85 @@ public class AddClothingActivity extends BaseActivity {
         doneButton = (Button) findViewById(R.id.done);
         doneButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 // get all selections
                 String selected_category = category.getSelectedItem().toString();
                 String selected_weather = weather.getSelectedItem().toString();
                 String selected_occasion = occasion.getSelectedItem().toString();
                 String selected_color = color.getSelectedItem().toString();
                 String input_notes = notes.getText().toString();
+                //check whether it is a valid condition
+                boolean validSelections = validateClothingAttributes(selected_category, selected_weather, selected_occasion, selected_color);
 
-                boolean validSelections = validateClothingAttributes(selected_category,selected_weather,selected_occasion,selected_color);
-
+                //receive the checkmarks
                 boolean isWorn = false;
-                if(worn.isChecked())
-                    isWorn=true;
+                if (worn.isChecked())
+                    isWorn = true;
                 boolean isShared = false;
-                if(shared.isChecked())
-                    isShared=true;
+                if (shared.isChecked())
+                    isShared = true;
                 boolean isLost = false;
-                if(lost.isChecked())
-                    isLost=true;
+                if (lost.isChecked())
+                    isLost = true;
 
                 //create new clothing object - set to currClothing and add to closet
-                if(validSelections) {
+                if (validSelections) {
+                    String id = (String) getIntent().getSerializableExtra("photo_id");
+
                     mCurrClothing = new Clothing(selected_category, selected_color, selected_weather, selected_occasion, input_notes,
-                            isWorn, isShared, isLost, "ID");
+                            isWorn, isShared, isLost, id);
+
                     mCurrCloset.addClothing(mCurrClothing);
+
+
+                    Bitmap firstBitmap = BitmapFactory.decodeFile(mCurrClothing.getId());
+
+                    //scale down first bitmap
+                    final float densityMultiplier = getBaseContext().getResources().getDisplayMetrics().density;
+                    int h = (int) (50 * densityMultiplier); //TODO revise size
+                    //int w = (int) (h * firstBitmap.getWidth() / ((double) firstBitmap.getHeight()));
+                    int w = h;
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(firstBitmap, w, h, true);
+
+                    Matrix matrix = new Matrix();
+
+                    matrix.postRotate(90);
+
+                    Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap , 0, 0, scaledBitmap .getWidth(), scaledBitmap .getHeight(), matrix, true);    //Recycle the bitmap to preserve memory
+
+                    firstBitmap.recycle();
+
+                    mCurrClothing.setBitmap(rotatedBitmap);
+
+                    // Store id and data
+                    mCurrCloset.addId(mCurrClothing.getId());
+
+                    mPrefs = getPreferences(MODE_PRIVATE);
+                    prefsEditor = mPrefs.edit();
+                    gson = new Gson();
+
+                    // Store clothing object
+                    String clothing = gson.toJson(mCurrClothing);
+                    prefsEditor.putString(mCurrClothing.getId(), clothing);
+                    prefsEditor.apply();
+
+                    // Store id list
+                    String id_list = gson.toJson(mCurrCloset.getIdList());
+                    prefsEditor.putString("id_list", id_list);
+
+                    prefsEditor.apply();
                     goBackToCloset();
                 }
-
-                mCurrClothing.setCategory(selected_category);
-                mCurrClothing.setWeather(selected_weather);
-                mCurrClothing.setOccasion(selected_occasion);
-                mCurrClothing.setColor(selected_color);
-                mCurrClothing.setNotes(input_notes);
-
-                String json = gson.toJson(mCurrClothing);
-                prefsEditor.putString(mCurrClothing.getId(), json);
-                prefsEditor.commit();
-
-                Intent intent = new Intent(getBaseContext(), ClosetActivity.class);
-                startActivity(intent);
             }
         });
         //delete button
         deleteButton = (Button) findViewById(R.id.delete);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(mCurrClothing == null) {
+                if (mCurrClothing == null) {
                     //pop up window to discard, clear all date fields
                 }
-                if(mCurrClothing != null) {
+                if (mCurrClothing != null) {
                     //delete clothing in database
                     //set currClothing to null
                 }
@@ -141,17 +163,12 @@ public class AddClothingActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         Intent intent = getIntent();
-        if (intent.hasExtra("Clothing")) {
-            mCurrClothing = (Clothing)intent.getSerializableExtra("Clothing");
-
-        }
     }
 
-    protected boolean validateClothingAttributes (String cat, String weath, String occ, String col) {
-        if(cat.equals("Select") || weath.equals("Select") || occ.equals("Select") || col.equals("Select") ) {
-            Toast newToast = Toast.makeText(this, "Invalid attriu", Toast.LENGTH_SHORT);
+    protected boolean validateClothingAttributes(String cat, String weath, String occ, String col) {
+        if (cat.equals("Select") || weath.equals("Select") || occ.equals("Select") || col.equals("Select")) {
+            Toast newToast = Toast.makeText(this, "Invalid attributes", Toast.LENGTH_SHORT);
             newToast.show();
             return false;
         }
@@ -164,20 +181,26 @@ public class AddClothingActivity extends BaseActivity {
         this.finish();
         startActivity(intent);
     }
+
     //creates dropdowns given a string and spinner object
-    protected void initSpinner (Spinner sp, int resource, String []arr){
-        sp = (Spinner) findViewById(resource);
+    protected Spinner initSpinner(int resource, String[] arr) {
+        Spinner sp = (Spinner) findViewById(resource);
 
         // Create an ArrayAdapter using the string array and a default spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arr);
 
         // Specify the layout to use when the list of choices appears
-        adapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Apply the adapter to the spinner
-        sp.setAdapter(adapter);
+        if (sp != null) {
+            sp.setAdapter(adapter);
+        } else{
+            System.err.println("SP is null in AddClothingActivity.java");
+        }
+
+        return sp;
 
     }
 
