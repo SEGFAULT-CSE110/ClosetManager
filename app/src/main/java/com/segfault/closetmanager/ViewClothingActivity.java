@@ -32,9 +32,18 @@ public class ViewClothingActivity extends BaseActivity {
             clothingView.setImageBitmap(currentClothing.getBitmap());
         }
 
-        //change the appropriate text views
-        TextView categoryTextView = (TextView) findViewById(R.id.closet_item_category);
-        categoryTextView.setText(new StringBuilder().append(R.string.category).append(
-                " ").append(currentClothing.getCategory()).toString());
+        // get the appropriate text views
+        TextView categoryTextView = (TextView) findViewById(R.id.closet_item_category_entry);
+        TextView colorTextView = (TextView) findViewById(R.id.closet_item_color_entry);
+        TextView weatherTextView = (TextView) findViewById(R.id.closet_item_weather_entry);
+        TextView occasionTextView = (TextView) findViewById(R.id.closet_item_occasion_entry);
+        TextView notesTextView = (TextView) findViewById(R.id.closet_item_notes_entry);
+
+        // set the appropriate text views
+        categoryTextView.setText(currentClothing.getCategory());
+        colorTextView.setText(currentClothing.getColor());
+        weatherTextView.setText(currentClothing.getWeather());
+        occasionTextView.setText(currentClothing.getOccasion());
+        notesTextView.setText(currentClothing.getNotes());
     }
 }

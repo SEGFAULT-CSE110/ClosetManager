@@ -26,7 +26,6 @@
             android:background="?color2"
             android:orientation="horizontal">
 
-
             <!--category icon set-->
             <LinearLayout
                 android:id="@+id/clothing_attributes_categories"
@@ -66,6 +65,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.3"
                 android:spinnerMode="dropdown"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -258,12 +258,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.48"/>
 
-            <ImageView
-                android:id="@+id/add_clothing_image"
+            <ImageButton
+                android:id="@+id/add_clothing_image_preview"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.44"
-                android:background="@drawable/photo_camera"/>
+                android:background="@drawable/photo_camera"
+                android:onClick="showImagePreview"/>
 
         </LinearLayout>
 

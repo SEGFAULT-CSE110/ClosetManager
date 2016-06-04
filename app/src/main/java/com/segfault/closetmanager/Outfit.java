@@ -87,4 +87,40 @@ public class Outfit{
     public List<Clothing> getAccessories() {
         return mAccessories;
     }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
+
+    /**
+     * Wears the outfit
+     * Marks all of the outfit as worn
+     */
+    public void wearOutfit() {
+        for (int index = 0; index < mTops.size(); index++){
+            mTops.get(index).setWorn(true);
+        }
+        for (int index = 0; index < mBottoms.size(); index++){
+            mBottoms.get(index).setWorn(true);
+        }
+        if (mShoes != null){
+            mShoes.setWorn(true);
+        }
+        for (int index = 0; index < mAccessories.size(); index++){
+            mAccessories.get(index).setWorn(true);
+        }
+        if (mSocks != null){
+            mSocks.setWorn(true);
+        }
+        for (int index = 0; index < mUnderwear.size(); index++){
+            mUnderwear.get(index).setWorn(true);
+        }
+        if (mHat != null){
+            mHat.setWorn(true);
+        }
+    }
 }

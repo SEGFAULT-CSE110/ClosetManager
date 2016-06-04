@@ -127,6 +127,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                     Intent intent = new Intent(getBaseContext(), AddClothingActivity.class);
                     intent.putExtra("photo_id",id);
                     intent.putExtra("Category",EXTRA_TYPE_STRING);
+                    finish();
                     startActivity(intent);
                 }
             }

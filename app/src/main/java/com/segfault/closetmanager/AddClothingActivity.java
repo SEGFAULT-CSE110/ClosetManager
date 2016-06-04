@@ -1,18 +1,24 @@
 package com.segfault.closetmanager;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -38,10 +44,14 @@ public class AddClothingActivity extends BaseActivity {
 
     private EditText notes;
 
-    private Clothing mCurrClothing;
-    private Closet mCurrCloset = IClosetApplication.getAccount().getCloset();;
+    private ImageButton addClothingPreview;
+    private Bitmap currentBitmap;
 
-    ///Gson gson = new Gson();
+    private Clothing mCurrClothing;
+    private Closet mCurrCloset = IClosetApplication.getAccount().getCloset();
+
+    private AlertDialog imagePreviewDialog;
+
     SharedPreferences mPrefs;
     SharedPreferences.Editor prefsEditor;
     Gson gson;
@@ -70,11 +80,32 @@ public class AddClothingActivity extends BaseActivity {
         shared = (CheckBox) findViewById(R.id.Shared);
         lost = (CheckBox) findViewById(R.id.Lost);
 
+        //set the image preview
+        final String id = (String) getIntent().getSerializableExtra("photo_id");
+
+        //scale down first bitmap
+        final float densityMultiplier = getBaseContext().getResources().getDisplayMetrics().density;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize  = 8; //make the image 1/4 the size
+        Bitmap firstBitmap = BitmapFactory.decodeFile(id, options);
+
+        //Rotate the bitmap and remove first bitmap
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        currentBitmap = Bitmap.createBitmap(firstBitmap, 0, 0,
+                firstBitmap.getWidth(), firstBitmap.getHeight(), matrix, true);
+        firstBitmap.recycle();
+
+        //Get the image preview
+        addClothingPreview = (ImageButton) findViewById(R.id.add_clothing_image_preview);
+        if (addClothingPreview != null) {
+            addClothingPreview.setImageBitmap(currentBitmap);
+        }
+
         //done button
         doneButton = (Button) findViewById(R.id.done);
         doneButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 // get all selections
                 String selected_category = category.getSelectedItem().toString();
                 String selected_weather = weather.getSelectedItem().toString();
@@ -97,36 +128,17 @@ public class AddClothingActivity extends BaseActivity {
 
                 //create new clothing object - set to currClothing and add to closet
                 if (validSelections) {
-                    String id = (String) getIntent().getSerializableExtra("photo_id");
 
+                    //Create the clothing
                     mCurrClothing = new Clothing(selected_category, selected_color, selected_weather, selected_occasion, input_notes,
                             isWorn, isShared, isLost, id);
-
                     mCurrCloset.addClothing(mCurrClothing);
 
-
-                    Bitmap firstBitmap = BitmapFactory.decodeFile(mCurrClothing.getId());
-
-                    //scale down first bitmap
-                    final float densityMultiplier = getBaseContext().getResources().getDisplayMetrics().density;
-                    int h = (int) (50 * densityMultiplier); //TODO revise size
-                    //int w = (int) (h * firstBitmap.getWidth() / ((double) firstBitmap.getHeight()));
-                    int w = h;
-                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(firstBitmap, w, h, true);
-
-                    Matrix matrix = new Matrix();
-
-                    matrix.postRotate(90);
-
-                    Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap , 0, 0, scaledBitmap .getWidth(), scaledBitmap .getHeight(), matrix, true);    //Recycle the bitmap to preserve memory
-
-                    firstBitmap.recycle();
-
-                    mCurrClothing.setBitmap(rotatedBitmap);
-
-                    // Store id and data
+                    // Store id and data in clothing
                     mCurrCloset.addId(mCurrClothing.getId());
+                    mCurrClothing.setBitmap(currentBitmap);
 
+                    //Receive preferences
                     mPrefs = getPreferences(MODE_PRIVATE);
                     prefsEditor = mPrefs.edit();
                     gson = new Gson();
@@ -138,7 +150,7 @@ public class AddClothingActivity extends BaseActivity {
 
                     // Store id list
                     String id_list = gson.toJson(mCurrCloset.getIdList());
-                    prefsEditor.putString("id_list", id_list);
+                    prefsEditor.putString("id_list", id_list); //TODO Tyler check this implementation, maybe we need to have a string array of ids
 
                     prefsEditor.apply();
                     goBackToCloset();
@@ -163,8 +175,27 @@ public class AddClothingActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Intent intent = getIntent();
+
+        //Get the layout and set into the alertDialog
+        LayoutInflater inflater = getLayoutInflater();
+        View previewLayout = inflater.inflate(R.layout.add_clothing_image_dialog, null);
+        AlertDialog.Builder previewBuilder = new AlertDialog.Builder(this);
+        previewBuilder.setTitle("Preview");
+        previewBuilder.setView(previewLayout);
+
+        //Set the imageView
+        ImageView previewView = (ImageView) previewLayout.findViewById(R.id.add_clothing_image_dialog_image_view);
+        previewView.setImageBitmap(currentBitmap);
+
+        //Set the button
+        previewBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        imagePreviewDialog = previewBuilder.create();
     }
+
 
     protected boolean validateClothingAttributes(String cat, String weath, String occ, String col) {
         if (cat.equals("Select") || weath.equals("Select") || occ.equals("Select") || col.equals("Select")) {
@@ -176,10 +207,12 @@ public class AddClothingActivity extends BaseActivity {
 
     }
 
+
+    /**
+     * We will not create a new intent. Finishing this should go back to closet.
+     */
     protected void goBackToCloset() {
-        Intent intent = new Intent(this, ClosetActivity.class);
         this.finish();
-        startActivity(intent);
     }
 
     //creates dropdowns given a string and spinner object
@@ -196,7 +229,7 @@ public class AddClothingActivity extends BaseActivity {
         // Apply the adapter to the spinner
         if (sp != null) {
             sp.setAdapter(adapter);
-        } else{
+        } else {
             System.err.println("SP is null in AddClothingActivity.java");
         }
 
@@ -224,5 +257,9 @@ public class AddClothingActivity extends BaseActivity {
 
     public void addClothing(View view) {
         //TODO: take the values from all the spinners and add the clothing to the closet
+    }
+
+    public void showImagePreview(View view) {
+        imagePreviewDialog.show();
     }
 }
