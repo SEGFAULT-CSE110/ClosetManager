@@ -10,7 +10,8 @@
         android:id="@+id/closet_category_viewgroup_horiz"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <!--side category indicator modified by Yuanmin Zhang on May 25th-->
 
@@ -29,7 +30,8 @@
                 android:layout_weight="1"
                 android:id="@+id/closet_category_picture"
                 android:scaleType="fitCenter"
-                android:padding="3dp" />
+                android:padding="3dp"
+                android:contentDescription="@string/closet_category_image_view_description"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -37,7 +39,7 @@
                 android:id="@+id/closet_category_text"
                 android:background="@android:color/transparent"
                 android:textAlignment="center"
-                android:text="picture goes here"
+                android:text="@string/closet_category_text_view_default_text"
                 android:textColor="@android:color/black"
                 android:textIsSelectable="false"
                 android:typeface="serif"/>
@@ -46,7 +48,7 @@
         <HorizontalScrollView
             android:id="@+id/closet_category_clothing_slider"
             style="@style/PhotoGridLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="75dp"
             android:layout_weight="1"
             android:orientation="horizontal">

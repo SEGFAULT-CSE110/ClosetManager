@@ -568,7 +568,7 @@ public class OutfitGenActivity extends BaseActivity {
                     }
                 });
             } else if (type.equals(Clothing.BOTTOM)) {
-                view.setImageResource(R.drawable.bag_pants);
+                view.setImageResource(R.drawable.pants);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

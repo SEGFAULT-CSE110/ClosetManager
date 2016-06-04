@@ -5,8 +5,8 @@ import android.database.DataSetObserver;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Adapter;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +23,10 @@ import java.util.List;
  * http://stackoverflow.com/questions/14550309/creating-an-adapter-to-a-customview
  */
 
-public class ClothingStackLayout extends LinearLayout {
+public class ClothingStackLayout extends ViewGroup {
 
     private static final float SIZE_MULTIPLIER = 0.85f;
-    private static final float SHIFT_MULTIPLIER = 0.1f;
+    private static final float SHIFT_MULTIPLIER = 0.3f;
     private static final float SHIFT_RECENTER_MULTIPLIER = SHIFT_MULTIPLIER / 2.0f;
     private static final int CHILD_LEFT_COORDINATE = 0;
     private static final int CHILD_TOP_COORDINATE = 1;
@@ -209,6 +209,37 @@ public class ClothingStackLayout extends LinearLayout {
                     coordinates[index][CHILD_TOP_COORDINATE],
                     coordinates[index][CHILD_RIGHT_COORDINATE],
                     coordinates[index][CHILD_BOTTOM_COORDINATE]);
+        }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (getChildCount() == 0) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        } else {
+            int left = getChildAt(0).getLeft();
+            int top = getChildAt(0).getTop();
+            int right = getChildAt(getChildCount() - 1).getRight();
+            int bottom = getChildAt(getChildCount() - 1).getBottom();
+
+            int measuredWidth = right - left + getPaddingLeft() + getPaddingRight();
+            int measuredHeight = bottom - top + getPaddingTop() + getPaddingBottom();
+
+            System.out.println("onMeasure x " + measuredWidth + " " + getSuggestedMinimumWidth());
+            System.out.println("onMeasure y " + measuredHeight + " " + getSuggestedMinimumHeight());
+
+            int maxWidth = Math.max(measuredWidth, getSuggestedMinimumWidth());
+            int maxHeight = Math.max(measuredHeight, getSuggestedMinimumHeight());
+
+            //child state
+            int childState = 0;
+            for (int index = 0; index < getChildCount(); index++) {
+                childState = combineMeasuredStates(childState, getChildAt(index).getMeasuredHeight());
+            }
+
+            //final dimensions
+            setMeasuredDimension(maxWidth, maxHeight);
+            resolveSizeAndState(maxHeight, heightMeasureSpec, childState);
         }
     }
 
