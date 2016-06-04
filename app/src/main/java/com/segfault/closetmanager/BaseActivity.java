@@ -1,15 +1,20 @@
 package com.segfault.closetmanager;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 /**
  * Created by Christina on 5/12/2016.
+ * Defines all activities not the camera.
  */
 public abstract class BaseActivity extends AppCompatActivity {
     @Override
@@ -17,6 +22,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setPrefTheme();
     }
 
     @Override
@@ -32,7 +43,19 @@ public abstract class BaseActivity extends AppCompatActivity {
             return true;
         }
 
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.about) {
+            goToAbout();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setPrefTheme(); //if the theme is changed, automatically change it
     }
 
     public void goToSettings() {
@@ -60,6 +83,21 @@ public abstract class BaseActivity extends AppCompatActivity {
             default:
                 break;
 
+        }
+    }
+
+    public void goToAbout() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.about);
+        dialog.show();
+    }
+
+    protected void setToolbar(Toolbar toolbar){
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
 }

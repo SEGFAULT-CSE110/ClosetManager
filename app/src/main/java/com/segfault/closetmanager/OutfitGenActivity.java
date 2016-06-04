@@ -2,21 +2,22 @@ package com.segfault.closetmanager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Christopher Cabreros on 05-May-16.
@@ -27,7 +28,7 @@ public class OutfitGenActivity extends BaseActivity {
     public static final String OUTFIT_GEN_REMOVED_CLOTHING_EXTRA = "REMOVED CLOTHING";
     private static final int CHOOSE_CLOTHING_REQUEST = 1;
 
-    private Account mAccount = Account.currentAccountInstance;
+    private Account mAccount = IClosetApplication.getAccount();
     private Lookbook mLookbook = mAccount.getLookbook();
 
     private ImageButton mAccessoriesButton;
@@ -37,26 +38,28 @@ public class OutfitGenActivity extends BaseActivity {
     private LinearLayout mAccessoriesLayout;
     private LinearLayout mTopLayout;
     private LinearLayout mBottomLayout;
+    private OutfitGenLinearAdapter mAccessoriesAdapter;
+    private OutfitGenLinearAdapter mTopAdapter;
+    private OutfitGenLinearAdapter mBottomAdapter;
+    private LinearLayout.LayoutParams mAccessoriesParameters;
+    private LinearLayout.LayoutParams mTopParameters;
+    private LinearLayout.LayoutParams mBottomParameters;
 
     //Outfit and tracking variable to prevent duplicates
     private boolean mAddedOutfitAlready;
     private boolean mOutfitGeneratedAlready;
     private Outfit mCurrentOutfit;
 
+    // spinners
+    private Spinner weather;
+    private Spinner occasion;
+    private Spinner color;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.outfit_gen);
-
-        // set pref_layout toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         //Get the required views
         mAccessoriesButton = (ImageButton) findViewById(R.id.accessoriesButton);
@@ -67,6 +70,11 @@ public class OutfitGenActivity extends BaseActivity {
         mTopLayout = (LinearLayout) findViewById(R.id.outfit_gen_top_layout);
         mBottomLayout = (LinearLayout) findViewById(R.id.outfit_gen_bottom_layout);
 
+        //Set the adapters
+        mAccessoriesAdapter = new OutfitGenLinearAdapter(this, Clothing.ACCESSORY);
+        mTopAdapter = new OutfitGenLinearAdapter(this, Clothing.TOP);
+        mBottomAdapter = new OutfitGenLinearAdapter(this, Clothing.BOTTOM);
+
         //Recreate bottom bar here because the account has not been created
         View bottomBarView = findViewById(R.id.outfit_gen_bottom_bar);
         BottomBar mBottomBar = new BottomBar(bottomBarView, this);
@@ -75,10 +83,38 @@ public class OutfitGenActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        //set default variable values
         mAddedOutfitAlready = false;
         mOutfitGeneratedAlready = false;
 
-
+        //Set the layout parameters
+        //Calculate in post because we need to get the actual height post creation
+        //otherwise the height is 0dp
+        mAccessoriesParameters = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, mAccessoriesLayout.getHeight());
+        mAccessoriesLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mAccessoriesParameters.height = mAccessoriesLayout.getHeight();
+            }
+        });
+        mTopParameters = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, mTopLayout.getHeight());
+        mTopLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mTopParameters.height = mTopLayout.getHeight();
+            }
+        });
+        mBottomParameters = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, mBottomLayout.getHeight());
+        mBottomLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mBottomParameters.height = mBottomLayout.getHeight();
+            }
+        });
     }
 
 
@@ -88,18 +124,22 @@ public class OutfitGenActivity extends BaseActivity {
      * @param view - deprecated
      */
     public void outfitDone(View view) {
-        //Add the outfit only if it hasnt been added in already
+        //Add the outfit only if it hasn't been added in already
         if (!mAddedOutfitAlready && mOutfitGeneratedAlready) {
             mLookbook.addOutfit(mCurrentOutfit);
-            Toast newToast = Toast.makeText(this, "Saving outfit to Lookbook.", Toast.LENGTH_SHORT);
+            Toast newToast = Toast.makeText(this, R.string.save_outfit_to_lookbook_toast_text,
+                    Toast.LENGTH_SHORT);
             newToast.show();
             mAddedOutfitAlready = true;
-        } else if (mOutfitGeneratedAlready) {
-            Toast newToast = Toast.makeText(this, "You have already saved this outfit.", Toast.LENGTH_SHORT);
+        }
+        else if (mOutfitGeneratedAlready) {
+            Toast newToast = Toast.makeText(this, R.string.already_saved_outfit_toast_text,
+                    Toast.LENGTH_SHORT);
             newToast.show();
-        } else {
-            //TODO: when user adds in a piece of clothing, set outfitGeneratedAlready to true.
-            Toast newToast = Toast.makeText(this, "You have not yet created an outfit.", Toast.LENGTH_SHORT);
+        }
+        else {
+            Toast newToast = Toast.makeText(this, R.string.not_created_outfit_toast_text,
+                    Toast.LENGTH_SHORT);
             newToast.show();
         }
     }
@@ -111,28 +151,25 @@ public class OutfitGenActivity extends BaseActivity {
      * @param view - deprecated
      */
     public void generateOutfit(View view) {
-        //Clear all of the buttons
-        mAccessoriesButton.setImageResource(R.drawable.cap);
-        mTopButton.setImageResource(R.drawable.nylon_jacket);
-        mBottomButton.setImageResource(R.drawable.bag_pants);
-        mShoesButton.setImageResource(R.drawable.sneaker);
+        //Clear all of the views
+        clearLayouts();
 
         //create a random outfit
         mCurrentOutfit = mLookbook.generateRandomOutfit();
-        //TODO: generate outfit with a layout manager side by side
-
+        //Add components of outfits to layouts
         if (mCurrentOutfit.getHat() != null) {
-            mAccessoriesButton.setImageBitmap(mCurrentOutfit.getHat().getBitmap());
+            mAccessoriesAdapter.add(mCurrentOutfit.getHat());
         }
         if (mCurrentOutfit.getFirstTop() != null) {
-            mTopButton.setImageBitmap(mCurrentOutfit.getFirstTop().getBitmap());
+            mTopAdapter.addAll(mCurrentOutfit.getTops());
         }
         if (mCurrentOutfit.getFirstBottom() != null) {
-            mBottomButton.setImageBitmap(mCurrentOutfit.getFirstBottom().getBitmap());
+            mBottomAdapter.addAll(mCurrentOutfit.getBottoms());
         }
         if (mCurrentOutfit.getShoes() != null) {
             mShoesButton.setImageBitmap(mCurrentOutfit.getShoes().getBitmap());
         }
+        updateLayouts();
 
         mOutfitGeneratedAlready = true;
         mAddedOutfitAlready = false;
@@ -140,18 +177,101 @@ public class OutfitGenActivity extends BaseActivity {
         newToast.show();
     }
 
+    /* Generate an outfit with PreferenceList */
+    public void generateOutfitPref(PreferenceList pref) {
+        //Clear all of the views
+        clearLayouts();
 
-    private class OutfitGenLinearAdapter extends ArrayAdapter<Clothing>{
+        if (pref == null) {
+            mCurrentOutfit = mLookbook.generateRandomOutfit();
+        }
+        else {
+            mCurrentOutfit = mLookbook.generateOutfit(pref);
+        }
+        //Add components of outfits to layouts
+        if (mCurrentOutfit.getHat() != null) {
+            mAccessoriesAdapter.add(mCurrentOutfit.getHat());
+        }
+        if (mCurrentOutfit.getFirstTop() != null) {
+            mTopAdapter.addAll(mCurrentOutfit.getTops());
+        }
+        if (mCurrentOutfit.getFirstBottom() != null) {
+            mBottomAdapter.addAll(mCurrentOutfit.getBottoms());
+        }
+        if (mCurrentOutfit.getShoes() != null) {
+            mShoesButton.setImageBitmap(mCurrentOutfit.getShoes().getBitmap());
+        }
+        updateLayouts();
+
+        mOutfitGeneratedAlready = true;
+        mAddedOutfitAlready = false;
+        Toast newToast = Toast.makeText(this, "Generated an outfit", Toast.LENGTH_SHORT);
+        newToast.show();
+    }
+
+    /* Handles the dialog box for the user to choose outfit parameters */
+    public void chooseAttributes(View view) {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.outfit_preferences, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Choose Attributes");
+        alert.setView(alertLayout);
+
+        // find views by ids
+        final Spinner wSp = (Spinner) alertLayout.findViewById(R.id.weatherSpinner);
+        final Spinner oSp = (Spinner) alertLayout.findViewById(R.id.occasionSpinner);
+        final Spinner cSp = (Spinner) alertLayout.findViewById(R.id.colorSpinner);
+
+        // spinners
+        String [] weat_array = new String[]{"Select","Snow","Rain","Cold", "Cool","Warm","Hot","Select All"};
+        initSpinner(alertLayout, weather, R.id.weatherSpinner, weat_array);
+
+        String[] occ_array = new String[]{"Select","Casual", "Work", "Semi-formal","Formal", "Fitness","Party", "Business"};
+        initSpinner(alertLayout, occasion, R.id.occasionSpinner, occ_array);
+
+        //eventually make this colored sqaures
+        String[] col_array = new String[]{"Select","Red", "Orange", "Yellow", "Green", "Blue","Purple", "Pink","Brown", "Black","White","Gray"};
+        initSpinner(alertLayout, color, R.id.colorSpinner, col_array);
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                PreferenceList pref = getAttributes(wSp, oSp, cSp);
+                generateOutfitPref(pref);
+            }
+        });
+
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
+    /* Create a PreferenceList from user input */
+    public PreferenceList getAttributes(Spinner spWeather, Spinner spOccasion, Spinner spColor) {
+        String weatherPref = spWeather.getSelectedItem().toString();
+        String occasionPref = spOccasion.getSelectedItem().toString();
+        String colorPref = spColor.getSelectedItem().toString();
+
+        ArrayList<String> occasionPrefArray = new ArrayList<String>();
+        occasionPrefArray.add(occasionPref);
+
+        //Boolean mWorn, String mCategory, String mColor, String mSize, List<String> mOccasion, String mStyle, String mWeather, String mSecondaryColor
+        //return new PreferenceList(colorPref, occasionPref, weatherPref);
+        return new PreferenceList(Boolean.FALSE, null, colorPref, null, occasionPrefArray, null, weatherPref, null);
+    }
+
+    private class OutfitGenLinearAdapter extends ArrayAdapter<Clothing> {
 
         private PreferenceList mPreferenceList;
-        
-        public OutfitGenLinearAdapter(Context context, List<Clothing> objects, String clothingType) {
-            super(context, R.layout.closet_category_clothing_image, objects);
-            
-            if (objects.size() == 0){
-                //handle case of nothing
-            }
-            
+
+        public OutfitGenLinearAdapter(Context context, String clothingType) {
+            super(context, R.layout.closet_category_clothing_image, new ArrayList<Clothing>());
+
             //we can't get the category from objects because sometimes the list will be of size 0
             //Set the picture and the text for the closet Category
             switch (clothingType) {
@@ -182,11 +302,14 @@ public class OutfitGenActivity extends BaseActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             //Recycle views
-            if (convertView == null){
+            if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
-                convertView = inflater.inflate(R.layout.closet_category_clothing_image, parent);
+                convertView = inflater.inflate(R.layout.closet_category_clothing_image, null);
+            } else {
+                //Remove the previous parent
+                parent.removeView(convertView);
             }
-            
+
             //Add picture to view
             ImageView clothingImageView = (ImageView) convertView.findViewById(R.id.clothing_image_view);
             clothingImageView.setImageBitmap(getItem(position).getBitmap());
@@ -202,22 +325,108 @@ public class OutfitGenActivity extends BaseActivity {
                     startActivityForResult(intent, CHOOSE_CLOTHING_REQUEST);
                 }
             });
-            
+
             return convertView;
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         //Handle adding, removing clothing
-        if (requestCode == CHOOSE_CLOTHING_REQUEST){
-            if (resultCode == Activity.RESULT_OK){
-
-            } else if (resultCode == Activity.RESULT_CANCELED){
-
+        if (requestCode == CHOOSE_CLOTHING_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                //get the intended
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                //nothing is done
+                System.out.println("Nothing was done");
             }
         }
+    }
+
+
+    /**
+     * Clears the three linear layouts, plus the shoes button
+     */
+    private void clearLayouts() {
+        mAccessoriesAdapter.clear();
+        mAccessoriesAdapter.notifyDataSetChanged();
+        mAccessoriesLayout.removeAllViews();
+
+        mTopAdapter.clear();
+        mTopAdapter.notifyDataSetChanged();
+        mTopLayout.removeAllViews();
+
+        mBottomAdapter.clear();
+        mBottomAdapter.notifyDataSetChanged();
+        mBottomLayout.removeAllViews();
+
+        mShoesButton.setImageResource(R.drawable.sneaker);
+    }
+
+    /**
+     * Helper method to update each layout
+     */
+    private void updateLayouts() {
+        //for each category, update the adapter, then update the layout
+        updateSpecificLayout(Clothing.ACCESSORY, mAccessoriesAdapter, mAccessoriesLayout, mAccessoriesParameters);
+        updateSpecificLayout(Clothing.TOP, mTopAdapter, mTopLayout, mTopParameters);
+        updateSpecificLayout(Clothing.BOTTOM, mBottomAdapter, mBottomLayout, mBottomParameters);
+    }
+
+
+    /**
+     * Updates the specific layout given with the items in the adapter
+     *
+     * @param adapter - adapter to receive views from
+     * @param layout  - layout to place items into
+     */
+    private void updateSpecificLayout(String type, ArrayAdapter<?> adapter, LinearLayout layout, LinearLayout.LayoutParams params) {
+        adapter.notifyDataSetChanged();
+
+        //Add in an image only if the adapter has more than 0 objects
+        if (adapter.getCount() > 0) {
+            for (int index = 0; index < adapter.getCount(); index++) {
+                layout.addView(adapter.getView(index, null, layout), params);
+            }
+        } else {
+            //Add in stock image based on what the category is
+            ImageView view = new ImageView(this);
+//            LayoutInflater inflater = LayoutInflater.from(this);
+//            LinearLayout linearLayoutParent = (LinearLayout) inflater.inflate(R.layout.outfit_gen_category_button, layout);
+//            ImageView view = (ImageView) linearLayoutParent.findViewById(R.id.outfit_gen_category_button);
+//            //remove the view from the parent
+//            linearLayoutParent.removeView(view);
+            if (type.equals(Clothing.ACCESSORY)) {
+                view.setImageResource(R.drawable.accessory);
+            } else if (type.equals(Clothing.TOP)) {
+                view.setImageResource(R.drawable.nylon_jacket);
+            } else if (type.equals(Clothing.BOTTOM)) {
+                view.setImageResource(R.drawable.bag_pants);
+            } else {
+                System.err.println("ERROR: TYPE " + type + " IS INVALID TYPE IN OUTFIT GEN ACTIVITY");
+            }
+
+            //Add the view into the layout
+            layout.addView(view);
+        }
+    }
+
+    //creates dropdowns given a string and spinner object
+    protected void initSpinner (View view, Spinner sp, int resource, String []arr){
+        sp = (Spinner) view.findViewById(resource);
+
+        // Create an ArrayAdapter using the string array and a default spinner
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, arr);
+
+        // Specify the layout to use when the list of choices appears
+        adapter
+                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        sp.setAdapter(adapter);
+
     }
 
 }//end class OutfitGenActivity

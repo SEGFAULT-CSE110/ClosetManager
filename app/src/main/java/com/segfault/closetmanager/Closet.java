@@ -11,10 +11,12 @@ import java.util.List;
 public class Closet {
 
     private List<Clothing> list_clothes;
+    private List<String> list_id;
     private boolean updated;
 
     public Closet(){
         list_clothes = new ArrayList<>();
+        list_id = new ArrayList<>();
     }
 
     /**
@@ -139,10 +141,8 @@ public class Closet {
 
             for(indexOL = 0; indexOL < pref_occasion_list.size(); indexOL++) { //each preference occasion
                 for (index = 0; index < list_clothes.size(); index++) { //each article of clothing in list
-                    for(indexLC = 0; indexLC < list_clothes.get(index).getOccasion().size(); index++) { //the list of each AoC's occasion
-                        if ((list_clothes.get(index).getOccasion().get(indexLC)).equals(pref_occasion_list.get(indexOL)))
+                        if ((list_clothes.get(index).getOccasion()).equals(pref_occasion_list.get(indexOL)))
                             occasion_filtered_clothes.add(list_clothes.get(index));
-                    }
                 }
             }
 
@@ -243,6 +243,13 @@ public class Closet {
     public void getClothing(){
 
     }
+    public List<String> getId() {return list_id;}
+
+    void addId(String id){ list_id.add(id);}
+
+    public List<String> getIdList() { return list_id; }
+
+    void setIdList(List<String> list) { list_id = list;}
 
     public List<Clothing> getList(){
         return list_clothes;

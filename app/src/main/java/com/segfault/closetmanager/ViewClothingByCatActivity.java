@@ -3,8 +3,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,30 +25,34 @@ public class ViewClothingByCatActivity extends BaseActivity{
     public static final String CAME_FROM_CLOSET_STRING = "yes it did come from the closet";
 
     private List<Clothing> mClothingList;
-    private Account mCurrentAccount = Account.currentAccountInstance;
+    private Account mCurrentAccount = IClosetApplication.getAccount();
     private Closet mCurrentCloset = mCurrentAccount.getCloset();
     private boolean mCameFromCloset;
-
     private boolean mRemovedClothing;
+
+    private boolean mDoLaundry;
+
+    private Clothing mRemoveClothingSymbol;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_clothing_by_cat);
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
-        // set pref_layout toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-
-        //Recreate bottom bar here because the account has not been created
+        //Recreate bottom bar and listener
         View bottomBarView = findViewById(R.id.view_clothing_by_cat_bottom_bar);
         BottomBar mBottomBar = new BottomBar(bottomBarView, this);
+
+        //Create remove clothing
+        mRemoveClothingSymbol = new Clothing();
+        mRemoveClothingSymbol.setCategory(Clothing.MINUS);
+        //Get the bitmap from the layout
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View closetPreferenceMinusView = inflater.inflate(R.layout.closet_preference_minus_image, null);
+        Bitmap minusBitmap = ((ImageView)closetPreferenceMinusView.findViewById(R.id.clothing_image_view)).getDrawingCache();
+        mRemoveClothingSymbol.setBitmap(minusBitmap);
+
     }
 
     @Override
@@ -72,6 +78,10 @@ public class ViewClothingByCatActivity extends BaseActivity{
         };
         //Get the correct list
         mClothingList = mCurrentCloset.filter(getPreference);
+        //Depending on the parent activity, add in the minus option
+        if (!mCameFromCloset){ //this will always be the last object in here
+            mClothingList.add(mRemoveClothingSymbol);
+        }
 
         GridImageAdapter theAdapter = new GridImageAdapter(this, mClothingList);
         GridView theListView = (GridView) findViewById(R.id.gridView);
@@ -89,6 +99,11 @@ public class ViewClothingByCatActivity extends BaseActivity{
                         currentActivity.startActivity(intent);
                     }
                     else {
+                        //set to remove clothing if the specific view was clicked
+                        if (position == mClothingList.size() - 1){ //last clothing object will be the minus sign
+                            mRemovedClothing = true;
+                        }
+
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra(OutfitGenActivity.OUTFIT_GEN_REMOVED_CLOTHING_EXTRA, mRemovedClothing);
                         returnIntent.putExtra(Clothing.EXTRA_STRING, mClothingList.get(position));
@@ -97,7 +112,6 @@ public class ViewClothingByCatActivity extends BaseActivity{
                     }
                 }
             });
-
         }
 
         //TODO: if list size is 0, then add in another view
@@ -138,6 +152,8 @@ public class ViewClothingByCatActivity extends BaseActivity{
 
             return view;
         }
+
+
 
     }
 
