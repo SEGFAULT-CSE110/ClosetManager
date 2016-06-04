@@ -164,14 +164,23 @@ public class ClothingStackLayout extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         final int count = getChildCount();
+        int childWidth = 0;
+        int childHeight = 0;
+        if (getChildCount() > 0){
+            childWidth = (int) (getWidth() * SIZE_MULTIPLIER);
+            childHeight = (int) (getHeight() * SIZE_MULTIPLIER);
+            System.out.println("HOOOO " + childWidth + " " + childHeight);
+        }
 
-        //Get the available size of the child view
-        final int childLeft = this.getPaddingLeft();
-        final int childTop = this.getPaddingTop();
-        final int childRight = this.getMeasuredWidth() - this.getPaddingRight();
-        final int childBottom = this.getMeasuredHeight() - this.getPaddingBottom();
-        final int childWidth = (int) (SIZE_MULTIPLIER * (childRight - childLeft));
-        final int childHeight = (int) (SIZE_MULTIPLIER * (childBottom - childTop));
+        //Find the center coordinates
+        final int centerX = (int) (this.getX() + this.getWidth() / 2);
+        final int centerY = (int) (this.getY() + this.getHeight() / 2);
+
+        //Place the child at the correct center spot
+        final int childLeft = centerX - childWidth / 2;
+        final int childTop = centerY - childHeight / 2;
+        final int childRight = childLeft + childWidth;
+        final int childBottom = childTop + childHeight;
 
         int[][] coordinates = new int[count][4];
 
@@ -220,38 +229,13 @@ public class ClothingStackLayout extends ViewGroup {
 
         //For each of the children, assign them a size
         for (int index = 0; index < getChildCount(); index++){
-            int childWidth = (int) (getWidth() * SIZE_MULTIPLIER);
-            int childHeight = (int) (getHeight() * SIZE_MULTIPLIER);
-            View view = getChildAt(index);
-            view.measure(childWidth, childHeight);
-        }
+            int childWidth = MeasureSpec.makeMeasureSpec((int) (getWidth() * SIZE_MULTIPLIER), MeasureSpec.EXACTLY);
+            int childHeight = MeasureSpec.makeMeasureSpec((int) (getHeight() * SIZE_MULTIPLIER), MeasureSpec.EXACTLY);
+            measureChild(getChildAt(index), childWidth, childHeight);
 
-//        //only run special code if there are children
-//        if (getChildCount() > 0) {
-//            int left = getChildAt(0).getLeft();
-//            int top = getChildAt(0).getTop();
-//            int right = getChildAt(getChildCount() - 1).getRight();
-//            int bottom = getChildAt(getChildCount() - 1).getBottom();
-//
-//            int measuredWidth = right - left + getPaddingLeft() + getPaddingRight();
-//            int measuredHeight = bottom - top + getPaddingTop() + getPaddingBottom();
-//
-//            System.out.println("onMeasure x " + measuredWidth + " " + getSuggestedMinimumWidth());
-//            System.out.println("onMeasure y " + measuredHeight + " " + getSuggestedMinimumHeight());
-//
-//            int maxWidth = Math.max(measuredWidth, getSuggestedMinimumWidth());
-//            int maxHeight = Math.max(measuredHeight, getSuggestedMinimumHeight());
-//
-//            //child state
-//            int childState = 0;
-//            for (int index = 0; index < getChildCount(); index++) {
-//                childState = combineMeasuredStates(childState, getChildAt(index).getMeasuredHeight());
-//            }
-//
-//            //final dimensions
-//            setMeasuredDimension(maxWidth, maxHeight);
-//            resolveSizeAndState(maxHeight, heightMeasureSpec, childState);
-//        }
+
+            System.out.println("eoighu " + childWidth + " " + childHeight);
+        }
     }
 
 }//end class ClothingStackLayout

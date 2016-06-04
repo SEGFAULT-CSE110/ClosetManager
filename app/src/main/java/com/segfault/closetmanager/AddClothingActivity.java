@@ -136,7 +136,7 @@ public class AddClothingActivity extends BaseActivity {
 
                     // Store id and data in clothing
                     mCurrCloset.addId(mCurrClothing.getId());
-                    mCurrClothing.setBitmap(currentBitmap);
+                    //DO NOT SET BITMAP YET
 
                     //Receive preferences
                     mPrefs = getPreferences(MODE_PRIVATE);
@@ -147,6 +147,9 @@ public class AddClothingActivity extends BaseActivity {
                     String clothing = gson.toJson(mCurrClothing); //we are also storing the bitmap as a full thing here. this is a problem.
                     prefsEditor.putString(mCurrClothing.getId(), clothing);
                     prefsEditor.apply();
+
+                    //Now set the bitmap
+                    mCurrClothing.setBitmap(currentBitmap);
 
                     // Store id list
                     String id_list = gson.toJson(mCurrCloset.getIdList());
@@ -197,6 +200,14 @@ public class AddClothingActivity extends BaseActivity {
     }
 
 
+    /**
+     * Validates whether the selections are not "Select"
+     * @param cat
+     * @param weath
+     * @param occ
+     * @param col
+     * @return
+     */
     protected boolean validateClothingAttributes(String cat, String weath, String occ, String col) {
         if (cat.equals("Select") || weath.equals("Select") || occ.equals("Select") || col.equals("Select")) {
             Toast newToast = Toast.makeText(this, "Invalid attributes", Toast.LENGTH_SHORT);
@@ -204,7 +215,6 @@ public class AddClothingActivity extends BaseActivity {
             return false;
         }
         return true;
-
     }
 
 

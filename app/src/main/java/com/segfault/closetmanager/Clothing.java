@@ -41,7 +41,6 @@ public class Clothing implements Parcelable{
     private String mSecondaryColor;
     private String mId;
 
-
     private Bitmap mBitmap;
 
     public Clothing(){
