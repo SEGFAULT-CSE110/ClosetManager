@@ -144,7 +144,7 @@ public class AddClothingActivity extends BaseActivity {
                     gson = new Gson();
 
                     // Store clothing object
-                    String clothing = gson.toJson(mCurrClothing);
+                    String clothing = gson.toJson(mCurrClothing); //we are also storing the bitmap as a full thing here. this is a problem.
                     prefsEditor.putString(mCurrClothing.getId(), clothing);
                     prefsEditor.apply();
 

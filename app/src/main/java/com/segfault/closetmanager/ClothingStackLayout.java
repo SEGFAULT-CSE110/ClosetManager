@@ -16,8 +16,9 @@ import java.util.List;
  * This is a custom layout I created for our uses, like LinearLayout or FrameLayout.
  * This will be used for the outfit to correctly display shirts and pants.
  *
- * If you are interested in how I developed this, I recommend you read the article
+ * If you are interested in how I developed this, I recommend you read the articles at
  * http://javatechig.com/android/how-to-create-custom-layout-in-android-by-extending-viewgroup-class
+ * https://arpitonline.com/2012/07/01/creating-custom-layouts-for-android/
  *
  * For LinearLayout and adding in an adapter, look at this StackOverflow question
  * http://stackoverflow.com/questions/14550309/creating-an-adapter-to-a-customview
@@ -214,33 +215,43 @@ public class ClothingStackLayout extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (getChildCount() == 0) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        } else {
-            int left = getChildAt(0).getLeft();
-            int top = getChildAt(0).getTop();
-            int right = getChildAt(getChildCount() - 1).getRight();
-            int bottom = getChildAt(getChildCount() - 1).getBottom();
+        //we need to measure the view first
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-            int measuredWidth = right - left + getPaddingLeft() + getPaddingRight();
-            int measuredHeight = bottom - top + getPaddingTop() + getPaddingBottom();
-
-            System.out.println("onMeasure x " + measuredWidth + " " + getSuggestedMinimumWidth());
-            System.out.println("onMeasure y " + measuredHeight + " " + getSuggestedMinimumHeight());
-
-            int maxWidth = Math.max(measuredWidth, getSuggestedMinimumWidth());
-            int maxHeight = Math.max(measuredHeight, getSuggestedMinimumHeight());
-
-            //child state
-            int childState = 0;
-            for (int index = 0; index < getChildCount(); index++) {
-                childState = combineMeasuredStates(childState, getChildAt(index).getMeasuredHeight());
-            }
-
-            //final dimensions
-            setMeasuredDimension(maxWidth, maxHeight);
-            resolveSizeAndState(maxHeight, heightMeasureSpec, childState);
+        //For each of the children, assign them a size
+        for (int index = 0; index < getChildCount(); index++){
+            int childWidth = (int) (getWidth() * SIZE_MULTIPLIER);
+            int childHeight = (int) (getHeight() * SIZE_MULTIPLIER);
+            View view = getChildAt(index);
+            view.measure(childWidth, childHeight);
         }
+
+//        //only run special code if there are children
+//        if (getChildCount() > 0) {
+//            int left = getChildAt(0).getLeft();
+//            int top = getChildAt(0).getTop();
+//            int right = getChildAt(getChildCount() - 1).getRight();
+//            int bottom = getChildAt(getChildCount() - 1).getBottom();
+//
+//            int measuredWidth = right - left + getPaddingLeft() + getPaddingRight();
+//            int measuredHeight = bottom - top + getPaddingTop() + getPaddingBottom();
+//
+//            System.out.println("onMeasure x " + measuredWidth + " " + getSuggestedMinimumWidth());
+//            System.out.println("onMeasure y " + measuredHeight + " " + getSuggestedMinimumHeight());
+//
+//            int maxWidth = Math.max(measuredWidth, getSuggestedMinimumWidth());
+//            int maxHeight = Math.max(measuredHeight, getSuggestedMinimumHeight());
+//
+//            //child state
+//            int childState = 0;
+//            for (int index = 0; index < getChildCount(); index++) {
+//                childState = combineMeasuredStates(childState, getChildAt(index).getMeasuredHeight());
+//            }
+//
+//            //final dimensions
+//            setMeasuredDimension(maxWidth, maxHeight);
+//            resolveSizeAndState(maxHeight, heightMeasureSpec, childState);
+//        }
     }
 
 }//end class ClothingStackLayout
