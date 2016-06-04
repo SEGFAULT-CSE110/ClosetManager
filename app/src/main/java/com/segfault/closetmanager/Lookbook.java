@@ -38,6 +38,7 @@ public class Lookbook {
      */
     public Outfit generateOutfit(PreferenceList preferenceList) {
 
+		Clothing jacket = null;
         Clothing shirt = null;
         Clothing pants = null;
         Clothing shoes = null;
@@ -69,11 +70,23 @@ public class Lookbook {
 
 		/* 20% chance there will be an hat */
         Random randHat = new Random();
-        int iHat = randHat.nextInt(20);
+        int iHat = randHat.nextInt(5);
         if (iHat == 0) {
             PreferenceList hatPref = new PreferenceList(shirt);
             hatPref = new PreferenceList(hatPref, cat, Clothing.HAT);
             hat = pickOne(hatPref);
+        }
+
+		/* 20% chance there will be a jacket, if it's cold then 50% */
+        Random randJac = new Random();
+        int iJac = randJac.nextInt(5);
+		if (weather.equals("cold")){
+			iJac = randJac.nextInt(2);
+		}
+        if (iHat == 0) {
+            PreferenceList jacPref = new PreferenceList(shirt);
+            jacPref = new PreferenceList(jacPref, cat, Clothing.JACKET);
+            jacket = pickOne(jacPref);
         }
 
         if (result.getFirstTop() == null || result.getFirstBottom() == null || result.getShoes() == null) {
@@ -84,7 +97,12 @@ public class Lookbook {
         result.addTop(shirt);
         result.addBottom(pants);
         result.setShoes(shoes);
-        result.setHat(hat);
+		if(hat != null){
+			result.setHat(hat);
+		}
+		if(jacket != null){
+			result.addTop(jacket);
+		}
 
         return result;
     }
