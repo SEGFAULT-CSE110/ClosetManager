@@ -18,10 +18,11 @@ public final class BottomBar {
 
     /**
      * Creates a bottom bar action class
-     * @param bottomBar - bottom bar to modify
+     *
+     * @param bottomBar       - bottom bar to modify
      * @param callingActivity - the activity that is calling this
      */
-    public BottomBar(View bottomBar, final Activity callingActivity){
+    public BottomBar(View bottomBar, final Activity callingActivity) {
         //assign parameters. These are currently unused
         mActivity = callingActivity;
         mBottomBarView = bottomBar;
@@ -35,8 +36,8 @@ public final class BottomBar {
                 if (callingActivity.getClass() != ClosetActivity.class) {
                     Intent intent = new Intent(callingActivity, ClosetActivity.class);
                     callingActivity.finish();
-                callingActivity.startActivity(intent);
-            }
+                    callingActivity.startActivity(intent);
+                }
             }
         });
 

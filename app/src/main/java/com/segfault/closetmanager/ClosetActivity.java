@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,19 +33,18 @@ public class ClosetActivity extends BaseActivity {
     private ListView mClosetListView;
     private ViewGroup mClosetParentLayout;
     private int mClosetListViewIndex;
-    private Closet mCurrentCloset;
+    private Closet mCurrentCloset = IClosetApplication.getAccount().getCloset();
 
     //Lists
-    private List<List<Clothing>> listOfLists;
+    private List<List<Clothing>> listOfLists = new ArrayList<>();
 
-    private List<Clothing> accessoryList;
-    private List<Clothing> topList;
-    private List<Clothing> bottomList;
-    private List<Clothing> shoeList;
-    private List<Clothing> bodyList;
-    private List<Clothing> hatList;
-    private List<Clothing> jacketList;
-
+    private List<Clothing> accessoryList = new ArrayList<>();
+    private List<Clothing> topList = new ArrayList<>();
+    private List<Clothing> bottomList = new ArrayList<>();
+    private List<Clothing> shoeList = new ArrayList<>();
+    private List<Clothing> bodyList = new ArrayList<>();
+    private List<Clothing> hatList = new ArrayList<>();
+    private List<Clothing> jacketList = new ArrayList<>();
 
     //Self
     private final Context context = this;
@@ -54,18 +54,6 @@ public class ClosetActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.closet);
         setToolbar((Toolbar) findViewById(R.id.toolbar));
-
-        mCurrentCloset = IClosetApplication.getAccount().getCloset();
-
-        accessoryList = new ArrayList<Clothing>();
-        topList = new ArrayList<Clothing>();
-        bottomList = new ArrayList<Clothing>();
-        shoeList = new ArrayList<Clothing>();
-        bodyList = new ArrayList<Clothing>();
-        hatList = new ArrayList<Clothing>();
-        jacketList = new ArrayList<Clothing>();
-
-        listOfLists = new ArrayList<List<Clothing>>();
 
         //Find all the views
         mClosetParentLayout = (ViewGroup) findViewById(R.id.closet_vertical_linear_layout);
@@ -92,6 +80,8 @@ public class ClosetActivity extends BaseActivity {
                                 Intent intent = new Intent(context, CameraActivity.class);
                                 intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.ACCESSORY);
                                 startActivity(intent);
+                                add_clothing_dialog.dismiss();
+                                showCameraToast();
                             }
                         });
                     }
@@ -103,6 +93,8 @@ public class ClosetActivity extends BaseActivity {
                                 Intent intent = new Intent(context, CameraActivity.class);
                                 intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.TOP);
                                 startActivity(intent);
+                                add_clothing_dialog.dismiss();
+                                showCameraToast();
                             }
                         });
                     }
@@ -114,6 +106,8 @@ public class ClosetActivity extends BaseActivity {
                                 Intent intent = new Intent(context, CameraActivity.class);
                                 intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.BOTTOM);
                                 startActivity(intent);
+                                add_clothing_dialog.dismiss();
+                                showCameraToast();
                             }
                         });
                     }
@@ -125,6 +119,8 @@ public class ClosetActivity extends BaseActivity {
                                 Intent intent = new Intent(context, CameraActivity.class);
                                 intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.SHOE);
                                 startActivity(intent);
+                                add_clothing_dialog.dismiss();
+                                showCameraToast();
                             }
                         });
                     }
@@ -136,6 +132,8 @@ public class ClosetActivity extends BaseActivity {
                                 Intent intent = new Intent(context, CameraActivity.class);
                                 intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.HAT);
                                 startActivity(intent);
+                                add_clothing_dialog.dismiss();
+                                showCameraToast();
                             }
                         });
                     }
@@ -147,6 +145,8 @@ public class ClosetActivity extends BaseActivity {
                                 Intent intent = new Intent(context, CameraActivity.class);
                                 intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.BODY);
                                 startActivity(intent);
+                                add_clothing_dialog.dismiss();
+                                showCameraToast();
                             }
                         });
                     }
@@ -158,6 +158,8 @@ public class ClosetActivity extends BaseActivity {
                                 Intent intent = new Intent(context, CameraActivity.class);
                                 intent.putExtra(Clothing.EXTRA_TYPE_STRING, Clothing.JACKET);
                                 startActivity(intent);
+                                add_clothing_dialog.dismiss();
+                                showCameraToast();
                             }
                         });
                     }
@@ -178,6 +180,16 @@ public class ClosetActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        //no need to update the closet view, this is called in onResume
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateClosetView();
+    }
+
+    private void updateClosetView(){
         //update closet
         mCurrentCloset = IClosetApplication.getAccount().getCloset();
         System.out.println("CLOSET SIZE: " + mCurrentCloset.getList().size());
@@ -239,22 +251,15 @@ public class ClosetActivity extends BaseActivity {
         else { //refresh the amount of clothing we have
             //add stuff to the closet list view
             ClosetCategoryAdapter adapter = new ClosetCategoryAdapter(this, listOfLists);
-            ListView closetListView = (ListView) findViewById(R.id.closet_list_view);
-            if (closetListView != null) {
-                closetListView.setAdapter(adapter);
+            if (mClosetListView != null) {
+                mClosetListView.setAdapter(adapter);
             }
-
-            //once done updating, set updated to false
-            mCurrentCloset.setUpdated(false);
 
             //add the linear layout back in
             mClosetParentLayout.removeViewAt(mClosetListViewIndex);
             mClosetParentLayout.addView(mClosetListView, mClosetListViewIndex);
         }
-
-
     }
-
 
     /**
      * ClosetCategoryAdapter that represents the large list views
@@ -353,9 +358,9 @@ public class ClosetActivity extends BaseActivity {
                 clothingFrame.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getContext(), ViewClothingActivity.class);
+                        Intent intent = new Intent(context, ViewClothingActivity.class);
                         intent.putExtra("Clothing", currentClothing);
-                        getContext().startActivity(intent);
+                        context.startActivity(intent);
                     }
                 });
 
@@ -370,6 +375,12 @@ public class ClosetActivity extends BaseActivity {
             return categoryView;
         }
 
+    }
+
+
+    private void showCameraToast(){
+        Toast newToast = Toast.makeText(this, "Follow the guidelines and take a picture.", Toast.LENGTH_SHORT);
+        newToast.show();
     }
 
 }//end class ClosetActivity
