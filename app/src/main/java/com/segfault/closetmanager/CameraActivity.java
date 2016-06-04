@@ -43,15 +43,12 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     ImageView overlay;
     String EXTRA_TYPE_STRING;
 
-    Closet mCurrentCloset;
-
     String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_camera);
-        mCurrentCloset = IClosetApplication.getAccount().getCloset();
 
         //Ask for permissions
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
@@ -118,8 +115,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                     outStream.write(data);
                     outStream.close();
                     Toast.makeText(getApplicationContext(), "Picture Saved", Toast.LENGTH_LONG).show();
-
-                    mCurrentCloset.addId(id);
 
                 } catch (IOException e) {
                     e.printStackTrace();

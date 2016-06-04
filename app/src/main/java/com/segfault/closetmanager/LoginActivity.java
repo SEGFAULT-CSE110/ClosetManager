@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -96,7 +97,6 @@ public class LoginActivity extends Activity {
     Gson gson = new Gson();
 
     private Closet mCurrentCloset;
-    private List<String> list_id;
 
 
     @Override
@@ -369,96 +369,78 @@ public class LoginActivity extends Activity {
 
 
     public void runLogin(View view) {
-        //TODO: check login credentials. also remove finish if not needed
-//
-//        Firebase ref = new Firebase("https://<YOUR-FIREBASE-APP>.firebaseio.com");
-//
-//        // Create a handler to handle the result of the authentication
-//        Firebase.AuthResultHandler authResultHandler = new Firebase.AuthResultHandler() {
-//            @Override
-//            public void onAuthenticated(AuthData authData) {
-//                // Authenticated successfully with payload authData
-//            }
-//
-//            @Override
-//            public void onAuthenticationError(FirebaseError firebaseError) {
-//                // Authenticated failed with error firebaseError
-//            }
-//        };
-//
-//        // Authenticate users with a custom Firebase token
-//        ref.authWithCustomToken("<token>", authResultHandler);
-//
-//        // Alternatively, authenticate users anonymously
-//        ref.authAnonymously(authResultHandler);
-//
-//        // Or with an email/password combination
-//        ref.authWithPassword("jenny@example.com", "correcthorsebatterystaple", authResultHandler);
-//
-//        // Or via popular OAuth providers ("facebook", "github", "google", or "twitter")
-//        ref.authWithOAuthToken("<provider>", "<oauth-token>", authResultHandler);
         Account currentAccount = IClosetApplication.getAccount();
 
-        mPrefs = getPreferences(MODE_PRIVATE);
+        mPrefs  = getSharedPreferences("com.segfault.closetmanager", Context.MODE_PRIVATE);
 
         // Load closet
         mCurrentCloset = currentAccount.getCloset();
 
+        //Get the list of IDs. Create a new one if it's not available
         String ids = mPrefs.getString("id_list", "");
-
-        list_id = (List<String>) gson.fromJson(ids, List.class);
-
-        if (list_id == null)
+        ArrayList<String> list_id = (ArrayList<String>) gson.fromJson(ids, List.class);
+        if (list_id == null) {
             list_id = new ArrayList<>();
-
+            System.err.println("Created a new id list in LoginActivity.java");
+        }
         mCurrentCloset.setIdList(list_id);
 
+        //Load the pictures and clothing
         try {
             loadPictures(getApplicationContext(), mCurrentCloset.getList(), mCurrentCloset.getIdList());
             currentAccount.getLookbook().assignBelongingCloset(currentAccount.getCloset());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //Start a new intent
         Intent intent = new Intent(this, HomeActivity.class);
         this.finish();
         startActivity(intent);
     }
 
 
+    /**
+     * Loads in the pictures and new other shit
+     * @param context
+     * @param clothingList
+     * @param id
+     * @throws IOException
+     */
     public void loadPictures(Context context, List<Clothing> clothingList, List<String> id) throws IOException {
+        System.err.println("Beginning to load in files and bitmaps");
         for (int i = 0; i < id.size(); i++) {
+
+            System.err.println("ID at position " + i + "is " + id);
+
             if (id.get(i).contains(".jpg") || id.get(i).contains(".png")) {
-                Bitmap firstBitmap = BitmapFactory.decodeFile(id.get(i));
 
                 //scale down first bitmap
-                final float densityMultiplier = context.getResources().getDisplayMetrics().density;
-                int h = (int) (50 * densityMultiplier); //TODO revise size
-                int w = (int) (h * firstBitmap.getWidth() / ((double) firstBitmap.getHeight()));
-                Bitmap secondBitmap = Bitmap.createScaledBitmap(firstBitmap, w, h, true);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize  = 8; //make the image 1/4 the size
+                Bitmap firstBitmap = BitmapFactory.decodeFile(id.get(i), options);
+
+                //Rotate the bitmap and remove first bitmap
+                Matrix matrix = new Matrix();
+                matrix.postRotate(90);
+                Bitmap currentBitmap = Bitmap.createBitmap(firstBitmap, 0, 0,
+                        firstBitmap.getWidth(), firstBitmap.getHeight(), matrix, true);
+                firstBitmap.recycle();
 
                 //Recycle the bitmap to preserve memory
                 firstBitmap.recycle();
 
+                //Decode the clothing
                 String json = mPrefs.getString(id.get(i), "");
                 Clothing currClothing = gson.fromJson(json, Clothing.class);
+                currClothing.setBitmap(currentBitmap);
+                clothingList.add(currClothing);
 
-                if (currClothing.getCategory() == "Hat") {
-                    currClothing.setBitmap(secondBitmap);
-                    clothingList.add(currClothing);
-                } else if (currClothing.getCategory() == "Bottom") {
-                    currClothing.setBitmap(secondBitmap);
-                    clothingList.add(currClothing);
-                } else if (currClothing.getCategory() == "Top") {
-                    currClothing.setBitmap(secondBitmap);
-                    clothingList.add(currClothing);
-                } else if (currClothing.getCategory() == "Shoe") {
-                    currClothing.setBitmap(secondBitmap);
-                    clothingList.add(currClothing);
-                }
-
-                System.out.println("Loaded");
+                System.out.println("Loaded file " + i);
             }
         }
+
+        System.err.println("Finished loading shit");
     }
 
 

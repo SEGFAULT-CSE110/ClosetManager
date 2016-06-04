@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class Closet {
 
-    private List<Clothing> list_clothes;
-    private List<String> list_id;
+    private ArrayList<Clothing> list_clothes;
+    private ArrayList<String> list_id;
     private boolean updated;
 
     public Closet(){
@@ -264,9 +264,9 @@ public class Closet {
 
     void addId(String id){ list_id.add(id);}
 
-    public List<String> getIdList() { return list_id; }
+    public ArrayList<String> getIdList() { return list_id; }
 
-    void setIdList(List<String> list) { list_id = list;}
+    void setIdList(ArrayList<String> list) { list_id = list;}
 
     public List<Clothing> getList(){
         return list_clothes;
