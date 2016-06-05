@@ -289,7 +289,9 @@ public class Lookbook {
             PreferenceList third = new PreferenceList(first,
                     attriWeather, null);
             /* Delete lowest priority weather field */
-            match = mBelongingCloset.filter(third);
+            if (mBelongingCloset != null) {
+                match = mBelongingCloset.filter(third);
+            }
 
 
             /* Delete occasion field */

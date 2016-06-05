@@ -39,6 +39,7 @@ public class OutfitGenActivity extends BaseActivity {
 
     private Account mAccount = IClosetApplication.getAccount();
     private Lookbook mLookbook = mAccount.getLookbook();
+    private Closet mCloset = mAccount.getCloset();
 
     private ImageButton mShoesButton;
     private LinearLayout mAccessoriesLayout;
@@ -260,6 +261,11 @@ public class OutfitGenActivity extends BaseActivity {
         //Clear all of the views
         clearLayouts();
 
+        if (mCloset.getList().isEmpty()) {
+            Toast newToast = Toast.makeText(this, "No clothing in closet.", Toast.LENGTH_SHORT);
+            newToast.show();
+        }
+
         //create a random outfit
         mCurrentOutfit = mLookbook.generateRandomOutfit();
 
@@ -290,7 +296,7 @@ public class OutfitGenActivity extends BaseActivity {
         clearLayouts();
 
         //Generate a random outfit with a null preference
-        if (pref == null) {
+        if (pref == null || true) { // random all of the time because algorithm is buggy
             mCurrentOutfit = mLookbook.generateRandomOutfit();
             Toast newToast = Toast.makeText(this, "Generated an outfit", Toast.LENGTH_SHORT);
             newToast.show();
