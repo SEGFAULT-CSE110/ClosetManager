@@ -115,16 +115,6 @@
                 android:textStyle="bold"
                 android:typeface="monospace" />
 
-            <Button
-                android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Sign in with Facebook account!"
-                android:textStyle="bold"
-                android:onClick="connectFacebooks"/>
-
         </LinearLayout>
 
     </ScrollView>
