@@ -279,7 +279,9 @@ public class Lookbook {
         }
 
         /* Filter for the perfect list */
-        match = mBelongingCloset.filter(first);
+        if (mBelongingCloset != null) {
+            match = mBelongingCloset.filter(first);
+        }
 
 		/* Next filter */
         if (match == null) {
