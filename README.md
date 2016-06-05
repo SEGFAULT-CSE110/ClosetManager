@@ -90,9 +90,7 @@ Contact Information
 •Phone: (408) 507-0711
 
 
-2. Allan Martinez -- Senior System Analyst (Deputy)
+2.Allan Martinez -- Senior System Analyst (Deputy)
 
 
 •Phone: (951) 331-5661
-
-
