@@ -32,7 +32,7 @@
         android:layout_weight="1"
         android:id="@+id/lookbook_recycler_view"
         android:layout_gravity="center_horizontal"
-        android:background="@android:color/white"/>
+        android:background="@android:color/transparent"/>
 
     <include
         layout="@layout/bottom_bar"

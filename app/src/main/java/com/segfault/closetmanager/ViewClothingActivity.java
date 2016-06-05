@@ -205,6 +205,7 @@ public class ViewClothingActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+<<<<<<< HEAD
     public void goToUpdateClothing() {
 
         Intent intent = new Intent(getBaseContext(), UpdateClothingActivity.class);
@@ -236,4 +237,7 @@ public class ViewClothingActivity extends BaseActivity {
     }
 
 >>>>>>> refs/remotes/origin/Renu
+=======
+
+>>>>>>> refs/remotes/origin/linkGUI
 }

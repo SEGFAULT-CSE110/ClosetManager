@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/viewByCategoryRoot"
+=======
+    android:id="@+id/category_parent_layout"
+>>>>>>> refs/remotes/origin/linkGUI
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -23,7 +27,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <GridView
-        android:id="@+id/gridView"
+        android:id="@+id/category_grid_view"
         style="@style/PhotoGridLayout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"

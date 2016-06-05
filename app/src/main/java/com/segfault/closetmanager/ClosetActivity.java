@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
@@ -377,10 +379,16 @@ public class ClosetActivity extends BaseActivity {
                     }
                 });
 
-                //set the image
+                //set the image. set to grey if it is worn
                 ImageView imageView = (ImageView) clothingFrame.findViewById(R.id.clothing_image_view);
                 imageView.setImageBitmap(currentBitmap);
-
+                if (currentClothing.isWorn()){
+                    //Create a color matrix to set the bitmap to grey
+                    ColorMatrix matrix = new ColorMatrix();
+                    matrix.setSaturation(0);
+                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                    imageView.setColorFilter(filter);
+                }
                 //add this to the linearLayout
                 linearLayout.addView(clothingFrame);
             }

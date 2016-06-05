@@ -1,4 +1,5 @@
 package com.segfault.closetmanager;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,15 +13,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 
 /**
  * Defines the activity when user decides to view clothing by category.
  */
-public class ViewClothingByCatActivity extends BaseActivity{
+public class ViewClothingByCatActivity extends BaseActivity {
 
     public static final String CAME_FROM_CLOSET_STRING = "yes it did come from the closet";
+
+    private ViewGroup mCategoryParentLayout;
+    private GridView mCategoryGridView;
+    private int mCategoryGridViewIndex;
 
     private Account mCurrentAccount = IClosetApplication.getAccount();
     private Closet mCurrentCloset = mCurrentAccount.getCloset();
@@ -37,6 +43,11 @@ public class ViewClothingByCatActivity extends BaseActivity{
         //Recreate bottom bar and listener
         View bottomBarView = findViewById(R.id.view_clothing_by_cat_bottom_bar);
         BottomBar mBottomBar = new BottomBar(bottomBarView, this);
+
+        //Find all the views
+        mCategoryParentLayout = (ViewGroup) findViewById(R.id.category_parent_layout);
+        mCategoryGridView = (GridView) findViewById(R.id.category_grid_view);
+        mCategoryGridViewIndex = mCategoryParentLayout.indexOfChild(mCategoryGridView);
     }
 
     @Override
@@ -52,33 +63,35 @@ public class ViewClothingByCatActivity extends BaseActivity{
 
         //Get the extra preference
         PreferenceList getPreference;
-
         //Check if it actually exists
         if (previousIntent.hasExtra(PreferenceList.EXTRA_STRING)) {
             getPreference = (PreferenceList) previousIntent.
                     getSerializableExtra(PreferenceList.EXTRA_STRING);
         } else {
             getPreference = new PreferenceList(false, null, null, null, null, null, null, null);
-        };
+        }
+        ;
+
         //Get the correct list
         mDisplayList = mCurrentCloset.filter(getPreference);
 
-        GridImageAdapter theAdapter = new GridImageAdapter(this, mDisplayList);
-        GridView theListView = (GridView) findViewById(R.id.gridView);
-        if (theListView != null) { //requires nullptr check
-            theListView.setAdapter(theAdapter);
+        //Do something depending on whether the list is empty or not
+        if (mDisplayList != null && !mDisplayList.isEmpty()) {
+            //create new adapter
+            GridImageAdapter categoryGridViewAdapter = new GridImageAdapter(this, mDisplayList);
+            mCategoryGridView.setAdapter(categoryGridViewAdapter);
+
             //catch any clicks
-            theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            mCategoryGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     //Two different actions based on the activity it came from
-                    if (mCameFromCloset){
+                    if (mCameFromCloset) {
                         Intent intent = new Intent(currentActivity, ViewClothingActivity.class);
                         intent.putExtra("Clothing", mDisplayList.get(position));
                         currentActivity.finish();
                         currentActivity.startActivity(intent);
-                    }
-                    else {
+                    } else {
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra(Clothing.EXTRA_STRING, mDisplayList.get(position).hashCode());
                         setResult(Activity.RESULT_OK, returnIntent);
@@ -87,15 +100,26 @@ public class ViewClothingByCatActivity extends BaseActivity{
                 }
             });
         }
+        else{ //null or is empty
+            //replace the linear layout with the no_elements_layout
+            mCategoryParentLayout.removeViewAt(mCategoryGridViewIndex);
+            View noElementsLayout = getLayoutInflater().inflate(
+                    R.layout.no_elements_layout, mCategoryParentLayout, false);
+            mCategoryParentLayout.addView(noElementsLayout, mCategoryGridViewIndex);
 
-        //TODO: if list size is 0, then add in another view
+            //change the text of the no_elements_layout
+            TextView noElementsTextView = (TextView) findViewById(R.id.no_elements_default_text);
+            if (noElementsTextView != null) {
+                noElementsTextView.setText(R.string.view_clothing_by_category_no_matches);
+            }
+        }
     }
 
 
     /**
      * Image Adapter class for clothing
      */
-    private class GridImageAdapter extends ArrayAdapter<Clothing>{
+    private class GridImageAdapter extends ArrayAdapter<Clothing> {
 
         public GridImageAdapter(Context context, List<Clothing> clothingList) {
             super(context, R.layout.closet_preference_clothing_image, clothingList);
@@ -108,9 +132,9 @@ public class ViewClothingByCatActivity extends BaseActivity{
         public View getView(int position, View convertView, ViewGroup parent) {
             //Recycling views
             View view;
-            if (convertView != null){
+            if (convertView != null) {
                 view = convertView;
-            } else{
+            } else {
                 //Get the correct view to inflate
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 view = inflater.inflate(R.layout.closet_preference_clothing_image, parent, false);
@@ -126,7 +150,6 @@ public class ViewClothingByCatActivity extends BaseActivity{
 
             return view;
         }
-
 
 
     }

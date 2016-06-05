@@ -1,9 +1,7 @@
 package com.segfault.closetmanager;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,19 +28,18 @@ import com.google.gson.Gson;
  */
 public class AddClothingActivity extends BaseActivity {
 
-    private Spinner category;
-    private Spinner weather;
-    private Spinner occasion;
-    private Spinner color;
+    private Spinner categorySpinner;
+    private Spinner weatherSpinner;
+    private Spinner occasionSpinner;
+    private Spinner colorSpinner;
 
-    private CheckBox worn;
-    private CheckBox shared;
-    private CheckBox lost;
+    private CheckBox wornBox;
+    private CheckBox sharedBox;
+    private CheckBox lostBox;
 
     private Button doneButton;
-    private Button deleteButton;
 
-    private EditText notes;
+    private EditText notesEditText;
 
     private ImageButton addClothingPreview;
     private Bitmap currentBitmap;
@@ -53,8 +50,6 @@ public class AddClothingActivity extends BaseActivity {
     private AlertDialog imagePreviewDialog;
 
     SharedPreferences mPrefs;
-    SharedPreferences.Editor prefsEditor;
-    Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,27 +59,26 @@ public class AddClothingActivity extends BaseActivity {
 
         //Setup spinners
         String[] cat_array = new String[]{"Select", Clothing.ACCESSORY, Clothing.TOP, Clothing.BOTTOM, Clothing.SHOE, Clothing.BODY, Clothing.HAT, Clothing.JACKET};
-        category = initSpinner(R.id.Category, cat_array);
+        categorySpinner = initSpinner(R.id.Category, cat_array);
         String[] weat_array = new String[]{"Select", "Snow", "Rain", "Cold", "Cool", "Warm", "Hot", "Select All"};
-        weather = initSpinner(R.id.Weather, weat_array);
+        weatherSpinner = initSpinner(R.id.Weather, weat_array);
         String[] occ_array = new String[]{"Select", "Casual", "Work", "Semi-formal", "Formal", "Fitness", "Party", "Business"};
-        occasion = initSpinner(R.id.Occasion, occ_array);
+        occasionSpinner = initSpinner(R.id.Occasion, occ_array);
 
         //eventually make this colored squares
         String[] col_array = new String[]{"Select", "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Brown", "Black", "White", "Gray"};
-        color = initSpinner(R.id.Color, col_array);
+        colorSpinner = initSpinner(R.id.Color, col_array);
 
-        //get edit text notes and check boxes
-        notes = (EditText) findViewById(R.id.Notes);
-        worn = (CheckBox) findViewById(R.id.Worn);
-        shared = (CheckBox) findViewById(R.id.Shared);
-        lost = (CheckBox) findViewById(R.id.Lost);
+        //get edit text notesEditText and check boxes
+        notesEditText = (EditText) findViewById(R.id.Notes);
+        wornBox = (CheckBox) findViewById(R.id.Worn);
+        sharedBox = (CheckBox) findViewById(R.id.Shared);
+        lostBox = (CheckBox) findViewById(R.id.Lost);
 
         //set the image preview
         final String id = (String) getIntent().getSerializableExtra("photo_id");
 
         //scale down first bitmap
-        final float densityMultiplier = getBaseContext().getResources().getDisplayMetrics().density;
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize  = 8; //make the image 1/4 the size
         Bitmap firstBitmap = BitmapFactory.decodeFile(id, options);
@@ -107,23 +101,23 @@ public class AddClothingActivity extends BaseActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // get all selections
-                String selected_category = category.getSelectedItem().toString();
-                String selected_weather = weather.getSelectedItem().toString();
-                String selected_occasion = occasion.getSelectedItem().toString();
-                String selected_color = color.getSelectedItem().toString();
-                String input_notes = notes.getText().toString();
+                String selected_category = categorySpinner.getSelectedItem().toString();
+                String selected_weather = weatherSpinner.getSelectedItem().toString();
+                String selected_occasion = occasionSpinner.getSelectedItem().toString();
+                String selected_color = colorSpinner.getSelectedItem().toString();
+                String input_notes = notesEditText.getText().toString();
                 //check whether it is a valid condition
                 boolean validSelections = validateClothingAttributes(selected_category, selected_weather, selected_occasion, selected_color);
 
                 //receive the checkmarks
                 boolean isWorn = false;
-                if (worn.isChecked())
+                if (wornBox.isChecked())
                     isWorn = true;
                 boolean isShared = false;
-                if (shared.isChecked())
+                if (sharedBox.isChecked())
                     isShared = true;
                 boolean isLost = false;
-                if (lost.isChecked())
+                if (lostBox.isChecked())
                     isLost = true;
 
                 //create new clothing object - set to currClothing and add to closet
@@ -139,38 +133,23 @@ public class AddClothingActivity extends BaseActivity {
                     mCurrCloset.addId(mCurrClothing.getId());
                     //DO NOT SET BITMAP YET
 
-                    //Receive preferences
-                    mPrefs = getPreferences(MODE_PRIVATE);
-                    prefsEditor = mPrefs.edit();
-                    gson = new Gson();
+                    //Receive preference editor
+                    mPrefs = getSharedPreferences("com.segfault.closetmanager", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                    Gson gson = new Gson();
 
                     // Store clothing object
-                    String clothing = gson.toJson(mCurrClothing); //we are also storing the bitmap as a full thing here. this is a problem.
+                    String clothing = gson.toJson(mCurrClothing);
                     prefsEditor.putString(mCurrClothing.getId(), clothing);
+                    // Store id list
+                    String id_list = gson.toJson(mCurrCloset.getIdList());
+                    prefsEditor.putString(IClosetApplication.PREFERENCE_CLOTHING_ID, id_list);
+                    //Apply changes
                     prefsEditor.apply();
 
                     //Now set the bitmap
                     mCurrClothing.setBitmap(currentBitmap);
-
-                    // Store id list
-                    String id_list = gson.toJson(mCurrCloset.getIdList());
-                    prefsEditor.putString("id_list", id_list); //TODO Tyler check this implementation, maybe we need to have a string array of ids
-
-                    prefsEditor.apply();
                     goBackToCloset();
-                }
-            }
-        });
-        //delete button
-        deleteButton = (Button) findViewById(R.id.delete);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (mCurrClothing == null) {
-                    //pop up window to discard, clear all date fields
-                }
-                if (mCurrClothing != null) {
-                    //delete clothing in database
-                    //set currClothing to null
                 }
             }
         });
@@ -203,10 +182,10 @@ public class AddClothingActivity extends BaseActivity {
 
     /**
      * Validates whether the selections are not "Select"
-     * @param cat
-     * @param weath
-     * @param occ
-     * @param col
+     * @param cat - category
+     * @param weath - weather
+     * @param occ - occasion
+     * @param col - color
      * @return
      */
     protected boolean validateClothingAttributes(String cat, String weath, String occ, String col) {
@@ -272,5 +251,23 @@ public class AddClothingActivity extends BaseActivity {
 
     public void showImagePreview(View view) {
         imagePreviewDialog.show();
+    }
+
+
+    /**
+     * Clears the attributes when the clear button is selected
+     * @param view - deprecated
+     */
+    public void clearAttributes(View view) {
+        categorySpinner.setSelection(0);
+        colorSpinner.setSelection(0);
+        weatherSpinner.setSelection(0);
+        occasionSpinner.setSelection(0);
+
+        lostBox.setSelected(false);
+        sharedBox.setSelected(false);
+        wornBox.setSelected(false);
+
+        notesEditText.setText("");
     }
 }

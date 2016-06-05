@@ -62,13 +62,13 @@ public class LaundryActivity extends BaseActivity {
 
         //Get the correct list
         mLaundryList = mCurrentCloset.filter(new PreferenceList(true, null, null, null, null, null, null, null));
-        GridImageAdapter theAdapter = new GridImageAdapter(this, mLaundryList);
-        GridView theListView = (GridView) findViewById(R.id.laundry_grid_view);
+        GridImageAdapter laundryGridViewAdapter = new GridImageAdapter(this, mLaundryList);
+        GridView laundryGridView = (GridView) findViewById(R.id.laundry_grid_view);
 
-        if (theListView != null && !mLaundryList.isEmpty()) {//requires nullptr check
-            theListView.setAdapter(theAdapter);
+        if (laundryGridView != null && !mLaundryList.isEmpty()) {//requires nullptr check
+            laundryGridView.setAdapter(laundryGridViewAdapter);
             //catch any clicks
-            theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            laundryGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(currentActivity, ViewClothingActivity.class);

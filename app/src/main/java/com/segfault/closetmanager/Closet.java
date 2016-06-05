@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class Closet {
 
-    private List<Clothing> list_clothes;
-    private List<String> list_id;
+    private ArrayList<Clothing> list_clothes;
+    private ArrayList<String> list_id;
     private boolean updated;
 
     public Closet(){
@@ -239,7 +239,11 @@ public class Closet {
     }
 
     public Clothing findClothingByID(String ID){
+<<<<<<< HEAD
         if (ID == null){
+=======
+        if (ID == ""){
+>>>>>>> refs/remotes/origin/linkGUI
             System.err.println("String ID is blank in findClothingByID in Closet.java");
             return null;
         }
@@ -284,11 +288,15 @@ public class Closet {
 
     void addId(String id){ list_id.add(id);}
 
+<<<<<<< HEAD
     void removeId(String id) { list_id.remove(id); }
 
     public List<String> getIdList() { return list_id; }
+=======
+    public ArrayList<String> getIdList() { return list_id; }
+>>>>>>> refs/remotes/origin/linkGUI
 
-    void setIdList(List<String> list) { list_id = list;}
+    void setIdList(ArrayList<String> list) { list_id = list;}
 
     public List<Clothing> getList(){
         return list_clothes;
