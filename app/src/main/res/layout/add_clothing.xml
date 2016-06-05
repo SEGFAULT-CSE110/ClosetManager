@@ -273,7 +273,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.44"
-                android:background="@drawable/photo_camera"
                 android:onClick="showImagePreview"/>
 
         </LinearLayout>

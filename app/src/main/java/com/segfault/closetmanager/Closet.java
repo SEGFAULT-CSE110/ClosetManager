@@ -141,8 +141,8 @@ public class Closet {
 
             for(indexOL = 0; indexOL < pref_occasion_list.size(); indexOL++) { //each preference occasion
                 for (index = 0; index < list_clothes.size(); index++) { //each article of clothing in list
-                        if ((list_clothes.get(index).getOccasion()).equals(pref_occasion_list.get(indexOL)))
-                            occasion_filtered_clothes.add(list_clothes.get(index));
+                    if ((list_clothes.get(index).getOccasion()).equals(pref_occasion_list.get(indexOL)))
+                        occasion_filtered_clothes.add(list_clothes.get(index));
                 }
             }
 
@@ -239,11 +239,7 @@ public class Closet {
     }
 
     public Clothing findClothingByID(String ID){
-<<<<<<< HEAD
-        if (ID == null){
-=======
         if (ID == ""){
->>>>>>> refs/remotes/origin/linkGUI
             System.err.println("String ID is blank in findClothingByID in Closet.java");
             return null;
         }
@@ -288,13 +284,11 @@ public class Closet {
 
     void addId(String id){ list_id.add(id);}
 
-<<<<<<< HEAD
+
     void removeId(String id) { list_id.remove(id); }
 
-    public List<String> getIdList() { return list_id; }
-=======
     public ArrayList<String> getIdList() { return list_id; }
->>>>>>> refs/remotes/origin/linkGUI
+
 
     void setIdList(ArrayList<String> list) { list_id = list;}
 

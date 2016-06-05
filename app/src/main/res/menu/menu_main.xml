@@ -9,11 +9,6 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/help"
-        android:title="Help"/>
-
-
-    <item
         android:id="@+id/about"
         android:title="About"/>
 
