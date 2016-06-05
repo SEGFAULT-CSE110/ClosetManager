@@ -7,6 +7,9 @@ import android.app.Application;
  */
 public class IClosetApplication extends Application {
 
+    public static final String PREFERENCE_CLOTHING_ID = "id_list";
+    public static final String PREFERENCE_LOOKBOOK_ID = "id_lookbook";
+
     private static IClosetApplication singleton;
     private static Account mAccount;
 

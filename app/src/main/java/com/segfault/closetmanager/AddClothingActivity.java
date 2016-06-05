@@ -142,7 +142,7 @@ public class AddClothingActivity extends BaseActivity {
                     prefsEditor.putString(mCurrClothing.getId(), clothing);
                     // Store id list
                     String id_list = gson.toJson(mCurrCloset.getIdList());
-                    prefsEditor.putString("id_list", id_list);
+                    prefsEditor.putString(IClosetApplication.PREFERENCE_CLOTHING_ID, id_list);
                     //Apply changes
                     prefsEditor.apply();
 

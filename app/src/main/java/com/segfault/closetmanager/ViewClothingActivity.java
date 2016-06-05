@@ -46,4 +46,6 @@ public class ViewClothingActivity extends BaseActivity {
         occasionTextView.setText(currentClothing.getOccasion());
         notesTextView.setText(currentClothing.getNotes());
     }
+
+
 }

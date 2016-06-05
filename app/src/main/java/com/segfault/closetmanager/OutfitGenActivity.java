@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -198,17 +206,46 @@ public class OutfitGenActivity extends BaseActivity {
      * Toast declaration must be made here, because it cannot be made inside an AlertDialogBuilder
      */
     private void saveOutfit(String name){
+        //Give the default name if there is no name passed in
         if (name == null || name.length() == 0){
             name = "No Name";
         }
 
         //Set the name and add the outfit to the lookbook
         mCurrentOutfit.setName(name);
+        //TODO: set weather and occasion
         mLookbook.addOutfit(mCurrentOutfit);
+
+        //Write to preferences
+        mCurrentOutfit.updateSerializedList();
+
+        //Receive preference editor
+        SharedPreferences mPrefs = getSharedPreferences("com.segfault.closetmanager", Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        //Prevent circular dependencies
+        Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
+            @Override
+            public boolean shouldSkipField(FieldAttributes f) {
+                return false;
+            }
+
+            @Override
+            public boolean shouldSkipClass(Class<?> clazz) {
+                return false;
+            }
+        }).serializeNulls().create();
+
+        //Convert lookbook to gson
+        String id_list = gson.toJson(mLookbook.createSerializedList());
+        prefsEditor.putString(IClosetApplication.PREFERENCE_LOOKBOOK_ID, id_list);
+        //Apply changes
+        prefsEditor.apply();
 
         //Create the toast text
         Toast newToast = Toast.makeText(this, "Saved outfit to lookbook", Toast.LENGTH_SHORT);
         newToast.show();
+
+        //Prevent us from saving a duplicate
         mAddedOutfitAlready = true;
     }
 

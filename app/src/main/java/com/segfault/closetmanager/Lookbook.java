@@ -1,6 +1,7 @@
 package com.segfault.closetmanager;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -21,6 +22,26 @@ public class Lookbook {
 
     public void assignBelongingCloset(Closet closet) {
         mBelongingCloset = closet;
+    }
+
+    public void deserializeAllOutfits(List<List<String>> list){
+        if (mBelongingCloset == null){
+            System.err.println("Lookbook does not have a belonging closet.");
+        }
+        for (int index = 0; index < list.size(); index++){
+            Outfit newOutfit = new Outfit();
+            newOutfit.setSerializedClothingList(list.get(index));
+            newOutfit.initializeFromSerializedList(mBelongingCloset);
+            mOutfitList.add(newOutfit);
+        }
+    }
+
+    public List<List<String>> createSerializedList(){
+        List<List<String>> returnList = new ArrayList<>();
+        for (int index = 0; index < mOutfitList.size(); index++){
+            returnList.add(mOutfitList.get(index).getSerializedClothingList());
+        }
+        return returnList;
     }
 
     public boolean writeToDatabase() {
@@ -80,7 +101,7 @@ public class Lookbook {
 		/* 20% chance there will be a jacket, if it's cold then 50% */
         Random randJac = new Random();
         int iJac = randJac.nextInt(5);
-		if (weather.equals("cold")){
+		if ("cold".equals("cold")){
 			iJac = randJac.nextInt(2);
 		}
         if (iHat == 0) {
@@ -383,4 +404,5 @@ public class Lookbook {
     public void removeOutfit(Outfit out) {
         mOutfitList.remove(out);
     }
+
 }

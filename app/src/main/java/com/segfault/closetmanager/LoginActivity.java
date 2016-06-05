@@ -4,31 +4,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.facebook.FacebookSdk;
 
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.IntentSender;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -38,14 +29,12 @@ import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 
-import com.firebase.client.AuthData;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,86 +85,12 @@ public class LoginActivity extends Activity {
     SharedPreferences mPrefs;
     Gson gson = new Gson();
 
-    private Closet mCurrentCloset;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        //Setup sdk
-//        Firebase.setAndroidContext(this);//TODO create application class
-//        FacebookSdk.sdkInitialize(this);
-//
-//        /* Load the view and display it */
         setContentView(R.layout.login);
-//
-//        /* *************************************
-//         *              FACEBOOK               *
-//         ***************************************/
-//        /* Load the Facebook login button and set up the tracker to monitor access token changes */
-//        mFacebookCallbackManager = CallbackManager.Factory.create();
-//        mFacebookLoginButton = (LoginButton) findViewById(R.id.facebook_login_button);
-//
-//        mFacebookAccessTokenTracker = new AccessTokenTracker() {
-//            @Override
-//            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-//                Log.i(TAG, "Facebook.AccessTokenTracker.OnCurrentAccessTokenChanged");
-//                LoginActivity.this.onFacebookAccessTokenChange(currentAccessToken);
-//            }
-//        };
-//
-//        /* *************************************
-//         *               PASSWORD              *
-//         ***************************************/
-//        mPasswordLoginButton = (Button) findViewById(R.id.email_sign_in_button);
-//        mPasswordLoginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                loginWithPassword();
-//            }
-//        });
-
-
-//        /* *************************************
-//         *               GENERAL               *
-//         ***************************************/
-//        //mLoggedInStatusTextView = (TextView) findViewById(R.id.login_status);
-//
-//        mLoggedInStatusTextView = (TextView) findViewById(R.id.textView2);
-//        /* Create the Firebase ref that is used for all authentication with Firebase */
-//        //mFirebaseRef = new Firebase(getResources().getString(R.string.firebase_url));
-//        mFirebaseRef = new Firebase("https://popping-heat-5754.firebaseio.com");
-//
-//        /* Setup the progress dialog that is displayed later when authenticating with Firebase */
-//        mAuthProgressDialog = new ProgressDialog(this);
-//        mAuthProgressDialog.setTitle("Loading");
-//        mAuthProgressDialog.setMessage("Authenticating with Firebase...");
-//        mAuthProgressDialog.setCancelable(false);
-//        mAuthProgressDialog.show();
-//
-//        mAuthStateListener = new Firebase.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(AuthData authData) {
-//                mAuthProgressDialog.hide();
-//                setAuthenticatedUser(authData);
-//            }
-//        };
-//        /* Check if the user is authenticated with Firebase already. If this is the case we can set the authenticated
-//         * user and hide hide any login buttons */
-//        mFirebaseRef.addAuthStateListener(mAuthStateListener);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        // if user logged in with Facebook, stop tracking their token
-//        if (mFacebookAccessTokenTracker != null) {
-//            mFacebookAccessTokenTracker.stopTracking();
-//        }
-//
-//        // if changing configurations, stop tracking firebase session.
-//        mFirebaseRef.removeAuthStateListener(mAuthStateListener);
     }
 
 
@@ -188,24 +103,6 @@ public class LoginActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         Map<String, String> options = new HashMap<String, String>();
 
-        /*if (requestCode == RC_GOOGLE_LOGIN) {
-
-            if (resultCode != RESULT_OK) {
-                mGoogleLoginClicked = false;
-            }
-            mGoogleIntentInProgress = false;
-            if (!mGoogleApiClient.isConnecting()) {
-                mGoogleApiClient.connect();
-            }
-        } else if (requestCode == RC_TWITTER_LOGIN) {
-            options.put("oauth_token", data.getStringExtra("oauth_token"));
-            options.put("oauth_token_secret", data.getStringExtra("oauth_token_secret"));
-            options.put("user_id", data.getStringExtra("user_id"));
-            authWithFirebase("twitter", options);
-        } else {
-        */
-
-            /* Otherwise, it's probably the request by the Facebook login button, keep track of the session */
         mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
 
     }
@@ -369,29 +266,16 @@ public class LoginActivity extends Activity {
 
 
     public void runLogin(View view) {
+        //Receive account singleton
         Account currentAccount = IClosetApplication.getAccount();
 
-        mPrefs  = getSharedPreferences("com.segfault.closetmanager", Context.MODE_PRIVATE);
+        //Load closet
+        Closet currentCloset = currentAccount.getCloset();
+        loadCloset(currentCloset);
 
-        // Load closet
-        mCurrentCloset = currentAccount.getCloset();
+        //Load Lookbook
+        loadLookbookToAccount(currentAccount);
 
-        //Get the list of IDs. Create a new one if it's not available
-        String ids = mPrefs.getString("id_list", "");
-        ArrayList<String> list_id = (ArrayList<String>) gson.fromJson(ids, List.class);
-        if (list_id == null) {
-            list_id = new ArrayList<>();
-            System.err.println("Created a new id list in LoginActivity.java");
-        }
-        mCurrentCloset.setIdList(list_id);
-
-        //Load the pictures and clothing
-        try {
-            loadPictures(getApplicationContext(), mCurrentCloset.getList(), mCurrentCloset.getIdList());
-            currentAccount.getLookbook().assignBelongingCloset(currentAccount.getCloset());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         //Start a new intent
         Intent intent = new Intent(this, HomeActivity.class);
@@ -399,15 +283,13 @@ public class LoginActivity extends Activity {
         startActivity(intent);
     }
 
-
     /**
      * Loads in the pictures and new other shit
-     * @param context
      * @param clothingList
      * @param id
      * @throws IOException
      */
-    public void loadPictures(Context context, List<Clothing> clothingList, List<String> id) throws IOException {
+    private void loadPictures(List<Clothing> clothingList, List<String> id) throws IOException {
         System.err.println("Beginning to load in files and bitmaps");
         for (int i = 0; i < id.size(); i++) {
 
@@ -443,62 +325,48 @@ public class LoginActivity extends Activity {
         System.err.println("Finished loading shit");
     }
 
+    private void loadCloset(Closet currentCloset){
 
+        //Receive preferences
+        mPrefs  = getSharedPreferences("com.segfault.closetmanager", Context.MODE_PRIVATE);
 
-    /*
-    public void createAccount(View view) {
-        Firebase ref = new Firebase("https://popping-heat-5754.firebaseio.com");
-        ref.createUser({
-                email   :"bobtony@firebase.com",
-                password:"correcthorsebatterystaple"
-        },function(error, userData) {
-            if (error) {
-                console.log("Error creating user:", error);
-            } else {
-                console.log("Successfully created user account with uid:", userData.uid);
-            }
-        });
+        //Get the list of IDs. Create a new one if it's not available
+        String ids = mPrefs.getString(IClosetApplication.PREFERENCE_CLOTHING_ID, "");
+        ArrayList<String> list_id = (ArrayList<String>) gson.fromJson(ids, List.class);
+        if (list_id == null) {
+            list_id = new ArrayList<>();
+            System.err.println("Created a new id list in LoginActivity.java");
+        }
+        currentCloset.setIdList(list_id);
+
+        //Load the pictures and clothing
+        try {
+            loadPictures(currentCloset.getList(), currentCloset.getIdList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    private void loadLookbookToAccount(Account currentAccount) {
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Login Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.segfault.closetmanager/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
+        //Receive preferences
+        mPrefs  = getSharedPreferences("com.segfault.closetmanager", Context.MODE_PRIVATE);
+
+        //Receive lookbook
+        //http://stackoverflow.com/questions/5554217/google-gson-deserialize-listclass-object-generic-type/5554296#5554296
+        String lookbookString = mPrefs.getString(IClosetApplication.PREFERENCE_LOOKBOOK_ID, "");
+        Type currentType = new TypeToken<List<List<String>>>(){}.getType();
+        List<List<String>> currentLookbookString = new Gson().fromJson(lookbookString, currentType);
+        if (currentLookbookString == null) {
+            currentLookbookString = new ArrayList<>();
+            System.err.println("Created a new lookbook in LoginActivity.java");
+        }
+
+        Lookbook currentLookbook = currentAccount.getLookbook();
+        currentLookbook.assignBelongingCloset(currentAccount.getCloset());
+        currentLookbook.deserializeAllOutfits(currentLookbookString);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Login Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.segfault.closetmanager/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-    }
-    */
 }
