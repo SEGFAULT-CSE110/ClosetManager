@@ -44,12 +44,6 @@ public class PreferencesFragment extends PreferenceFragment
 
                     return;
                 }
-                if (key.equals("categories"))
-                {
-                    System.out.println("cat changed");
-                    //SharedPreferences.Editor editor = settings.edit();
-                }
-
 
                 getActivity().finish();
                 final Intent intent = getActivity().getIntent();
