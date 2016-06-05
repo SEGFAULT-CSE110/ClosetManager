@@ -269,6 +269,8 @@ public class Closet {
     }
 
     public void removeClothing(Clothing val){
+        //val.setLost(true);
+        removeId(val.getId());
         list_clothes.remove(val);
     }
 
@@ -281,6 +283,8 @@ public class Closet {
     public List<String> getId() {return list_id;}
 
     void addId(String id){ list_id.add(id);}
+
+    void removeId(String id) { list_id.remove(id); }
 
     public List<String> getIdList() { return list_id; }
 

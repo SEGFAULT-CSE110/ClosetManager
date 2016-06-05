@@ -234,6 +234,19 @@ public class ClosetActivity extends BaseActivity {
             listOfLists.add(jacketList);
         }
 
+        /*
+        // get rid of lost/deleted objects
+        for (int i = 0; i < listOfLists.size(); i++) {
+            List<Clothing> currList = listOfLists.get(i);
+            for (int j = 0; j < currList.size(); j++) {
+                if (currList.get(j).isLost()) {
+                    currList.remove(j);
+                    listOfLists.set(i, currList);
+                }
+            }
+        }
+        */
+
         //check if we have any clothing
         if (mCurrentCloset.getList().isEmpty() || listOfLists.isEmpty()) {
             //replace the linear layout with the no_elements_layout
