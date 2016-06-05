@@ -238,6 +238,24 @@ public class Closet {
         return null;
     }
 
+    public Clothing findClothingByID(String ID){
+        if (ID == null){
+            System.err.println("String ID is blank in findClothingByID in Closet.java");
+            return null;
+        }
+
+        System.err.println("Finding clothing by hash in list of size " + list_clothes.size());
+
+        for (int index = 0; index < list_clothes.size(); index++){
+            if (list_clothes.get(index).getId().equals(ID) ){
+                System.err.println("Successfully found the clothing");
+                return list_clothes.get(index);
+            }
+        }
+        System.err.println("Could not find clothing by ID");
+        return null;
+    }
+
     public boolean writeToDatabase(){
         return false; //returns true if written successfully.
     }
@@ -251,6 +269,8 @@ public class Closet {
     }
 
     public void removeClothing(Clothing val){
+        //val.setLost(true);
+        removeId(val.getId());
         list_clothes.remove(val);
     }
 
@@ -263,6 +283,8 @@ public class Closet {
     public List<String> getId() {return list_id;}
 
     void addId(String id){ list_id.add(id);}
+
+    void removeId(String id) { list_id.remove(id); }
 
     public List<String> getIdList() { return list_id; }
 

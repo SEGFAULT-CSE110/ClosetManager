@@ -2,9 +2,14 @@ package com.segfault.closetmanager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -15,9 +20,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -28,14 +41,33 @@ public class UpdateClothingActivity extends BaseActivity {
     private Spinner occasion;
     private Spinner color;
 
-    private CheckBox dirty;
+    private CheckBox worn;
     private CheckBox shared;
     private CheckBox lost;
 
     private Button doneButton;
     private Button deleteButton;
 
-    //private Clothing currClothing; TODO
+    private EditText notes;
+
+    private ImageButton addClothingPreview;
+    private Bitmap currentBitmap;
+
+
+    private Closet mCurrCloset = IClosetApplication.getAccount().getCloset();
+    String id;
+    private Clothing mCurrClothing;
+
+    private AlertDialog imagePreviewDialog;
+
+    SharedPreferences mPrefs;
+
+    Gson gson;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,25 +75,52 @@ public class UpdateClothingActivity extends BaseActivity {
         setContentView(R.layout.update_clothing);
         setToolbar((Toolbar) findViewById(R.id.toolbar));
 
-        String [] cat_array = new String[]{"Select","Top", "Bottom", "Outerwear", "Shoes", "Accessory", "Hat", "Undergarment","Socks"};
-        initSpinner(category,R.id.Category,cat_array);
+        //get passed in clothing id to get correct clothing object from closet
+        id = (String) getIntent().getSerializableExtra("clothing_id");
+        System.err.println("RENU: finding clothing with id in update clothing: " + id);
+        mCurrClothing = mCurrCloset.findClothingByID(id);
 
-        String [] weat_array = new String[]{"Select","Snow","Rain","Cold", "Cool","Warm","Hot","Select All"};
-        initSpinner(weather,R.id.Weather,weat_array);
+        //Setup spinners
+        String[] cat_array = new String[]{"Select", Clothing.ACCESSORY, Clothing.TOP, Clothing.BOTTOM, Clothing.SHOE, Clothing.BODY, Clothing.HAT, Clothing.JACKET};
+        category = initSpinner(R.id.Category, cat_array);
+        category.setSelection(getIndex(category, mCurrClothing.getCategory()));
 
-        String[] occ_array = new String[]{"Select","Casual", "Work", "Semi-formal","Formal", "Fitness","Party", "Business"};
-        initSpinner(occasion,R.id.Occasion,occ_array);
 
-        //eventually make this colored sqaures
-        String[] col_array = new String[]{"Select","Red", "Orange", "Yellow", "Green", "Blue","Purple", "Pink","Brown", "Black","White","Gray"};
-        initSpinner(color,R.id.Color,col_array);
+        String[] weat_array = new String[]{"Select", "Snow", "Rain", "Cold", "Cool", "Warm", "Hot", "Select All"};
+        weather = initSpinner(R.id.Weather, weat_array);
+        weather.setSelection(getIndex(weather, mCurrClothing.getWeather()));
 
-        //color = (Spinner) findViewById(R.id.Color);
-        //color.setAdapter(new MyAdapter(this, R.layout.row, getAllList()));
+        String[] occ_array = new String[]{"Select", "Casual", "Work", "Semi-formal", "Formal", "Fitness", "Party", "Business"};
+        occasion = initSpinner(R.id.Occasion, occ_array);
+        occasion.setSelection(getIndex(occasion, mCurrClothing.getOccasion()));
 
-        //Recreate bottom bar here because the account has not been created TODO
-        //View bottomBarView = findViewById(R.id.view_clothing_bottom_bar);
-        //BottomBar mBottomBar = new BottomBar(bottomBarView, this);
+        //eventually make this colored squares
+        String[] col_array = new String[]{"Select", "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Brown", "Black", "White", "Gray"};
+        color = initSpinner(R.id.Color, col_array);
+        color.setSelection(getIndex(color, mCurrClothing.getColor()));
+
+        //get edit text notes and check boxes
+        notes = (EditText) findViewById(R.id.Notes);
+        notes.setText(mCurrClothing.getNotes(), TextView.BufferType.EDITABLE);
+
+        worn = (CheckBox) findViewById(R.id.Worn);
+        if (mCurrClothing.isWorn())
+            worn.setChecked(true);
+
+        shared = (CheckBox) findViewById(R.id.Shared);
+        if (mCurrClothing.isShared())
+            shared.setChecked(true);
+
+        lost = (CheckBox) findViewById(R.id.Lost);
+        if (mCurrClothing.isLost())
+            lost.setChecked(true);
+
+        //set the image preview
+        addClothingPreview = (ImageButton) findViewById(R.id.add_clothing_image_preview);
+        if (addClothingPreview != null) {
+            addClothingPreview.setImageBitmap(mCurrClothing.getBitmap());
+        }
+        //final String id = (String) getIntent().getSerializableExtra("photo_id");
 
         //done button
         doneButton = (Button) findViewById(R.id.done);
@@ -72,46 +131,176 @@ public class UpdateClothingActivity extends BaseActivity {
                 String selected_weather = weather.getSelectedItem().toString();
                 String selected_occasion = occasion.getSelectedItem().toString();
                 String selected_color = color.getSelectedItem().toString();
+                String input_notes = notes.getText().toString();
+                //check whether it is a valid condition
+                boolean validSelections = validateClothingAttributes(selected_category, selected_weather, selected_occasion, selected_color);
 
-                //create new clothing object - set to currClothing TODO
-                //currClothing  = newClothing()
-            }
-        });
+                //receive the checkmarks
+                boolean isWorn = false;
+                if (worn.isChecked())
+                    isWorn = true;
+                boolean isShared = false;
+                if (shared.isChecked())
+                    isShared = true;
+                boolean isLost = false;
+                if (lost.isChecked())
+                    isLost = true;
 
-        //delete button
-        deleteButton = (Button) findViewById(R.id.done);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                /*if(currClothing == null) { TODO
-                    //pop up window to discard, clear all date fields
+                //create new clothing object - set to currClothing and add to closet
+                if (validSelections) {
+
+                    //update currClothing
+                    mCurrClothing.setCategory(selected_category);
+                    mCurrClothing.setWeather(selected_weather);
+                    mCurrClothing.setOccasion(selected_occasion);
+                    mCurrClothing.setColor(selected_color);
+                    mCurrClothing.setWorn(isWorn);
+                    mCurrClothing.setShared(isShared);
+                    mCurrClothing.setLost(isLost);
+                    mCurrClothing.setNotes(input_notes);
+
+                    //Receive preferences
+                    mPrefs = getSharedPreferences("com.segfault.closetmanager", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                    gson = new Gson();
+
+                    //temp set bitmap to null, so doesnt bitmap store to json (reset later)
+                    currentBitmap=mCurrClothing.getBitmap();
+                    mCurrClothing.setBitmap(null);
+
+                    // Store clothing object
+                    String clothing = gson.toJson(mCurrClothing); //we are also storing the bitmap as a full thing here. this is a problem.
+                    prefsEditor.putString(mCurrClothing.getId(), clothing);
+                    prefsEditor.apply();
+
+                    // Store id list
+                    String id_list = gson.toJson(mCurrCloset.getIdList());
+                    prefsEditor.putString("id_list", id_list); //TODO Tyler check this implementation, maybe we need to have a string array of ids
+                    prefsEditor.apply();
+
+                    //Now reset the bitmap
+                    mCurrClothing.setBitmap(currentBitmap);
+
+                    goBack();
                 }
-                if(currClothing != null) {
-                    //delete clothing in database
-                    //set currClothing to null
-                }*/
             }
         });
 
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
+    private int getIndex(Spinner spinner, String myString) {
+
+        int index = 0;
+
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).equals(myString)) {
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    /**
+     * We will not create a new intent. Finishing this should go back to closet.
+     */
+    protected void goBack() {
+        this.finish();
+    }
 
     //creates dropdowns given a string and spinner object
-    protected void initSpinner (Spinner sp, int resource, String []arr){
-        sp = (Spinner) findViewById(resource);
+    protected Spinner initSpinner(int resource, String[] arr) {
+        Spinner sp = (Spinner) findViewById(resource);
 
         // Create an ArrayAdapter using the string array and a default spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arr);
 
         // Specify the layout to use when the list of choices appears
-        adapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Apply the adapter to the spinner
-        sp.setAdapter(adapter);
+        if (sp != null) {
+            sp.setAdapter(adapter);
+        } else {
+            System.err.println("SP is null in UpdateClothingActivity.java");
+        }
+
+        return sp;
 
     }
+
+
+    /**
+     * Validates whether the selections are not "Select"
+     *
+     * @param cat
+     * @param weath
+     * @param occ
+     * @param col
+     * @return
+     */
+    protected boolean validateClothingAttributes(String cat, String weath, String occ, String col) {
+        if (cat.equals("Select") || weath.equals("Select") || occ.equals("Select") || col.equals("Select")) {
+            Toast newToast = Toast.makeText(this, "Invalid attributes", Toast.LENGTH_SHORT);
+            newToast.show();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //Get the layout and set into the alertDialog
+        LayoutInflater inflater = getLayoutInflater();
+        View previewLayout = inflater.inflate(R.layout.add_clothing_image_dialog, null);
+        AlertDialog.Builder previewBuilder = new AlertDialog.Builder(this);
+        previewBuilder.setTitle("Preview");
+        previewBuilder.setView(previewLayout);
+
+        //Set the imageView
+        ImageView previewView = (ImageView) previewLayout.findViewById(R.id.add_clothing_image_dialog_image_view);
+        previewView.setImageBitmap(mCurrClothing.getBitmap());
+
+        //Set the button
+        previewBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        imagePreviewDialog = previewBuilder.create();
+    }
+
+    public void showImagePreview(View view) {
+        imagePreviewDialog.show();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "UpdateClothing Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.segfault.closetmanager/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
+
     /*
     //return list for color spinner
     public ArrayList<ListItem> getAllList() {

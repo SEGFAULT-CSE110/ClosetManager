@@ -16,8 +16,9 @@ import java.util.List;
  * This is a custom layout I created for our uses, like LinearLayout or FrameLayout.
  * This will be used for the outfit to correctly display shirts and pants.
  *
- * If you are interested in how I developed this, I recommend you read the article
+ * If you are interested in how I developed this, I recommend you read the articles at
  * http://javatechig.com/android/how-to-create-custom-layout-in-android-by-extending-viewgroup-class
+ * https://arpitonline.com/2012/07/01/creating-custom-layouts-for-android/
  *
  * For LinearLayout and adding in an adapter, look at this StackOverflow question
  * http://stackoverflow.com/questions/14550309/creating-an-adapter-to-a-customview
@@ -163,14 +164,23 @@ public class ClothingStackLayout extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         final int count = getChildCount();
+        int childWidth = 0;
+        int childHeight = 0;
+        if (getChildCount() > 0){
+            childWidth = (int) (getWidth() * SIZE_MULTIPLIER);
+            childHeight = (int) (getHeight() * SIZE_MULTIPLIER);
+            System.out.println("HOOOO " + childWidth + " " + childHeight);
+        }
 
-        //Get the available size of the child view
-        final int childLeft = this.getPaddingLeft();
-        final int childTop = this.getPaddingTop();
-        final int childRight = this.getMeasuredWidth() - this.getPaddingRight();
-        final int childBottom = this.getMeasuredHeight() - this.getPaddingBottom();
-        final int childWidth = (int) (SIZE_MULTIPLIER * (childRight - childLeft));
-        final int childHeight = (int) (SIZE_MULTIPLIER * (childBottom - childTop));
+        //Find the center coordinates
+        final int centerX = (int) (this.getX() + this.getWidth() / 2);
+        final int centerY = (int) (this.getY() + this.getHeight() / 2);
+
+        //Place the child at the correct center spot
+        final int childLeft = centerX - childWidth / 2;
+        final int childTop = centerY - childHeight / 2;
+        final int childRight = childLeft + childWidth;
+        final int childBottom = childTop + childHeight;
 
         int[][] coordinates = new int[count][4];
 
@@ -214,32 +224,17 @@ public class ClothingStackLayout extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (getChildCount() == 0) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        } else {
-            int left = getChildAt(0).getLeft();
-            int top = getChildAt(0).getTop();
-            int right = getChildAt(getChildCount() - 1).getRight();
-            int bottom = getChildAt(getChildCount() - 1).getBottom();
+        //we need to measure the view first
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-            int measuredWidth = right - left + getPaddingLeft() + getPaddingRight();
-            int measuredHeight = bottom - top + getPaddingTop() + getPaddingBottom();
+        //For each of the children, assign them a size
+        for (int index = 0; index < getChildCount(); index++){
+            int childWidth = MeasureSpec.makeMeasureSpec((int) (getWidth() * SIZE_MULTIPLIER), MeasureSpec.EXACTLY);
+            int childHeight = MeasureSpec.makeMeasureSpec((int) (getHeight() * SIZE_MULTIPLIER), MeasureSpec.EXACTLY);
+            measureChild(getChildAt(index), childWidth, childHeight);
 
-            System.out.println("onMeasure x " + measuredWidth + " " + getSuggestedMinimumWidth());
-            System.out.println("onMeasure y " + measuredHeight + " " + getSuggestedMinimumHeight());
 
-            int maxWidth = Math.max(measuredWidth, getSuggestedMinimumWidth());
-            int maxHeight = Math.max(measuredHeight, getSuggestedMinimumHeight());
-
-            //child state
-            int childState = 0;
-            for (int index = 0; index < getChildCount(); index++) {
-                childState = combineMeasuredStates(childState, getChildAt(index).getMeasuredHeight());
-            }
-
-            //final dimensions
-            setMeasuredDimension(maxWidth, maxHeight);
-            resolveSizeAndState(maxHeight, heightMeasureSpec, childState);
+            System.out.println("eoighu " + childWidth + " " + childHeight);
         }
     }
 

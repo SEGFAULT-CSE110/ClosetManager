@@ -24,14 +24,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <View
-        android:id="@+id/lookbook_dividing_black_bar"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/black"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"/>
-
     <!-- The clothing is added in here -->
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

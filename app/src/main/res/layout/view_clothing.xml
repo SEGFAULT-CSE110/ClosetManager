@@ -196,6 +196,30 @@
 
         </ScrollView>
 
+<<<<<<< HEAD
+=======
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+
+    <Button
+        android:id="@+id/update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update" />
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete" />
+
+    </LinearLayout>
+
+
+>>>>>>> refs/remotes/origin/Renu
     <include
         layout="@layout/bottom_bar"
         android:id="@+id/view_clothing_bottom_bar"

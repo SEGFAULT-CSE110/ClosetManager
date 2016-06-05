@@ -41,7 +41,6 @@ public class Clothing implements Parcelable{
     private String mSecondaryColor;
     private String mId;
 
-
     private Bitmap mBitmap;
 
     public Clothing(){
@@ -54,11 +53,11 @@ public class Clothing implements Parcelable{
 
         mCategory = cat;
         mColor = col;
-        mOccasion = occ ;
+        mOccasion = occ;
         mWeather = weat;
         mNotes = not;
 
-        mId=id;
+        mId = id;
 
 
     }
@@ -105,6 +104,22 @@ public class Clothing implements Parcelable{
 
     public void setWorn(boolean worn) {
         mWorn = worn;
+    }
+
+    public Boolean isShared() {
+        return mShared;
+    }
+
+    public void setShared(boolean shared) {
+        mShared = shared;
+    }
+
+    public Boolean isLost() {
+        return mLost;
+    }
+
+    public void setLost(boolean lost) {
+        mWorn = lost;
     }
 
     public String getColor() {
@@ -171,6 +186,22 @@ public class Clothing implements Parcelable{
 
     public void setSecondaryColor(String SecondaryColor) { mSecondaryColor = SecondaryColor; }
 
+    public void updateClothing(Clothing copy) {
+        mWorn = copy.isWorn();
+        mShared = copy.isShared();
+        mLost = copy.isLost();
+        mCategory = copy.getCategory();
+        mColor = copy.getColor();
+        mSize = copy.getSize();
+        mOccasion = copy.getOccasion();
+        mStyle = copy.getStyle();
+        mWeather = copy.getWeather();
+        mNotes = copy.getNotes();
+        mBitmap = copy.getBitmap();
+        mSecondaryColor = copy.getSecondaryColor();
+        mId = copy.getId();
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -192,4 +223,6 @@ public class Clothing implements Parcelable{
         dest.writeString(mSecondaryColor);
         dest.writeString(mId);
     }
+
+
 }

@@ -132,11 +132,12 @@ public class AddClothingActivity extends BaseActivity {
                     //Create the clothing
                     mCurrClothing = new Clothing(selected_category, selected_color, selected_weather, selected_occasion, input_notes,
                             isWorn, isShared, isLost, id);
+                    System.err.println("RENU: ID of Clothing added is "  + id);
                     mCurrCloset.addClothing(mCurrClothing);
 
                     // Store id and data in clothing
                     mCurrCloset.addId(mCurrClothing.getId());
-                    mCurrClothing.setBitmap(currentBitmap);
+                    //DO NOT SET BITMAP YET
 
                     //Receive preferences
                     mPrefs = getPreferences(MODE_PRIVATE);
@@ -144,9 +145,12 @@ public class AddClothingActivity extends BaseActivity {
                     gson = new Gson();
 
                     // Store clothing object
-                    String clothing = gson.toJson(mCurrClothing);
+                    String clothing = gson.toJson(mCurrClothing); //we are also storing the bitmap as a full thing here. this is a problem.
                     prefsEditor.putString(mCurrClothing.getId(), clothing);
                     prefsEditor.apply();
+
+                    //Now set the bitmap
+                    mCurrClothing.setBitmap(currentBitmap);
 
                     // Store id list
                     String id_list = gson.toJson(mCurrCloset.getIdList());
@@ -197,6 +201,14 @@ public class AddClothingActivity extends BaseActivity {
     }
 
 
+    /**
+     * Validates whether the selections are not "Select"
+     * @param cat
+     * @param weath
+     * @param occ
+     * @param col
+     * @return
+     */
     protected boolean validateClothingAttributes(String cat, String weath, String occ, String col) {
         if (cat.equals("Select") || weath.equals("Select") || occ.equals("Select") || col.equals("Select")) {
             Toast newToast = Toast.makeText(this, "Invalid attributes", Toast.LENGTH_SHORT);
@@ -204,7 +216,6 @@ public class AddClothingActivity extends BaseActivity {
             return false;
         }
         return true;
-
     }
 
 
@@ -215,7 +226,7 @@ public class AddClothingActivity extends BaseActivity {
         this.finish();
     }
 
-    //creates dropdowns given a string and spinner object
+    //creates dropdowns given a string array and spinner object
     protected Spinner initSpinner(int resource, String[] arr) {
         Spinner sp = (Spinner) findViewById(resource);
 
