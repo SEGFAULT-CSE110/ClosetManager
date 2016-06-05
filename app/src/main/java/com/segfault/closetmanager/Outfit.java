@@ -185,4 +185,16 @@ public class Outfit {
     public void setName(String name) {
         mName = name;}
 
+    public boolean hasAllClothing(Closet mContainingCloset) {
+        boolean returnVal = true;
+        updateSerializedList();
+
+        for (int index = 0; index < mSerializedClothingList.size(); index++){
+            if (mContainingCloset.findClothingByID(mSerializedClothingList.get(index)) == null ){
+                returnVal = false;
+            }
+        }
+
+        return returnVal;
+    }
 }
