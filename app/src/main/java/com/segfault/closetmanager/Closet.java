@@ -10,11 +10,13 @@ import java.util.List;
  */
 public class Closet {
 
-    private List<Clothing> list_clothes;
+    private ArrayList<Clothing> list_clothes;
+    private ArrayList<String> list_id;
     private boolean updated;
 
     public Closet(){
         list_clothes = new ArrayList<>();
+        list_id = new ArrayList<>();
     }
 
     /**
@@ -24,7 +26,6 @@ public class Closet {
      * @return
      */
     public List<Clothing> filter(PreferenceList pref){
-        System.out.println("FILTER STARTED");
         List<Clothing> filtered_clothes = new ArrayList<Clothing>();
         List<Clothing> temp_clothes = new ArrayList<Clothing>();
 
@@ -140,10 +141,8 @@ public class Closet {
 
             for(indexOL = 0; indexOL < pref_occasion_list.size(); indexOL++) { //each preference occasion
                 for (index = 0; index < list_clothes.size(); index++) { //each article of clothing in list
-                    for(indexLC = 0; indexLC < list_clothes.get(index).getOccasion().size(); index++) { //the list of each AoC's occasion
-                        if ((list_clothes.get(index).getOccasion().get(indexLC)).equals(pref_occasion_list.get(indexOL)))
-                            occasion_filtered_clothes.add(list_clothes.get(index));
-                    }
+                    if ((list_clothes.get(index).getOccasion()).equals(pref_occasion_list.get(indexOL)))
+                        occasion_filtered_clothes.add(list_clothes.get(index));
                 }
             }
 
@@ -221,6 +220,41 @@ public class Closet {
         }
     }
 
+    public Clothing findClothingByHash(int hashCode){
+        if (hashCode == 0){
+            System.err.println("Hash code is 0 in findClothingByHash in Closet.java");
+            return null;
+        }
+
+        System.err.println("Finding clothing by hash in list of size " + list_clothes.size());
+
+        for (int index = 0; index < list_clothes.size(); index++){
+            if (list_clothes.get(index).hashCode() == hashCode){
+                System.err.println("Successfully found the clothing");
+                return list_clothes.get(index);
+            }
+        }
+        System.err.println("Could not find clothing by hash");
+        return null;
+    }
+
+    public Clothing findClothingByID(String ID){
+        if (ID == ""){
+            System.err.println("String ID is blank in findClothingByID in Closet.java");
+            return null;
+        }
+
+        System.err.println("Finding clothing by hash in list of size " + list_clothes.size());
+
+        for (int index = 0; index < list_clothes.size(); index++){
+            if (list_clothes.get(index).getId().equals(ID) ){
+                System.err.println("Successfully found the clothing");
+                return list_clothes.get(index);
+            }
+        }
+        System.err.println("Could not find clothing by ID");
+        return null;
+    }
 
     public boolean writeToDatabase(){
         return false; //returns true if written successfully.
@@ -235,6 +269,8 @@ public class Closet {
     }
 
     public void removeClothing(Clothing val){
+        //val.setLost(true);
+        removeId(val.getId());
         list_clothes.remove(val);
     }
 
@@ -244,6 +280,17 @@ public class Closet {
     public void getClothing(){
 
     }
+    public List<String> getId() {return list_id;}
+
+    void addId(String id){ list_id.add(id);}
+
+
+    void removeId(String id) { list_id.remove(id); }
+
+    public ArrayList<String> getIdList() { return list_id; }
+
+
+    void setIdList(ArrayList<String> list) { list_id = list;}
 
     public List<Clothing> getList(){
         return list_clothes;

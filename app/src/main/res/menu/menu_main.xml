@@ -9,7 +9,7 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/help"
-        android:title="Help"/>
+        android:id="@+id/about"
+        android:title="About"/>
 
 </menu>

@@ -16,7 +16,6 @@ public class PreferencesActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pref_layout);
 
@@ -31,10 +30,4 @@ public class PreferencesActivity extends BaseActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
-
-
-
-
-
-
 }

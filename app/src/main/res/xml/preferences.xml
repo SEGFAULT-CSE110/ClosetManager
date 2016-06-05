@@ -11,39 +11,6 @@
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
-    <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_name"
-        android:inputType="textCapWords"
-        android:key="location"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Set Location" />
-
-    <Preference
-        android:defaultValue="false"
-        android:key="reset_password"
-        android:title="Reset Password " />
-    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
-         dismiss it. -->
-    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
-    <ListPreference
-        android:defaultValue="-1"
-        android:key="logout"
-        android:title="Logout" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="Closet Settings" >
-        <MultiSelectListPreference
-            android:id="@+id/closet_settings"
-            android:key="categories"
-            android:title="Select Clothing Categories "
-            android:entries="@array/pref_categories_list_titles"
-            android:entryValues="@array/pref_categories_list_values"
-            android:defaultValue="@array/pref_categories_list_values"/>
 
     </PreferenceCategory>
 

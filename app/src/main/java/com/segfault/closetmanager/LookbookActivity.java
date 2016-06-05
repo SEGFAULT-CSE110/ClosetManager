@@ -1,6 +1,8 @@
 package com.segfault.closetmanager;
 
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,11 +10,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.StackView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,18 +33,9 @@ public class LookbookActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setPrefTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lookbook);
-
-        // set pref_layout toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        setToolbar((Toolbar) findViewById(R.id.toolbar));
 
         //Find all the views
         mLookbookParentLayout = (ViewGroup) findViewById(R.id.lookbook_parent_layout);
@@ -55,7 +51,7 @@ public class LookbookActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         //Update lookbook
-        mCurrentLookbook = Account.currentAccountInstance.getLookbook();
+        mCurrentLookbook = IClosetApplication.getAccount().getLookbook();
 
         //check if we have any clothing
         if(mCurrentLookbook.getOutfitList().isEmpty()){
@@ -78,14 +74,32 @@ public class LookbookActivity extends BaseActivity {
 
             //Create the adapter and add stuff to the closet view
             List<Outfit> outfitList = mCurrentLookbook.getOutfitList();
+            List<Outfit> verifiedOutfitList = new ArrayList<>();
+
+            //Check each outfit and verify that all outfit components exist
+            for (int index = 0; index < outfitList.size(); index++){
+                if (outfitList.get(index).hasAllClothing(IClosetApplication.getAccount().getCloset())){
+                    verifiedOutfitList.add(outfitList.get(index));
+                }
+            }
+            //Display a toast if the two lists are not the same size
+            if (outfitList.size() != verifiedOutfitList.size()){
+                Toast newToast = Toast.makeText(this, "Some of your outfits have deleted clothes. These outfits will not show.", Toast.LENGTH_SHORT);
+                newToast.show();
+            }
+
             //Set and Create Adapter
-            OutfitListingAdapter recyclerListAdapter = new OutfitListingAdapter(outfitList);
+            final OutfitListingAdapter recyclerListAdapter = new OutfitListingAdapter(verifiedOutfitList);
             mLookbookRecyclerView.setAdapter(recyclerListAdapter);
             //Set and create layout manager
             LinearLayoutManager recyclerListManager = new LinearLayoutManager(this);
             recyclerListManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            recyclerListManager.scrollToPosition(0);
             mLookbookRecyclerView.setLayoutManager(recyclerListManager);
+
+            for (int index = 0; index < recyclerListAdapter.getItemCount(); index++){
+                recyclerListAdapter.notifyItemChanged(index);
+            }
+            recyclerListManager.scrollToPosition(0);
 
         }//end else
     }
@@ -109,9 +123,11 @@ public class LookbookActivity extends BaseActivity {
 
             //Members
             private ImageView mHatView; //TODO change this to a horizontal layout
-            private StackView mShirtView;
-            private StackView mPantsView;
+            private ClothingStackLayout mShirtView;
+            private ClothingStackLayout mPantsView;
             private ImageView mShoesView;
+            private TextView mTextView;
+            private Button mWearButton;
 
             /**
              * Constructor
@@ -122,30 +138,38 @@ public class LookbookActivity extends BaseActivity {
 
                 //Get all of the layouts
                 mHatView = (ImageView) itemView.findViewById(R.id.outfit_fragment_accessories_view);
-                mShirtView = (StackView) itemView.findViewById(R.id.shirt_stack_view);
-                mPantsView = (StackView) itemView.findViewById(R.id.pants_stack_view);
+                mShirtView = (ClothingStackLayout) itemView.findViewById(R.id.shirt_clothing_stack_layout);
+                mPantsView = (ClothingStackLayout) itemView.findViewById(R.id.pants_clothing_stack_layout);
                 mShoesView = (ImageView) itemView.findViewById(R.id.outfit_fragment_shoes_view);
+                mTextView = (TextView) itemView.findViewById(R.id.outfit_fragment_outfit_name);
+                mWearButton = (Button) itemView.findViewById(R.id.wear_outfit_button);
             }
 
             public ImageView getHatView() {
                 return mHatView;
             }
 
-            public StackView getShirtView() {
+            public ClothingStackLayout getShirtView() {
                 return mShirtView;
             }
 
-            public StackView getPantsView() {
+            public ClothingStackLayout getPantsView() {
                 return mPantsView;
             }
 
             public ImageView getShoesView() {
                 return mShoesView;
             }
+
+            public TextView getTextView() { return mTextView; }
+
+            public Button getWearButton() {
+                return mWearButton;
+            }
         }
 
         /**
-         * Private class usedd to handle the stackView in outfits
+         * Private class used to handle the stackView in outfits
          */
         private class OutfitStackViewAdapter extends ArrayAdapter<Clothing>{
 
@@ -155,7 +179,7 @@ public class LookbookActivity extends BaseActivity {
 
 
             /**
-             * Gets the view for the outpit
+             * Gets the view for the outfit
              * @param position - position in list
              * @param view - view to reset/add to
              * @param parent - parent of the view
@@ -166,12 +190,19 @@ public class LookbookActivity extends BaseActivity {
                 if (view == null) {
                     LayoutInflater inflater = LayoutInflater.from(getContext());
                     view = inflater.inflate(R.layout.outfit_fragment_stack_object, parent, false);
-                } else {
-                    //TODO: implement recycling
                 }
 
                 ImageView imageView = (ImageView) view.findViewById(R.id.outfit_fragment_stack_object_image);
                 imageView.setImageBitmap(getItem(position).getBitmap());
+
+                //Grey out if worn
+                if (getItem(position).isWorn()){
+                    //Create a color matrix to set the bitmap to grey
+                    ColorMatrix matrix = new ColorMatrix();
+                    matrix.setSaturation(0);
+                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                    imageView.setColorFilter(filter);
+                }
 
                 return view;
             }
@@ -184,6 +215,7 @@ public class LookbookActivity extends BaseActivity {
          */
         public OutfitListingAdapter(List<Outfit> outfitList) {
             mOutfitList = outfitList;
+
         }
 
         @Override
@@ -197,9 +229,13 @@ public class LookbookActivity extends BaseActivity {
             //Inflate our custom layout
             View outfitView = inflater.inflate(R.layout.outfit_fragment, parent, false);
 
+            //Update the view holder
+            ViewHolder holder = new ViewHolder(outfitView);
             //Return a new holder instance
-            return new ViewHolder(outfitView);
+            return holder;
         }
+
+
 
         @Override
         /**
@@ -207,39 +243,83 @@ public class LookbookActivity extends BaseActivity {
          */
         public void onBindViewHolder(OutfitListingAdapter.ViewHolder holder, int position) {
             //Get the data model based on position
-            Outfit currentOutfit = mOutfitList.get(position);
+            final Outfit currentOutfit = mOutfitList.get(position);
 
-            //Set item views based on the data model
-            //Add image bitmap for hat
-            ImageView hatView = holder.getHatView();
-            if (currentOutfit.getHat() != null) {
-                hatView.setImageBitmap(currentOutfit.getHat().getBitmap());
-            } else{
-                hatView.setImageResource(android.R.color.transparent);
-            }
+            updateViewHolder(holder, currentOutfit);
 
-            //Add image bitmaps for shirts
-            StackView shirtView = holder.getShirtView();
-            shirtView.setAdapter(new OutfitStackViewAdapter(getBaseContext(), currentOutfit.getTops()));
+        }
 
-            //Add image bitmaps for pants
-            StackView pantsView = holder.getPantsView();
-            pantsView.setAdapter(new OutfitStackViewAdapter(getBaseContext(), currentOutfit.getBottoms()));
-
-            //Add image bitmaps for shoes
-            ImageView shoesView = holder.getShoesView();
-            if (currentOutfit.getShoes() != null) {
-                shoesView.setImageBitmap(currentOutfit.getShoes().getBitmap());
-            } else{
-                shoesView.setImageResource(android.R.color.transparent);
-            }
-
+        @Override
+        public long getItemId(int position) {
+            return position;
         }
 
         @Override
         public int getItemCount() {
             return mOutfitList.size();
         }
+
+        private void updateViewHolder(OutfitListingAdapter.ViewHolder holder, final Outfit currentOutfit){
+            //Get the text view
+            TextView textView = holder.getTextView();
+            textView.setText(currentOutfit.getName());
+
+            //Set the availability of the button
+            Button wearButton = holder.getWearButton();
+            wearButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentOutfit.wearOutfit();
+                    showWearOutfitToast();
+                }
+            });
+
+            //Set item views based on the data model
+            //Add image bitmap for hat
+            ImageView hatView = holder.getHatView();
+            if (currentOutfit.getHat() != null) {
+                hatView.setImageBitmap(currentOutfit.getHat().getBitmap());
+                if (currentOutfit.getHat().isWorn()){
+                    //Create a color matrix to set the bitmap to grey
+                    ColorMatrix matrix = new ColorMatrix();
+                    matrix.setSaturation(0);
+                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                    hatView.setColorFilter(filter);
+                }
+            } else{
+                hatView.setImageResource(android.R.color.transparent);
+            }
+
+            //Add image bitmaps for shirts
+            ClothingStackLayout shirtView = holder.getShirtView();
+            shirtView.setAdapter(new OutfitStackViewAdapter(getBaseContext(), currentOutfit.getTops()));
+
+            //Add image bitmaps for pants
+            ClothingStackLayout pantsView = holder.getPantsView();
+            pantsView.setAdapter(new OutfitStackViewAdapter(getBaseContext(), currentOutfit.getBottoms()));
+
+            //Add image bitmaps for shoes
+            ImageView shoesView = holder.getShoesView();
+            if (currentOutfit.getShoes() != null) {
+                shoesView.setImageBitmap(currentOutfit.getShoes().getBitmap());
+                if (currentOutfit.getShoes().isWorn()){
+                    //Create a color matrix to set the bitmap to grey
+                    ColorMatrix matrix = new ColorMatrix();
+                    matrix.setSaturation(0);
+                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                    shoesView.setColorFilter(filter);
+                }
+            } else{
+                shoesView.setImageResource(android.R.color.transparent);
+            }
+        }
+    }
+
+
+
+    private void showWearOutfitToast(){
+        Toast newToast = Toast.makeText(this, "Wearing outfit.", Toast.LENGTH_SHORT);
+        newToast.show();
     }
 
 
