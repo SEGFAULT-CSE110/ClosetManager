@@ -359,7 +359,7 @@ public class ClosetActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, ViewClothingActivity.class);
-                        intent.putExtra("Clothing", currentClothing);
+                        intent.putExtra("clothing_id", currentClothing.getId());
                         context.startActivity(intent);
                     }
                 });

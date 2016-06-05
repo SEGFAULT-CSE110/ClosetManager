@@ -1,12 +1,20 @@
 package com.segfault.closetmanager;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ViewClothingActivity extends BaseActivity {
+    Context context = this;
+    Button delete_button;
+    Button update_button;
+
+    private Closet currCloset = IClosetApplication.getAccount().getCloset();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +31,18 @@ public class ViewClothingActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initView();
+    }
+
+    private void initView() {
         //get intent extra
-        Clothing currentClothing = getIntent().getParcelableExtra("Clothing");
+        String id = (String) getIntent().getSerializableExtra("clothing_id");
+        final Clothing currentClothing = currCloset.findClothingByID(id);
 
         //get the picture from the view, and set the picture
         ImageView clothingView = (ImageView) findViewById(R.id.view_clothing_picture);
@@ -45,5 +63,28 @@ public class ViewClothingActivity extends BaseActivity {
         weatherTextView.setText(currentClothing.getWeather());
         occasionTextView.setText(currentClothing.getOccasion());
         notesTextView.setText(currentClothing.getNotes());
-    }
+
+        Button update_button = (Button) findViewById(R.id.update);
+        if (update_button != null) {
+            update_button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, UpdateClothingActivity.class);
+                    System.err.println("RENU: Passing in id to update clothing activity: " + currentClothing.getId());
+                    intent.putExtra("clothing_id", currentClothing.getId());
+                    startActivity(intent);
+                }
+            });
+        }
+
+        Button delete_button = (Button) findViewById(R.id.delete);
+        if (delete_button != null) {
+            delete_button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    //IMPLEMENT DELETE
+                }
+            });
+        }//end of button
+
+    } //end of initView method
+
 }

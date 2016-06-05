@@ -132,6 +132,7 @@ public class AddClothingActivity extends BaseActivity {
                     //Create the clothing
                     mCurrClothing = new Clothing(selected_category, selected_color, selected_weather, selected_occasion, input_notes,
                             isWorn, isShared, isLost, id);
+                    System.err.println("RENU: ID of Clothing added is "  + id);
                     mCurrCloset.addClothing(mCurrClothing);
 
                     // Store id and data in clothing
@@ -225,7 +226,7 @@ public class AddClothingActivity extends BaseActivity {
         this.finish();
     }
 
-    //creates dropdowns given a string and spinner object
+    //creates dropdowns given a string array and spinner object
     protected Spinner initSpinner(int resource, String[] arr) {
         Spinner sp = (Spinner) findViewById(resource);
 
