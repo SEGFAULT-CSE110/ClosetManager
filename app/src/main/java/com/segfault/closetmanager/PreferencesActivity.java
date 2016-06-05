@@ -19,6 +19,15 @@ public class PreferencesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pref_layout);
 
+        // set toolbar
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 }
