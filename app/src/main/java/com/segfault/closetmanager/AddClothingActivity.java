@@ -181,10 +181,10 @@ public class AddClothingActivity extends BaseActivity {
 
     /**
      * Validates whether the selections are not "Select"
-     * @param cat
-     * @param weath
-     * @param occ
-     * @param col
+     * @param cat - category
+     * @param weath - weather
+     * @param occ - occasion
+     * @param col - color
      * @return
      */
     protected boolean validateClothingAttributes(String cat, String weath, String occ, String col) {

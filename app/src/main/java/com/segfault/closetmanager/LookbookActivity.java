@@ -1,6 +1,8 @@
 package com.segfault.closetmanager;
 
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -173,6 +175,15 @@ public class LookbookActivity extends BaseActivity {
                 ImageView imageView = (ImageView) view.findViewById(R.id.outfit_fragment_stack_object_image);
                 imageView.setImageBitmap(getItem(position).getBitmap());
 
+                //Grey out if worn
+                if (getItem(position).isWorn()){
+                    //Create a color matrix to set the bitmap to grey
+                    ColorMatrix matrix = new ColorMatrix();
+                    matrix.setSaturation(0);
+                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                    imageView.setColorFilter(filter);
+                }
+
                 return view;
             }
         }//end class OutfitStackViewAdapter
@@ -228,6 +239,13 @@ public class LookbookActivity extends BaseActivity {
             ImageView hatView = holder.getHatView();
             if (currentOutfit.getHat() != null) {
                 hatView.setImageBitmap(currentOutfit.getHat().getBitmap());
+                if (currentOutfit.getHat().isWorn()){
+                    //Create a color matrix to set the bitmap to grey
+                    ColorMatrix matrix = new ColorMatrix();
+                    matrix.setSaturation(0);
+                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                    hatView.setColorFilter(filter);
+                }
             } else{
                 hatView.setImageResource(android.R.color.transparent);
             }
@@ -244,6 +262,13 @@ public class LookbookActivity extends BaseActivity {
             ImageView shoesView = holder.getShoesView();
             if (currentOutfit.getShoes() != null) {
                 shoesView.setImageBitmap(currentOutfit.getShoes().getBitmap());
+                if (currentOutfit.getShoes().isWorn()){
+                    //Create a color matrix to set the bitmap to grey
+                    ColorMatrix matrix = new ColorMatrix();
+                    matrix.setSaturation(0);
+                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                    shoesView.setColorFilter(filter);
+                }
             } else{
                 shoesView.setImageResource(android.R.color.transparent);
             }
