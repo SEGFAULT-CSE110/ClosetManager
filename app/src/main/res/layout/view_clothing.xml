@@ -199,6 +199,31 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin">
+
+        <CheckBox
+            android:id="@+id/cb_worn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Worn" />
+
+        <CheckBox
+            android:id="@+id/cb_shared"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shared" />
+
+        <CheckBox
+            android:id="@+id/cb_lost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lost" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="right">
 

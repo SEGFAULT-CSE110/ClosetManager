@@ -101,7 +101,9 @@ public class UpdateClothingActivity extends BaseActivity {
 
         //get edit text notes and check boxes
         notes = (EditText) findViewById(R.id.Notes);
-        notes.setText(mCurrClothing.getNotes(), TextView.BufferType.EDITABLE);
+        if (notes != null) {
+            notes.setText(mCurrClothing.getNotes(), TextView.BufferType.EDITABLE);
+        }
 
         worn = (CheckBox) findViewById(R.id.Worn);
         if (mCurrClothing.isWorn())

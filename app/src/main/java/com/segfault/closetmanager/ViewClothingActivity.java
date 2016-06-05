@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -78,7 +79,34 @@ public class ViewClothingActivity extends BaseActivity {
         occasionTextView.setText(currentClothing.getOccasion());
         notesTextView.setText(currentClothing.getNotes());
 
+        // find checkboxes
+        CheckBox wornCB = (CheckBox) findViewById(R.id.cb_worn);
+        CheckBox sharedCB = (CheckBox) findViewById(R.id.cb_shared);
+        CheckBox lostCB = (CheckBox) findViewById(R.id.cb_lost);
 
+        // set checkboxes
+        if (currentClothing.isWorn()) {
+            wornCB.setChecked(true);
+        }
+        if (currentClothing.isShared()) {
+            sharedCB.setChecked(true);
+        }
+        if (currentClothing.isLost()) {
+            lostCB.setChecked(true);
+        }
+
+        // respond to user checking boxes
+        if (wornCB.isChecked()) {
+            currentClothing.setWorn(true);
+        }
+        if (sharedCB.isChecked()) {
+            currentClothing.setShared(true);
+        }
+        if (lostCB.isChecked()) {
+            currentClothing.setLost(true);
+        }
+
+        // update button
         Button update_button = (Button) findViewById(R.id.update);
         if (update_button != null) {
             update_button.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +118,7 @@ public class ViewClothingActivity extends BaseActivity {
             });
         }
 
+        // delete button
         Button delete_button = (Button) findViewById(R.id.delete);
         if (delete_button != null) {
             delete_button.setOnClickListener(new View.OnClickListener() {
